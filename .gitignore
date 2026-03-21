@@ -1,3 +1,9 @@
+.env
+.env.local
+.env.*
+lint_errors.txt
+test-login.js
+
 # Logs
 logs
 *.log
