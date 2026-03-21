@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Users, Target, Eye, Award, BookOpen, Heart, MapPin, Calendar } from 'lucide-react'
+import { Users, Target, Eye, Award, BookOpen, Heart, MapPin, Calendar, Quote } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import useDocumentTitle from '../hooks/useDocumentTitle'
 
@@ -99,6 +99,66 @@ export default function About() {
               <p className="hindi" style={{ color: 'var(--gray-600)', lineHeight: 1.7, fontSize: '1.05rem' }}>
                 {t('Empowering rural and tribal youths of Jharkhand through education, scholarships, digital literacy, sports, and mentorship.')}
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Community Impact Section */}
+      <section className="section" style={{ background: 'var(--dvs-orange-bg)', padding: '100px 0' }}>
+        <div className="container">
+          <div className="text-center mb-16" style={{ maxWidth: 800, margin: '0 auto 60px' }}>
+            <span className="pill-red">{t('Our Impact')}</span>
+            <h2 className="responsive-h2" style={{ color: 'var(--dvs-orange-dark)', marginTop: 12 }}>{t('Transforming Lives in Jharkhand')}</h2>
+            <p style={{ color: 'var(--gray-600)', fontSize: '1.1rem', marginTop: 16 }}>
+              {t('Our impact goes beyond just education — it is about building a future where every rural child can dream big.')}
+            </p>
+          </div>
+
+          <div className="grid grid-3" style={{ gap: 32, marginBottom: 80 }}>
+            {[
+              { label: 'Students Reached', value: '5000+', icon: <Users size={32} />, color: '#FF6B35' },
+              { label: 'Scholarships Granted', value: '1200+', icon: <Award size={32} />, color: '#10B981' },
+              { label: 'Villages Served', value: '250+', icon: <MapPin size={32} />, color: '#3B82F6' }
+            ].map((stat, i) => (
+              <div key={i} className="card-soft text-center" style={{ background: 'white', border: '1px solid #FFEDD5', padding: '48px 32px', borderRadius: 24 }}>
+                <div style={{ color: stat.color, marginBottom: 20, display: 'flex', justifyContent: 'center' }}>{stat.icon}</div>
+                <div style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--dark)', marginBottom: 8 }}>{stat.value}</div>
+                <div className="hindi" style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--gray-500)', textTransform: 'uppercase', letterSpacing: 1 }}>{t(stat.label)}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Community Voices */}
+          <div className="community-testimony">
+            <h3 className="hindi text-center mb-12" style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: 48 }}>{t('Voices from the Community')}</h3>
+            <div className="grid grid-2" style={{ gap: 32 }}>
+              <div className="card" style={{ padding: 40, border: 'none', background: 'white', borderRadius: 24, boxShadow: 'var(--shadow-sm)' }}>
+                <Quote size={40} style={{ opacity: 0.1, color: 'var(--dvs-orange)', marginBottom: 20 }} />
+                <p style={{ fontSize: '1.1rem', lineHeight: 1.7, fontStyle: 'italic', color: 'var(--gray-600)' }} className="hindi">
+                  {t('"Before DVS, our children had no guidance after 10th grade. Now, they are learning computers and dreaming of becoming engineers and doctors right from our village."')}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 32 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--dvs-orange-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'var(--dvs-orange)' }}>R</div>
+                  <div>
+                    <div style={{ fontWeight: 800 }}>Ramesh Mahto</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--gray-500)' }}>{t('Parent, Jerwa Village')}</div>
+                  </div>
+                </div>
+              </div>
+              <div className="card" style={{ padding: 40, border: 'none', background: 'white', borderRadius: 24, boxShadow: 'var(--shadow-sm)' }}>
+                <Quote size={40} style={{ opacity: 0.1, color: 'var(--dvs-orange)', marginBottom: 20 }} />
+                <p style={{ fontSize: '1.1rem', lineHeight: 1.7, fontStyle: 'italic', color: 'var(--gray-600)' }} className="hindi">
+                  {t('"The DVS scholarship changed my life. It took off the financial burden from my father, allowing me to focus entirely on my JPSC preparation."')}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 32 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--dvs-orange-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'var(--dvs-orange)' }}>P</div>
+                  <div>
+                    <div style={{ fontWeight: 800 }}>Priya Kumari</div>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--gray-500)' }}>{t('Student & Scholarship Recipient')}</div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

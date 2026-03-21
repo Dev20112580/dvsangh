@@ -1,31 +1,9 @@
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram, Youtube, Twitter } from 'lucide-react'
-import { useState } from 'react'
-import { supabase } from '../lib/supabase'
 
 export default function Footer() {
   const { t } = useLanguage()
-  const [email, setEmail] = useState('')
-  const [status, setStatus] = useState('idle') // idle, loading, success, error
-
-  const handleSubscribe = async (e) => {
-    e.preventDefault()
-    if (!email) return
-    setStatus('loading')
-    
-    const { error } = await supabase
-      .from('newsletter_subscribers')
-      .insert([{ email }])
-
-    if (error) {
-      if (error.code === '23505') setStatus('success') // Already subscribed
-      else setStatus('error')
-    } else {
-      setStatus('success')
-      setEmail('')
-    }
-  }
 
   return (
     <footer className="footer">
