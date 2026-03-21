@@ -89,6 +89,7 @@ export default function Navbar() {
               onClick={() => setSearchOpen(true)}
               className="btn-icon" 
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8 }}
+              aria-label={t('Open Search')}
             >
               <Search size={20} color="var(--dark)" />
             </button>
@@ -99,6 +100,7 @@ export default function Navbar() {
                  onClick={() => setNotificationsOpen(!notificationsOpen)}
                  className="btn-icon" 
                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 8 }}
+                 aria-label={t('Toggle Notifications')}
                >
                  <Bell size={20} color="var(--dark)" />
                  <span style={{ position: 'absolute', top: 8, right: 8, width: 8, height: 8, background: 'var(--danger)', borderRadius: '50%', border: '2px solid white' }}></span>
@@ -109,7 +111,7 @@ export default function Navbar() {
                  <div style={{ position: 'absolute', top: '100%', right: 0, width: 320, background: 'white', border: '1px solid var(--gray-200)', borderRadius: 12, boxShadow: 'var(--shadow-lg)', zIndex: 100, padding: 16, marginTop: 12 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                        <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 700 }}>{t('Notifications')}</h4>
-                       <button onClick={() => setNotificationsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer' }}><X size={16} /></button>
+                       <button onClick={() => setNotificationsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer' }} aria-label={t('Close')}><X size={16} /></button>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                        <div style={{ padding: '8px 0', borderBottom: '1px solid var(--gray-100)', cursor: 'pointer' }}>
@@ -159,7 +161,7 @@ export default function Navbar() {
                 <Link to={getDashboardLink()} className="btn btn-sm" style={{ background: 'transparent', color: 'var(--dark)', fontWeight: 600, border: 'none' }}>
                   {t(profile?.role === 'admin' ? 'Admin Panel' : 'Dashboard')}
                 </Link>
-                <button onClick={handleSignOut} className="btn btn-sm btn-icon" title="Logout">
+                <button onClick={handleSignOut} className="btn btn-sm btn-icon" title="Logout" aria-label={t('Logout')}>
                   <LogOut size={18} color="var(--dark)" />
                 </button>
               </>
@@ -176,7 +178,7 @@ export default function Navbar() {
             <button
               className="navbar-hamburger"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
+              aria-label={mobileOpen ? t('Close Menu') : t('Open Menu')}
             >
               {mobileOpen ? <X size={24} /> : <Menu size={24} />}
             </button>

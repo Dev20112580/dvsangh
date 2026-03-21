@@ -120,96 +120,98 @@ export default function App() {
            <span className="hindi">EMERGENCY LOCKDOWN ACTIVE: SITE IS READ-ONLY / आपातकालीन लॉकडाउन: साइट रीड-ओनली है</span>
         </div>
       )}
-      <Routes>
-      {/* Public Pages */}
-      <Route element={<MainLayout />}>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/programs" element={<Programs />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/events" element={<Events />} />
-        <Route path="/search" element={<SearchPage />} />
-        <Route path="/success-stories" element={<AchievementWall />} />
-        <Route path="/achievements" element={<AchievementWall />} />
-        <Route path="/parent" element={<ParentPortal />} />
-        <Route path="/social" element={<SocialFeed />} />
-        <Route path="/leaderboard" element={<Leaderboard />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/donate" element={<Donate />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/terms" element={<Terms />} />
-      </Route>
+      <main>
+        <Routes>
+          {/* Public Pages */}
+          <Route element={<MainLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/programs" element={<Programs />} />
+            <Route path="/gallery" element={<Gallery />} />
+            <Route path="/news" element={<News />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/success-stories" element={<AchievementWall />} />
+            <Route path="/achievements" element={<AchievementWall />} />
+            <Route path="/parent" element={<ParentPortal />} />
+            <Route path="/social" element={<SocialFeed />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/donate" element={<Donate />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms" element={<Terms />} />
+          </Route>
 
-      {/* Auth Pages */}
-      <Route element={<MainLayout />}>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-      </Route>
+          {/* Auth Pages */}
+          <Route element={<MainLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+          </Route>
 
-      {/* Student Portal */}
-      <Route element={<DashboardLayout />}>
-        <Route element={<ProtectedRoute allowedRoles={['student']} />}>
-          <Route path="/dashboard/student" element={<StudentDashboard />} />
-          <Route path="/student/dashboard" element={<Navigate to="/dashboard/student" replace />} />
-          <Route path="/scholarship/apply" element={<ScholarshipApply />} />
-          <Route path="/student/applications" element={<StudentApplications />} />
-          <Route path="/student/applications/:id" element={<ApplicationDetail />} />
-          <Route path="/student/materials" element={<StudentMaterials />} />
-          <Route path="/student/profile" element={<StudentProfile />} />
-          <Route path="/community/study-buddy" element={<StudyBuddy />} />
-          <Route path="/community/live-sessions" element={<LiveSessions />} />
-          <Route path="/community/notes" element={<CollaborativeNotes />} />
-          <Route path="/community/contests" element={<Contests />} />
-        </Route>
-      </Route>
+          {/* Student Portal */}
+          <Route element={<DashboardLayout />}>
+            <Route element={<ProtectedRoute allowedRoles={['student']} />}>
+              <Route path="/dashboard/student" element={<StudentDashboard />} />
+              <Route path="/student/dashboard" element={<Navigate to="/dashboard/student" replace />} />
+              <Route path="/scholarship/apply" element={<ScholarshipApply />} />
+              <Route path="/student/applications" element={<StudentApplications />} />
+              <Route path="/student/applications/:id" element={<ApplicationDetail />} />
+              <Route path="/student/materials" element={<StudentMaterials />} />
+              <Route path="/student/profile" element={<StudentProfile />} />
+              <Route path="/community/study-buddy" element={<StudyBuddy />} />
+              <Route path="/community/live-sessions" element={<LiveSessions />} />
+              <Route path="/community/notes" element={<CollaborativeNotes />} />
+              <Route path="/community/contests" element={<Contests />} />
+            </Route>
+          </Route>
 
-      {/* Volunteer Portal */}
-      <Route element={<DashboardLayout />}>
-        <Route element={<ProtectedRoute allowedRoles={['volunteer']} />}>
-          <Route path="/dashboard/volunteer" element={<VolunteerDashboard />} />
-          <Route path="/volunteer/dashboard" element={<Navigate to="/dashboard/volunteer" replace />} />
-          <Route path="/volunteer/tasks" element={<VolunteerTasks />} />
-          <Route path="/volunteer/hours" element={<VolunteerHours />} />
-          <Route path="/volunteer/profile" element={<VolunteerProfile />} />
-        </Route>
-      </Route>
+          {/* Volunteer Portal */}
+          <Route element={<DashboardLayout />}>
+            <Route element={<ProtectedRoute allowedRoles={['volunteer']} />}>
+              <Route path="/dashboard/volunteer" element={<VolunteerDashboard />} />
+              <Route path="/volunteer/dashboard" element={<Navigate to="/dashboard/volunteer" replace />} />
+              <Route path="/volunteer/tasks" element={<VolunteerTasks />} />
+              <Route path="/volunteer/hours" element={<VolunteerHours />} />
+              <Route path="/volunteer/profile" element={<VolunteerProfile />} />
+            </Route>
+          </Route>
 
-      {/* Donor Portal */}
-      <Route element={<DashboardLayout />}>
-        <Route element={<ProtectedRoute allowedRoles={['donor']} />}>
-          <Route path="/dashboard/donor" element={<DonorDashboard />} />
-          <Route path="/donor/dashboard" element={<Navigate to="/dashboard/donor" replace />} />
-          <Route path="/donor/donations" element={<DonorDonations />} />
-          <Route path="/donor/impact" element={<DonorImpact />} />
-          <Route path="/donor/profile" element={<DonorProfile />} />
-        </Route>
-      </Route>
+          {/* Donor Portal */}
+          <Route element={<DashboardLayout />}>
+            <Route element={<ProtectedRoute allowedRoles={['donor']} />}>
+              <Route path="/dashboard/donor" element={<DonorDashboard />} />
+              <Route path="/donor/dashboard" element={<Navigate to="/dashboard/donor" replace />} />
+              <Route path="/donor/donations" element={<DonorDonations />} />
+              <Route path="/donor/impact" element={<DonorImpact />} />
+              <Route path="/donor/profile" element={<DonorProfile />} />
+            </Route>
+          </Route>
 
-      {/* Admin Panel */}
-      <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-      <Route path="/admin/login" element={<AdminLogin />} />
-      <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/dash" element={<Navigate to="/admin/dashboard" replace />} />
-        <Route path="/admin/users" element={<AdminUsers />} />
-        <Route path="/admin/scholarships" element={<AdminScholarships />} />
-        <Route path="/admin/performance" element={<AdminPerformance />} />
-        <Route path="/admin/donations" element={<AdminDonations />} />
-        <Route path="/admin/events" element={<AdminEvents />} />
-        <Route path="/admin/content" element={<AdminContent />} />
-        <Route path="/admin/chat" element={<AdminChat />} />
-        <Route path="/admin/management" element={<AdminManagement />} />
-        <Route path="/admin/settings" element={<AdminSettings />} />
-        <Route path="/admin/audit" element={<AdminAuditLogs />} />
-        <Route path="/admin/workflows" element={<AdminWorkflows />} />
-        <Route path="/admin/communication" element={<AdminCommunication />} />
-        <Route path="/admin/reports" element={<AdminReports />} />
-      </Route>
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-    <PWAInstallPrompt />
+          {/* Admin Panel */}
+          <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            <Route path="/admin/dash" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/scholarships" element={<AdminScholarships />} />
+            <Route path="/admin/performance" element={<AdminPerformance />} />
+            <Route path="/admin/donations" element={<AdminDonations />} />
+            <Route path="/admin/events" element={<AdminEvents />} />
+            <Route path="/admin/content" element={<AdminContent />} />
+            <Route path="/admin/chat" element={<AdminChat />} />
+            <Route path="/admin/management" element={<AdminManagement />} />
+            <Route path="/admin/settings" element={<AdminSettings />} />
+            <Route path="/admin/audit" element={<AdminAuditLogs />} />
+            <Route path="/admin/workflows" element={<AdminWorkflows />} />
+            <Route path="/admin/communication" element={<AdminCommunication />} />
+            <Route path="/admin/reports" element={<AdminReports />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <PWAInstallPrompt />
     </div>
   )
 }

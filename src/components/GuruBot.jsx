@@ -135,6 +135,7 @@ export default function GuruBot() {
       <button 
         onClick={() => setIsOpen(!isOpen)}
         className={!isOpen ? "pulse-animation" : ""}
+        aria-label={isOpen ? t('Close Guru Chat') : t('Open Guru Assistant')}
         style={{
           position: 'fixed', bottom: 30, right: 30, width: 68, height: 68,
           background: 'linear-gradient(135deg, #FF6B35 0%, #E55A25 100%)',

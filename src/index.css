@@ -6,7 +6,8 @@
 :root {
   /* Brand Colors */
   --dvs-orange: #FF6B35;
-  --dvs-orange-dark: #E55A25;
+  --dvs-orange-bold: #E54B12; /* Darker orange for small text (WCAG 4.5:1 compliant) */
+  --dvs-orange-dark: #C23B0A;
   --dvs-orange-light: #FF8F5E;
   --dvs-orange-bg: #FFF5F0;
   --dvs-green: #2D5016;
@@ -97,7 +98,7 @@ img {
 }
 
 a {
-  color: var(--dvs-orange);
+  color: var(--dvs-orange-bold);
   text-decoration: none;
   transition: var(--transition);
 }
@@ -133,7 +134,7 @@ h5 { font-size: 1.125rem; }
   font-family: var(--font-hindi);
 }
 
-.text-orange { color: var(--dvs-orange); }
+.text-orange { color: var(--dvs-orange-bold); }
 .text-green { color: var(--dvs-green); }
 .text-gray { color: var(--gray-500); }
 .text-center { text-align: center; }

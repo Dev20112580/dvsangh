@@ -85,7 +85,9 @@ export default function Home() {
       <section className="hero">
         {heroSlides.map((slide, i) => (
           <div key={i} className={`hero-slide ${i === currentSlide ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${slide.image})`, backgroundColor: '#1c4a5a' }} />
+            style={{ backgroundImage: `url(${slide.image})`, backgroundColor: '#1c4a5a' }} 
+            {...(i === 0 ? { fetchpriority: 'high' } : {})}
+          />
         ))}
         <div className="hero-overlay"></div>
         <div className="hero-content-left">
@@ -106,7 +108,7 @@ export default function Home() {
         </div>
         <div className="hero-dots">
           {heroSlides.map((_, i) => (
-            <button key={i} className={`hero-dot ${i === currentSlide ? 'active' : ''}`} onClick={() => setCurrentSlide(i)} />
+            <button key={i} className={`hero-dot ${i === currentSlide ? 'active' : ''}`} onClick={() => setCurrentSlide(i)} aria-label={`${t('Go to slide')} ${i + 1}`} />
           ))}
         </div>
       </section>
@@ -135,7 +137,7 @@ export default function Home() {
               <p style={{ color: 'var(--gray-600)', fontSize: '1.15rem', flex: 1, lineHeight: 1.6 }}>
                 {t('We provide holistic support systems designed specifically for the rural landscape of Jharkhand.')}
               </p>
-              <Link to="/about" className="btn-icon" style={{ background: 'var(--danger)', color: 'white', width: 56, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Link to="/about" className="btn-icon" style={{ background: 'var(--danger)', color: 'white', width: 56, height: 56, display: 'flex', alignItems: 'center', justifyContent: 'center' }} aria-label={t('Read more about us')}>
                 <BookOpen size={24} />
               </Link>
             </div>
@@ -176,7 +178,7 @@ export default function Home() {
                 <div style={{ height: 200, background: 'var(--gray-200)', backgroundImage: `url(https://source.unsplash.com/random/800x600?education,india,${i})`, backgroundSize: 'cover' }}></div>
                 <div style={{ padding: 24 }}>
                   <span className="pill-red">{t(item.category || 'ANNOUNCEMENT')}</span>
-                  <h4 style={{ fontSize: '1.2rem', marginBottom: 12, lineHeight: 1.4 }}>{language === 'hi' ? (item.title_hi || item.title) : item.title}</h4>
+                  <h3 style={{ fontSize: '1.2rem', marginBottom: 12, lineHeight: 1.4 }}>{language === 'hi' ? (item.title_hi || item.title) : item.title}</h3>
                   <p style={{ color: 'var(--gray-500)', fontSize: '0.9rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     {language === 'hi' ? (item.content_hi || item.content) : item.content}
                   </p>
@@ -190,9 +192,9 @@ export default function Home() {
                   </div>
                   <div style={{ padding: 24 }}>
                     <span className="pill-red">{t(i===1 ? 'ANNOUNCEMENT' : i===2 ? 'EVENT' : 'COMMUNITY')}</span>
-                    <h4 style={{ fontSize: '1.25rem', marginBottom: 12, lineHeight: 1.4, color: 'var(--dark)' }}>
+                    <h3 style={{ fontSize: '1.25rem', marginBottom: 12, lineHeight: 1.4, color: 'var(--dark)' }}>
                       {i===1 ? (language === 'hi' ? '2024 प्रगति छात्रवृत्ति आवेदन अब खुले हैं' : '2024 Pragati Scholarship Applications Now Open') : i===2 ? (language==='hi' ? 'खूंटी में डिजिटल साक्षरता केंद्र शुरू' : 'Digital Literacy Hub Launched in Khunti') : (language === 'hi' ? 'DVS स्वयंसेवक दूरस्थ गुमला गांवों तक पहुंचे' : 'DVS Volunteers Reach Remote Gumla Villages')}
-                    </h4>
+                    </h3>
                     <p style={{ color: 'var(--gray-500)', fontSize: '0.95rem', lineHeight: 1.5 }}>
                       {i===1 ? (language === 'hi' ? 'पूरे झारखंड से मेधावी छात्रों से आवेदन आमंत्रित हैं...' : 'Applications are invited from meritorious students across Jharkhand...') : i===2 ? (language==='hi'?'हमारी 5वीं समर्पित कंप्यूटर लैब अब चालू है...':'Our 5th dedicated computer lab is now operational...') : (language==='hi'?'उन तक पहुँचना जो अभी भी दूर हैं...':'Reaching the unreached, distribution of learning kits...')}
                     </p>
@@ -280,6 +282,8 @@ export default function Home() {
                   <img 
                     src={`https://images.unsplash.com/photo-1599305445671-ac291c95aba9?w=200&h=100&fit=crop&q=80&sig=${i}`} 
                     alt={`Partner ${i}`} 
+                    width="100"
+                    height="50"
                     style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
                     onMouseOver={(e) => e.currentTarget.parentElement.style.filter = 'grayscale(0%)'}
                     onMouseOut={(e) => e.currentTarget.parentElement.style.filter = 'grayscale(100%)'}
