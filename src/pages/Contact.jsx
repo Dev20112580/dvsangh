@@ -210,6 +210,17 @@ export default function Contact() {
           .wa-btn { width: 100%; }
         }
       `}</style>
+      <section className="map-section" style={{ height: 450, background: '#eee' }}>
+        <iframe 
+          title="DVS NGO Location"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3653.21852445851!2d86.9934!3d24.1664!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDA5JzU5LjAiTiA4NsKwNTknMzYuMiJF!5e0!3m2!1sen!2sin!4v1711035000000!5m2!1sen!2sin&q=Jaroakhilkanali,Masalia,Dumka,Jharkhand"
+          width="100%" 
+          height="100%" 
+          style={{ border: 0 }} 
+          allowFullScreen="" 
+          loading="lazy"
+        ></iframe>
+      </section>
     </div>
   )
 }
