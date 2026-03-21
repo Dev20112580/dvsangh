@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { NavLink, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
-import { Home, Heart, BarChart2, User, TrendingUp, ArrowRight, Menu, X } from 'lucide-react'
+import { Home, Heart, BarChart2, User, TrendingUp, ArrowRight, Menu, X, Globe, LogOut } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 import DashboardHeader from '../../components/dashboard/DashboardHeader'
 
@@ -76,6 +76,21 @@ export default function DonorDashboard() {
           <NavLink to="/donor/donations" onClick={() => setIsMobileMenuOpen(false)}><Heart size={18} /> {t('Donations')}</NavLink>
           <NavLink to="/donor/impact" onClick={() => setIsMobileMenuOpen(false)}><BarChart2 size={18} /> {t('Impact')}</NavLink>
           <NavLink to="/donor/profile" onClick={() => setIsMobileMenuOpen(false)}><User size={18} /> {t('Profile')}</NavLink>
+
+          <div style={{ marginTop: 'auto', paddingTop: 20, borderTop: '1px solid var(--gray-100)', display: 'flex', flexDirection: 'column', gap: 4 }}>
+             <button 
+               onClick={() => { setLanguage(language === 'hi' ? 'en' : 'hi'); setIsMobileMenuOpen(false); }}
+               style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 24px', color: 'var(--gray-600)', fontSize: '0.9rem', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+             >
+               <Globe size={18} /> {language === 'hi' ? 'Switch to English' : 'हिंदी में बदलें'}
+             </button>
+             <button 
+               onClick={logout}
+               style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 24px', color: '#dc2626', fontSize: '0.9rem', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+             >
+               <LogOut size={18} /> {t('Logout')}
+             </button>
+          </div>
         </nav>
       </aside>
 

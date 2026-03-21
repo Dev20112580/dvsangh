@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
-import { Home, FileText, BookOpen, User, GraduationCap, Award, TrendingUp, Clock, ArrowRight, Menu, X, CheckCircle, Star } from 'lucide-react'
+import { Home, FileText, BookOpen, User, GraduationCap, Award, TrendingUp, Clock, ArrowRight, Menu, X, CheckCircle, Star, Globe, LogOut } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 import DashboardHeader from '../../components/dashboard/DashboardHeader'
 
@@ -91,6 +91,21 @@ export default function StudentDashboard() {
           <NavLink to="/student/applications" onClick={() => setIsMobileMenuOpen(false)}><FileText size={18} /> {t('Applications')}</NavLink>
           <NavLink to="/student/materials" onClick={() => setIsMobileMenuOpen(false)}><BookOpen size={18} /> {t('Study Materials')}</NavLink>
           <NavLink to="/student/profile" onClick={() => setIsMobileMenuOpen(false)}><User size={18} /> {t('Profile')}</NavLink>
+          
+          <div style={{ marginTop: 'auto', paddingTop: 20, borderTop: '1px solid var(--gray-100)', display: 'flex', flexDirection: 'column', gap: 4 }}>
+             <button 
+               onClick={() => { setLanguage(language === 'hi' ? 'en' : 'hi'); setIsMobileMenuOpen(false); }}
+               style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 24px', color: 'var(--gray-600)', fontSize: '0.9rem', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+             >
+               <Globe size={18} /> {language === 'hi' ? 'Switch to English' : 'हिंदी में बदलें'}
+             </button>
+             <button 
+               onClick={useAuth().logout}
+               style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '12px 24px', color: '#dc2626', fontSize: '0.9rem', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left' }}
+             >
+               <LogOut size={18} /> {t('Logout')}
+             </button>
+          </div>
         </nav>
       </aside>
 
