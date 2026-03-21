@@ -88,7 +88,7 @@ export default function Navbar() {
         <div className="navbar-inner">
           <Link to="/" className="navbar-brand">
             <img 
-              src="/logo_dvs.webp" 
+              src="/logo_dvs.jpg" 
               alt="DVS Logo" 
               width="44" 
               height="44" 

@@ -74,7 +74,7 @@ export default function VolunteerDashboard() {
 
       <aside className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
         <div style={{ padding: '24px 24px 0', textAlign: 'center' }}>
-           <img src="/logo_dvs.webp" alt="DVS Logo" width="60" height="60" style={{ borderRadius: '50%', marginBottom: 12, border: '2px solid #FF6B35' }} />
+           <img src="/logo_dvs.jpg" alt="DVS Logo" width="60" height="60" style={{ borderRadius: '50%', marginBottom: 12, border: '2px solid #FF6B35' }} />
         </div>
         <div className="sidebar-profile">
           <div style={{ position: 'absolute', top: 12, right: 12 }} className="desktop-hidden">

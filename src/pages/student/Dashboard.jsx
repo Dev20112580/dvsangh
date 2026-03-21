@@ -72,7 +72,7 @@ export default function StudentDashboard() {
       {/* Sidebar */}
       <aside className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
         <div style={{ padding: '24px 24px 0', textAlign: 'center' }}>
-           <img src="/logo_dvs.webp" alt="DVS Logo" width="60" height="60" style={{ borderRadius: '50%', marginBottom: 12, border: '2px solid #FF6B35' }} />
+           <img src="/logo_dvs.jpg" alt="DVS Logo" width="60" height="60" style={{ borderRadius: '50%', marginBottom: 12, border: '2px solid #FF6B35' }} />
         </div>
         <div className="sidebar-profile">
           <div style={{ position: 'absolute', top: 12, right: 12 }} className="desktop-hidden">
@@ -162,19 +162,26 @@ export default function StudentDashboard() {
 
           {/* Widgets Grid */}
           <div className="grid grid-3" style={{ gap: 24 }}>
-             <div className="card" style={{ padding: 20 }}>
-                <h4 className="hindi" style={{ marginBottom: 16, fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: 8 }}>
-                   <Clock size={18} color="#A1401D" /> {t('Upcoming Events')}
+             <div className="card" style={{ padding: 24, gridColumn: '1 / -1' }}>
+                <h4 className="hindi" style={{ marginBottom: 20, fontSize: '1.1rem', fontWeight: 800, color: 'var(--dvs-orange)' }}>
+                   {t('Our Core Programs')}
                 </h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                   {events.length > 0 ? events.map(evt => (
-                     <div key={evt.id} style={{ fontSize: '0.85rem', color: '#334155', borderLeft: '2px solid #A1401D', paddingLeft: 10 }}>
-                       <div style={{ fontWeight: 700 }}>{language === 'hi' ? (evt.title_hi || evt.title) : evt.title}</div>
-                       <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>{new Date(evt.event_date).toLocaleDateString(language === 'hi' ? 'hi-IN' : 'en-US', { day: 'numeric', month: 'short' })}</div>
-                     </div>
-                   )) : (
-                     <div style={{ fontSize: '0.85rem', color: 'var(--gray-400)' }}>{t('No upcoming events')}</div>
-                   )}
+                <div className="grid grid-3" style={{ gap: 20 }}>
+                   <div className="program-card-mini">
+                      <img src="/images/news-scholarship.png" alt="Education" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                      <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Quality Education')}</h5>
+                      <p className="hindi" style={{ margin: 0, fontSize: '0.75rem', color: 'var(--gray-500)' }}>{t('Free coaching and study materials.')}</p>
+                   </div>
+                   <div className="program-card-mini">
+                      <img src="/images/news-digital.png" alt="Digital" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                      <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Digital Literacy')}</h5>
+                      <p className="hindi" style={{ margin: 0, fontSize: '0.75rem', color: 'var(--gray-500)' }}>{t('Basic computer and internet skills.')}</p>
+                   </div>
+                   <div className="program-card-mini">
+                      <img src="/images/success_story.png" alt="Coaching" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                      <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Competitive Coaching')}</h5>
+                      <p className="hindi" style={{ margin: 0, fontSize: '0.75rem', color: 'var(--gray-500)' }}>{t('Prepare for SSC, Railway & more.')}</p>
+                   </div>
                 </div>
              </div>
              <div className="card" style={{ padding: 20, background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: 'white' }}>

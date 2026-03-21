@@ -28,7 +28,7 @@ export default function DashboardHeader({ onMenuClick, profile }) {
           <Menu size={20} />
         </button>
         <div className="desktop-hidden" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-           <img src="/logo_dvs.webp" alt="DVS Logo" width="32" height="32" style={{ borderRadius: '50%' }} />
+           <img src="/logo_dvs.jpg" alt="DVS Logo" width="32" height="32" style={{ borderRadius: '50%' }} />
         </div>
         <div style={{ lineHeight: 1.2 }}>
           <h1 className="hindi" style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0 }}>नमस्ते, {profile?.full_name?.split(' ')[0] || t('Student')}! 👋</h1>

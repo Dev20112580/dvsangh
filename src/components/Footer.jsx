@@ -32,7 +32,7 @@ export default function Footer() {
       <div className="footer-grid">
         <div className="footer-about">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-             <img src="/logo_dvs.webp" alt="DVS Logo" width="40" height="40" style={{ borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.2)' }} />
+             <img src="/logo_dvs.jpg" alt="DVS Logo" width="40" height="40" style={{ borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.2)' }} />
              <p style={{ margin: 0, fontWeight: '700', fontSize: '1.25rem', color: 'white' }}>{t('Dronacharya Vidyarthi Sangh')}</p>
           </div>
           <p>
@@ -92,33 +92,11 @@ export default function Footer() {
         </div>
       </div>
       
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', padding: '40px 0', marginTop: 40, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 24 }}>
-        <div style={{ maxWidth: 400 }}>
-           <h4 className="footer-heading" style={{ color: 'white', marginBottom: 8 }}>{t('Subscribe to our Newsletter')}</h4>
-           <p style={{ fontSize: '0.85rem', opacity: 0.7 }}>{t('Stay updated with our latest missions, success stories, and impact reports.')}</p>
-        </div>
-        <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: 12, flex: 1, maxWidth: 450 }}>
-           <input 
-             className="hindi" 
-             type="email"
-             required
-             value={email}
-             onChange={e => setEmail(e.target.value)}
-             placeholder={t('Enter your email')} 
-             style={{ flex: 1, padding: '12px 16px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', background: 'rgba(255,255,255,0.05)', color: 'white', outline: 'none' }} 
-           />
-           <button 
-             type="submit"
-             disabled={status === 'loading'}
-             className="hindi" 
-             style={{ padding: '12px 24px', borderRadius: 8, background: '#FF6B35', color: 'white', border: 'none', fontWeight: 700, cursor: 'pointer', opacity: status === 'loading' ? 0.7 : 1 }}
-           >
-             {status === 'loading' ? t('Subscribing...') : t('Subscribe')}
-           </button>
-        </form>
+      <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', padding: '40px 0', marginTop: 40, textAlign: 'center' }}>
+        <p style={{ fontSize: '0.85rem', opacity: 0.5, margin: 0 }}>
+          © {new Date().getFullYear()} {t('Dronacharya Vidyarthi Sangh (DVS)')}. {t('All Rights Reserved.')}
+        </p>
       </div>
-      {status === 'success' && <p style={{ color: '#10B981', fontSize: '0.85rem', marginTop: 12, textAlign: 'center' }}>{t('Shukriya! You are now subscribed.')}</p>}
-      {status === 'error' && <p style={{ color: '#EF4444', fontSize: '0.85rem', marginTop: 12, textAlign: 'center' }}>{t('Something went wrong. Please try again.')}</p>}
 
       <div className="footer-bottom">
         <p>© 2025 {t('Dronacharya Vidyarthi Sangh')}. All rights reserved.</p>
