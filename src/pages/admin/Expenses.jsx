@@ -5,7 +5,8 @@ import { useAuth } from '../../context/AuthContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { 
   Plus, Search, Filter, Download, PieChart, 
-  DollarSign, ShoppingCart, Tool, Fuel, Utensils
+  DollarSign, ShoppingCart, Wrench, Fuel, Utensils,
+  TrendingUp
 } from 'lucide-react'
 
 export default function Expenses() {
@@ -35,7 +36,7 @@ export default function Expenses() {
       case 'travel': return <Fuel size={16} />
       case 'food': return <Utensils size={16} />
       case 'supplies': return <ShoppingCart size={16} />
-      case 'maintenance': return <Tool size={16} />
+      case 'maintenance': return <Wrench size={16} />
       default: return <DollarSign size={16} />
     }
   }

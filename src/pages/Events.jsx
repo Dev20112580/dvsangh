@@ -5,8 +5,8 @@ import {
   Calendar, MapPin, Users, Clock, 
   Share2, Phone, Mail, ExternalLink, 
   ArrowRight, Info, CheckCircle2,
-  Walk, BookOpen, Dumbbell, Hammer,
-  Monitor, GraduationCap, Heart, Yoga, Trophy, Leaf
+  Footprints, BookOpen, Dumbbell, Hammer,
+  Monitor, GraduationCap, Heart, Activity, Trophy, Leaf
 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
@@ -103,7 +103,7 @@ export default function Events() {
     { icon: <Monitor size={24} />, title: "डिजिटल साक्षरता शिविर", title_en: "Digital Literacy Camp", color: "#3B82F6", desc: "ग्रामीण युवाओं को कंप्यूटर, इंटरनेट और डिजिटल भुगतान की निःशुल्क ट्रेनिंग" },
     { icon: <GraduationCap size={24} />, title: "निःशुल्क कोचिंग कार्यक्रम", title_en: "Free Coaching Program", color: "#10B981", desc: "UPSC, JPSC, Railway, Bank परीक्षाओं के लिए निःशुल्क मार्गदर्शन" },
     { icon: <Heart size={24} />, title: "बालिका शिक्षा अभियान", title_en: "Girl Education Drive", color: "#EC4899", desc: "लड़कियों की शिक्षा और सशक्तिकरण के लिए विशेष कार्यक्रम" },
-    { icon: <Yoga size={24} />, title: "योग एवं स्वास्थ्य शिविर", title_en: "Yoga & Health Camp", color: "#F59E0B", desc: "ग्रामीण क्षेत्रों में निःशुल्क योग प्रशिक्षण और स्वास्थ्य जागरूकता" },
+    { icon: <Activity size={24} />, title: "योग एवं स्वास्थ्य शिविर", title_en: "Activity & Health Camp", color: "#F59E0B", desc: "ग्रामीण क्षेत्रों में निःशुल्क योग प्रशिक्षण और स्वास्थ्य जागरूकता" },
     { icon: <Trophy size={24} />, title: "खेल प्रतियोगिता", title_en: "Sports Tournament", color: "#8B5CF6", desc: "युवाओं में आत्मविश्वास और नेतृत्व क्षमता विकसित करने के लिए खेल प्रतियोगिता" },
     { icon: <Leaf size={24} />, title: "ग्रामीण विकास अभियान", title_en: "Rural Development Drive", color: "#06B6D4", desc: "स्वच्छता, जल संरक्षण और पर्यावरण जागरूकता कार्यक्रम" }
   ]
