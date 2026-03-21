@@ -12,23 +12,25 @@ export function LockdownProvider({ children }) {
   useEffect(() => {
     fetchLockdown()
     
-    // Subscribe to real-time changes
-    const subscription = supabase
-      .channel('system_config_changes')
-      .on('postgres_changes', { 
-        event: 'UPDATE', 
-        schema: 'public', 
-        table: 'system_config',
-        filter: 'key=eq.emergency_lockdown'
-      }, payload => {
-        setIsLockdown(payload.new.value === true || payload.new.value === 'true')
-      })
-      .subscribe()
+    let subscription
+    if (user && user.role === 'admin') {
+      subscription = supabase
+        .channel('system_config_changes')
+        .on('postgres_changes', { 
+          event: 'UPDATE', 
+          schema: 'public', 
+          table: 'system_config',
+          filter: 'key=eq.emergency_lockdown'
+        }, payload => {
+          setIsLockdown(payload.new.value === true || payload.new.value === 'true')
+        })
+        .subscribe()
+    }
 
     return () => {
-      supabase.removeChannel(subscription)
+      if (subscription) supabase.removeChannel(subscription)
     }
-  }, [])
+  }, [user])
 
   async function fetchLockdown() {
     const { data, error } = await supabase

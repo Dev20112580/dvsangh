@@ -5,8 +5,8 @@
 /* --- CSS Custom Properties --- */
 :root {
   /* Brand Colors */
-  --dvs-orange: #FF6B35;
-  --dvs-orange-bold: #E54B12; /* Darker orange for small text (WCAG 4.5:1 compliant) */
+  --dvs-orange: #C94E1A; /* Darker orange for better WCAG contrast */
+  --dvs-orange-bold: #E54B12; 
   --dvs-orange-dark: #C23B0A;
   --dvs-orange-light: #FF8F5E;
   --dvs-orange-bg: #FFF5F0;
@@ -327,6 +327,23 @@ h5 { font-size: 1.125rem; }
 .badge-danger { background: var(--danger-bg); color: var(--danger); }
 .badge-info { background: var(--info-bg); color: var(--info); }
 .badge-orange { background: var(--dvs-orange-bg); color: var(--dvs-orange); }
+
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.5; }
+  70% { transform: scale(1.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+.pulse-ring {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  background: rgba(201, 78, 26, 0.4);
+  animation: pulseRing 2s ease-out infinite;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
 
 /* --- Form Elements --- */
 .form-group {

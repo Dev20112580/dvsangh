@@ -4,6 +4,13 @@ import { supabase } from '../lib/supabase'
 import { GraduationCap, Heart, Trophy, BookOpen, Laptop, Bike, Star, ArrowRight } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
+const PartnerPlaceholder = ({ name }) => (
+  <div style={{ padding: '12px 24px', background: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, minWidth: 160 }}>
+    <Star size={16} color="#C94E1A" fill="#C94E1A" />
+    <span style={{ fontWeight: 800, color: '#1E293B', fontSize: '0.9rem', whiteSpace: 'nowrap' }}>{name}</span>
+  </div>
+)
+
 const focusAreas = [
   { icon: <GraduationCap size={24} color="var(--danger)" />, title: 'Quality Education', desc: 'Bridging the academic gap with modern teaching methodologies and resource-rich environments for primary and secondary students.', bg: 'bg-soft-red' },
   { icon: <BookOpen size={24} color="var(--dark)" />, title: 'Girl Education', desc: 'Dedicated mentorship and financial support to ensure every girl completes her schooling and pursues higher dreams.', bg: 'bg-soft-blue' },
@@ -129,7 +136,7 @@ export default function Home() {
         <div className="grid grid-4">
           {displayStats.map((stat, idx) => (
             <div className="stat-card hover-up" key={idx} style={{ background: 'white', borderRadius: 20, padding: 32, textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', border: '1px solid #f1f5f9' }}>
-              <div className="stat-value" style={{ color: '#FF6B35', fontSize: '2.5rem', fontWeight: 900, marginBottom: 8 }}>{stat.stat_value}</div>
+              <div className="stat-value" style={{ color: 'var(--dvs-orange)', fontSize: '2.5rem', fontWeight: 900, marginBottom: 8 }}>{stat.stat_value}</div>
               <div className="stat-label" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '1px' }}>{t(stat.label)}</div>
             </div>
           ))}
@@ -287,31 +294,13 @@ export default function Home() {
           </div>
           
           <div className="marquee-wrapper" style={{ display: 'flex', width: '200%', overflow: 'hidden', position: 'relative' }}>
-            <div className="marquee-content" style={{ display: 'flex', gap: '80px', animation: 'marquee 30s linear infinite' }}>
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={i} className="partner-logo" style={{ filter: 'grayscale(100%)', transition: 'filter 0.3s ease', cursor: 'pointer' }}>
-                  <img 
-                    src={`https://images.unsplash.com/photo-1599305445671-ac291c95aba9?w=800&q=80&sig=${i}`} 
-                    alt={`Partner ${i}`} 
-                    width="100"
-                    height="50"
-                    style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
-                    onMouseOver={(e) => e.currentTarget.parentElement.style.filter = 'grayscale(0%)'}
-                    onMouseOut={(e) => e.currentTarget.parentElement.style.filter = 'grayscale(100%)'}
-                  />
-                </div>
+            <div className="marquee-content" style={{ display: 'flex', gap: '80px', animation: 'marquee 30s linear infinite', alignItems: 'center' }}>
+              {['NGO Jharkhand', 'CSR India', 'Digital Mission', 'Rural Education', 'Tribal Welfare', 'Masalia Trust'].map((name, i) => (
+                <PartnerPlaceholder key={i} name={name} />
               ))}
               {/* Duplicate for seamless loop */}
-              {[1, 2, 3, 4, 5, 6].map((i) => (
-                <div key={`dup-${i}`} className="partner-logo" style={{ filter: 'grayscale(100%)', transition: 'filter 0.3s ease', cursor: 'pointer' }}>
-                  <img 
-                    src={`https://images.unsplash.com/photo-1599305445671-ac291c95aba9?w=800&q=80&sig=${i}`} 
-                    alt={`Partner ${i}`} 
-                    style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
-                    onMouseOver={(e) => e.currentTarget.parentElement.style.filter = 'grayscale(0%)'}
-                    onMouseOut={(e) => e.currentTarget.parentElement.style.filter = 'grayscale(100%)'}
-                  />
-                </div>
+              {['NGO Jharkhand', 'CSR India', 'Digital Mission', 'Rural Education', 'Tribal Welfare', 'Masalia Trust'].map((name, i) => (
+                <PartnerPlaceholder key={`dup-${i}`} name={name} />
               ))}
             </div>
           </div>

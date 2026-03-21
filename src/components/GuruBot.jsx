@@ -134,18 +134,19 @@ export default function GuruBot() {
     <>
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className={!isOpen ? "pulse-animation" : ""}
+        className="guru-trigger"
         aria-label={isOpen ? t('Close Guru Chat') : t('Open Guru Assistant')}
         style={{
           position: 'fixed', bottom: 30, right: 30, width: 68, height: 68,
-          background: 'linear-gradient(135deg, #FF6B35 0%, #E55A25 100%)',
+          background: 'linear-gradient(135deg, #C94E1A 0%, #A13D15 100%)',
           borderRadius: '24px', color: 'white', border: 'none', cursor: 'pointer',
-          boxShadow: '0 12px 30px rgba(255, 107, 53, 0.4)', zIndex: 1000,
+          boxShadow: '0 12px 30px rgba(201, 78, 26, 0.4)', zIndex: 1000,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           transition: 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
           transform: isOpen ? 'rotate(90deg) scale(0.9)' : 'scale(1)',
         }}
       >
+        {!isOpen && <div className="pulse-ring"></div>}
         {isOpen ? <X size={28} /> : <MessageCircle size={32} />}
       </button>
 
@@ -332,14 +333,6 @@ export default function GuruBot() {
         @keyframes slideUp {
           from { transform: translateY(30px); opacity: 0; }
           to { transform: translateY(0); opacity: 1; }
-        }
-        .pulse-animation {
-          animation: pulseShadow 2s infinite;
-        }
-        @keyframes pulseShadow {
-          0% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7); }
-          70% { box-shadow: 0 0 0 15px rgba(255, 107, 53, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(255, 107, 53, 0); }
         }
         .status-dot {
           width: 8px; height: 8px; background: #10B981; borderRadius: 50%;

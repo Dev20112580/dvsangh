@@ -32,8 +32,8 @@ export default function Footer() {
       <div className="footer-grid">
         <div className="footer-about">
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
-             <img src="/logo_dvs.jpg" alt="DVS Logo" style={{ width: 40, height: 40, borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.2)' }} />
-             <h4 style={{ margin: 0 }}>{t('Dronacharya Vidyarthi Sangh')}</h4>
+             <img src="/logo_dvs.webp" alt="DVS Logo" width="40" height="40" style={{ borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(255,255,255,0.2)' }} />
+             <p style={{ margin: 0, fontWeight: '700', fontSize: '1.25rem', color: 'white' }}>{t('Dronacharya Vidyarthi Sangh')}</p>
           </div>
           <p>
             {t('The light of education in rural India. We provide free scholarships, coaching, digital literacy, and sports programs to rural and tribal students of Jharkhand.')}

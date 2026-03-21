@@ -69,7 +69,7 @@ export default function Navbar() {
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="navbar-inner">
           <Link to="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <img src="/logo_dvs.jpg" alt="DVS Logo" style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #A1401D' }} />
+            <img src="/logo_dvs.webp" alt="DVS Logo" width="44" height="44" style={{ borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #A1401D' }} loading="eager" />
             <div className="brand-text" style={{ marginLeft: 0 }}>
               <div className="brand-hi" style={{ fontSize: '1.25rem', color: '#A1401D', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>Dronacharya Vidyarthi Sangh</div>
             </div>
