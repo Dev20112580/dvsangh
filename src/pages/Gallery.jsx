@@ -64,6 +64,7 @@ export default function Gallery() {
                   onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-5px)'}
                   onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
                   <img src={photo.photo_url || photo.thumbnail_url} alt={photo.caption || 'DVS Gallery'}
+                    width="400" height="300"
                     style={{ width: '100%', height: 'auto', display: 'block' }}
                     onError={(e) => { e.target.style.display = 'none' }} />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(transparent 50%, rgba(0,0,0,0.8))', display: 'flex', alignItems: 'flex-end', padding: '20px', opacity: 0, transition: '0.3s' }}
@@ -99,7 +100,7 @@ export default function Gallery() {
             <button onClick={() => setLightbox(null)} style={{ position: 'absolute', top: -40, right: 0, background: 'none', border: 'none', color: 'white', cursor: 'pointer' }}>
               <X size={28} />
             </button>
-            <img src={lightbox.photo_url} alt={lightbox.caption} style={{ width: '100%', borderRadius: 'var(--radius-lg)' }} />
+            <img src={lightbox.photo_url} alt={lightbox.caption} width="900" height="600" style={{ width: '100%', borderRadius: 'var(--radius-lg)' }} />
             {lightbox.caption && (
                <p style={{ color: 'white', textAlign: 'center', marginTop: 12, fontSize: '1rem' }}>{lightbox.caption}</p>
             )}

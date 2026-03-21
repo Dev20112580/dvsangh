@@ -50,7 +50,7 @@ export default function News() {
           {!loading && featuredArticle && (
             <div className="card grid grid-2" style={{ marginBottom: 60, padding: 0, overflow: 'hidden', border: 'none', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', borderRadius: 24, background: 'white' }}>
               <div style={{ height: 400, position: 'relative' }}>
-                <img src={featuredArticle.featured_image || '/images/news-community.png'} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <img src={featuredArticle.featured_image || '/images/news-community.png'} alt="Featured News" width="800" height="400" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                 <div style={{ position: 'absolute', top: 20, left: 20, background: '#FF6B35', color: 'white', padding: '8px 16px', borderRadius: 40, fontWeight: 800, fontSize: '0.8rem', textTransform: 'uppercase' }}>{t('Featured')}</div>
               </div>
               <div style={{ padding: 'clamp(20px, 5vw, 48px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
@@ -86,7 +86,7 @@ export default function News() {
               {otherArticles.map(article => (
                 <div key={article.id} className="card" style={{ padding: 0, borderRadius: 24, overflow: 'hidden', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', transition: 'transform 0.3s ease' }} onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-10px)'} onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
                   <div style={{ height: 200, position: 'relative' }}>
-                    <img src={article.featured_image || (article.category === 'TECH' ? '/images/news-digital.png' : '/images/news-community.png')} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img src={article.featured_image || (article.category === 'TECH' ? '/images/news-digital.png' : '/images/news-community.png')} alt="News Article" width="400" height="200" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', padding: '4px 12px', borderRadius: 20, fontSize: '0.75rem', fontWeight: 800, color: '#FF6B35' }}>{t(article.category)}</div>
                   </div>
                   <div style={{ padding: 24 }}>

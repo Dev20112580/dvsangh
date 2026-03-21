@@ -39,9 +39,7 @@ export default function About() {
         <div className="container" style={{ maxWidth: 900 }}>
           <div style={{ display: 'flex', gap: 40, alignItems: 'center', flexWrap: 'wrap' }}>
             <div style={{ flex: '0 0 200px', textAlign: 'center' }}>
-              <div style={{ width: 160, height: 160, borderRadius: '50%', background: 'var(--dvs-orange-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto', fontSize: '3rem' }}>
-                👨‍💼
-              </div>
+              <img src="/images/founder.png" alt="Sumit Kumar Pandit" width="160" height="160" style={{ borderRadius: '50%', objectFit: 'cover', margin: '0 auto', border: '4px solid var(--dvs-orange-bg)' }} />
               <h4 style={{ marginTop: 16 }} className="hindi">{language === 'hi' ? 'सुमित कुमार पंडित' : 'Sumit Kumar Pandit'}</h4>
               <p style={{ color: 'var(--gray-500)', fontSize: '0.85rem' }}>{t('Founder & President')}</p>
             </div>
