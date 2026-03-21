@@ -54,7 +54,7 @@ export default function News() {
             <div className="featured-news-card">
               <div className="featured-image">
                 <img 
-                  src={featuredArticle.featured_image || '/images/news-community.webp'} 
+                  src={featuredArticle.featured_image || '/images/news-community.png'} 
                   width="800" 
                   height="440" 
                   alt="Featured" 
@@ -111,7 +111,7 @@ export default function News() {
                 <div key={article.id} className="news-card hover-up">
                   <div className="card-image">
                     <img 
-                      src={article.featured_image || (article.category === 'Scholarships' ? '/images/news-scholarship.webp' : '/images/news-community.webp')} 
+                      src={article.featured_image || (article.category === 'Scholarships' ? '/images/news-scholarship.png' : '/images/news-community.png')} 
                       width="400" 
                       height="220" 
                       alt="News" 

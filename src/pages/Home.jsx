@@ -28,27 +28,27 @@ export default function Home() {
 
   const heroSlides = [
     {
-      image: '/images/hero_main.webp',
+      image: '/images/hero_main.png',
       title: 'Lighting the Lamp of Education in Rural India',
       subtitle: 'DVS is dedicated to bridging the educational gap in Jharkhand, empowering rural students.',
     },
     {
-      image: '/images/hero1.webp',
+      image: '/images/hero1.png',
       title: 'Right to Education for Every Child',
       subtitle: 'Over 5,000+ students have been empowered so far with scholarships and mentorship.',
     },
     {
-      image: '/images/hero2.webp',
+      image: '/images/hero2.png',
       title: 'Digital Literacy for Rural Youth',
       subtitle: 'Equipping students with essential computer skills to thrive in a digital economy.',
     },
     {
-      image: '/images/hero3.webp',
+      image: '/images/hero3.png',
       title: 'Empowering Girls through Education',
       subtitle: 'Special scholarships and counseling to ensure every girl achieves her dreams.',
     },
     {
-      image: '/images/hero.webp',
+      image: '/images/hero.png',
       title: 'Join Our Mission Today',
       subtitle: 'Donate, volunteer, or enroll to be part of India\'s largest rural education network.',
     },
@@ -176,7 +176,7 @@ export default function Home() {
               <div className="card-flat" style={{ padding: 0, overflow: 'hidden', border: 'none', boxShadow: 'var(--shadow-md)' }} key={item.id || i}>
                 <div style={{ height: 220, background: '#E5E7EB', position: 'relative' }}>
                   <img 
-                    src={item.cover_image_url || (i === 0 ? '/images/news-scholarship.webp' : i === 1 ? '/images/news-digital.webp' : '/images/news-community.webp')} 
+                    src={news.featured_image || (i % 2 === 0 ? '/images/news-digital.png' : '/images/news-community.png')} 
                     width="400" 
                     height="220" 
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
@@ -225,7 +225,7 @@ export default function Home() {
             <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '380px', padding: '32px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-xl)', border: '2px solid rgba(255,255,255,0.1)' }}>
                   <img 
-                    src={story ? (story.photo_url || "/images/success_story.webp") : "/images/success_story.webp"} 
+                    src={story ? (story.photo_url || "/images/success_story.png") : "/images/success_story.png"} 
                     width="140" 
                     height="140" 
                     style={{ width: 140, height: 140, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff' }} 

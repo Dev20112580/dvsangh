@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { 
   User, Mail, Phone, Lock, ChevronRight, ChevronLeft, 
-  GraduationCap, Sparkles, Heart, CheckCircle, ShieldCheck
+  GraduationCap, Sparkles, Heart, CheckCircle, ShieldCheck, AlertCircle
 } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 import { useAuth } from '../../context/AuthContext'
@@ -112,14 +112,7 @@ export default function Register() {
          <div style={{ position: 'relative', zIndex: 2 }}>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'white', marginBottom: 60 }}>
                <div style={{ width: 48, height: 48, background: 'white', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <img 
-                    src="/logo_dvs.webp" 
-                    alt="DVS Logo" 
-                    width="44" 
-                    height="44" 
-                    style={{ borderRadius: '50%', objectFit: 'cover' }} 
-                    loading="eager"
-                  />
+                  <img src="/logo_dvs.jpg" alt="DVS Logo" width="60" height="60" style={{ borderRadius: '50%', border: '3.5px solid #fff' }} />
                </div>
                <span style={{ fontSize: '1.5rem', fontWeight: 900, letterSpacing: -1 }}>DVSANGH</span>
             </Link>

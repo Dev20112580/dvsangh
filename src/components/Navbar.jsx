@@ -253,7 +253,7 @@ export default function Navbar() {
         </button>
 
         <div style={{ marginBottom: 32 }}>
-          <img src="/logo_dvs.webp" alt="Logo" width="48" height="48" style={{ borderRadius: '50%', marginBottom: 12 }} />
+          <img src="/logo_dvs.jpg" alt="Logo" width="48" height="48" style={{ borderRadius: '50%', marginBottom: 12 }} />
           <h2 style={{ fontSize: '1.2rem', color: '#A1401D' }}>Dronacharya Vidyarthi Sangh</h2>
         </div>
 

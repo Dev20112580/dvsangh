@@ -57,7 +57,7 @@ export default function SuccessStories() {
                   <div style={{ position: 'relative' }}>
                     <div style={{ width: 300, height: 380, borderRadius: 24, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
                       <img 
-                        src={stories[currentIndex].photo_url || '/images/success_story.webp'} 
+                        src={stories[currentIndex].photo_url || '/images/success_story.png'} 
                         alt={stories[currentIndex].title} 
                         width="400" 
                         height="500" 
@@ -120,7 +120,7 @@ export default function SuccessStories() {
                     <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
                        <div style={{ width: 48, height: 48, borderRadius: '50%', overflow: 'hidden' }}>
                           <img 
-                            src={story.photo_url || '/images/success_story.webp'} 
+                            src={story.photo_url || '/images/success_story.png'} 
                             alt={story.title} 
                             width="200" 
                             height="200" 

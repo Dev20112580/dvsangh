@@ -1603,6 +1603,17 @@ button, a, input, select {
   transform: scale(0.9);
 }
 
+/* --- Utilities --- */
+.mobile-only-flex { display: none !important; }
+.desktop-hidden { display: none !important; }
+.desktop-only { display: inline-block !important; }
+
+@media (max-width: 1024px) {
+  .mobile-only-flex { display: flex !important; }
+  .desktop-hidden { display: flex !important; }
+  .desktop-only { display: none !important; }
+}
+
 /* Spin Animation for PageLoader */
 @keyframes spin {
   to { transform: rotate(360deg); }
