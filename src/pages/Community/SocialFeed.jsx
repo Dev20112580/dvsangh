@@ -9,7 +9,7 @@ export default function SocialFeed() {
       id: 1,
       user: { name: 'Vikram Mahto', role: 'Volunteer', avatar: 'https://i.pravatar.cc/150?u=vikram' },
       content: 'Just finished distributing study kits in Masalia village. The smiles on kids\' faces are priceless! ❤️ 📚',
-      image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=800&auto=format&fit=crop',
+      image: '/images/news-community.png',
       likes: 42,
       comments: 12,
       time: '2 hours ago',

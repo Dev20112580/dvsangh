@@ -6,7 +6,7 @@
 :root {
   /* Brand Colors */
   --dvs-orange: #C94E1A; /* Darker orange for better WCAG contrast */
-  --dvs-orange-bold: #E54B12; 
+  --dvs-orange-bold: #A13D15; 
   --dvs-orange-dark: #C23B0A;
   --dvs-orange-light: #FF8F5E;
   --dvs-orange-bg: #FFF5F0;
@@ -856,16 +856,28 @@ tr:hover td {
 }
 
 .hero-dot {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.hero-dot::after {
+  content: '';
   width: 10px;
   height: 10px;
   border-radius: 50%;
   background: rgba(255,255,255,0.4);
-  border: none;
-  cursor: pointer;
+  display: block;
   transition: var(--transition);
 }
 
-.hero-dot.active {
+.hero-dot.active::after {
   background: var(--dvs-orange);
   width: 30px;
   border-radius: 5px;

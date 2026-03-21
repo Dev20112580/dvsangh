@@ -206,7 +206,7 @@ export default function Home() {
               [1,2,3].map(i => (
                 <div className="card-flat" style={{ padding: 0, overflow: 'hidden', border: 'none', boxShadow: 'var(--shadow-md)' }} key={i}>
                   <div style={{ height: 220, background: '#E5E7EB', position: 'relative' }}>
-                    <img src={i === 1 ? '/images/news-scholarship.png' : i === 2 ? '/images/news-digital.png' : '/images/news-community.png'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="News cover" />
+                    <img src={i === 1 ? '/images/news-scholarship.png' : i === 2 ? '/images/news-digital.png' : '/images/news-community.png'} width="400" height="220" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="News cover" />
                   </div>
                   <div style={{ padding: 24 }}>
                     <span className="pill-red">{t(i===1 ? 'ANNOUNCEMENT' : i===2 ? 'EVENT' : 'COMMUNITY')}</span>
@@ -244,7 +244,7 @@ export default function Home() {
               
               <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                  <div style={{ background: '#1c4a5a', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '400px', height: '100%', minHeight: '350px', padding: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-xl)', border: '4px solid rgba(255,255,255,0.1)' }}>
-                    <img src={stories[0].photo_url || "/images/success_story.png"} style={{ width: 150, height: 150, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff', filter: 'contrast(1.1)' }} alt="Student Portrait" />
+                    <img src={stories[0].photo_url || "/images/success_story.png"} width="150" height="150" style={{ width: 150, height: 150, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff', filter: 'contrast(1.1)' }} alt="Student Portrait" />
                     <div style={{ fontSize: '1.1rem', letterSpacing: '3px', fontWeight: 300, color: 'rgba(255,255,255,0.7)' }}>{t('SUCCESS STORY')}</div>
                     <div style={{ fontSize: '1.4rem', fontStyle: 'italic', fontFamily: 'serif', color: '#6fbddb' }}>{t(stories[0].category || 'student')}</div>
                  </div>
@@ -270,7 +270,7 @@ export default function Home() {
               </div>
               <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                  <div style={{ background: '#1c4a5a', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '400px', height: '100%', minHeight: '350px', padding: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-xl)', border: '4px solid rgba(255,255,255,0.1)' }}>
-                    <img src="/images/success_story.png" style={{ width: 150, height: 150, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff', filter: 'contrast(1.1)' }} alt="Student Portrait" />
+                    <img src="/images/success_story.png" width="150" height="150" style={{ width: 150, height: 150, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff', filter: 'contrast(1.1)' }} alt="Student Portrait" />
                     <div style={{ fontSize: '1.1rem', letterSpacing: '3px', fontWeight: 300, color: 'rgba(255,255,255,0.7)' }}>{t('SUCCESS STORY')}</div>
                     <div style={{ fontSize: '1.4rem', fontStyle: 'italic', fontFamily: 'serif', color: '#6fbddb' }}>{t('student')}</div>
                  </div>

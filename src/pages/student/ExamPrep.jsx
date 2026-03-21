@@ -51,7 +51,7 @@ export default function StudentExamPrep() {
         duration: '30:00', // Mock for now until we have metadata
         teacher: 'DVS Faculty',
         views: v.download_count || 0,
-        thumbnail: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&q=80&w=300'
+        thumbnail: '/images/news-digital.png'
       }))
 
       const pyqList = (materials || []).filter(m => m.tags?.includes('pyq')).map(p => ({
