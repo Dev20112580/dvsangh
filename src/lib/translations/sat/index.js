@@ -1,0 +1,17 @@
+export const sat = {
+  'Home': 'ᱳᱲᱟᱜ',
+  'About Us': 'ᱟᱞᱮ ᱵᱟᱵᱚᱛ',
+  'Programs': 'ᱠᱟᱹᱢᱤᱦᱚᱨᱟ',
+  'Events': 'ᱜᱷᱚᱴᱚᱱ',
+  'Gallery': 'ᱪᱤᱛᱟᱹᱨ ᱜᱟᱞᱮᱨᱤ',
+  'Contact': 'ᱥᱟᱹᱜᱟᱹᱭ',
+  'Student Portal': 'ᱯᱟᱹᱴᱷᱩᱣᱟᱹ ᱯᱳᱨᱴᱟᱞ',
+  'Sign In': 'ᱵᱚᱞᱚᱱ ᱢᱮ',
+  'Donate Now': 'ᱱᱤᱛᱚᱜ ᱫᱟᱱ ᱢᱮ',
+  'Dashboard': 'ᱰᱮᱥᱵᱳᱨᱰ',
+  'Scholarship': 'ᱥᱠᱳᱞᱟᱨᱥᱤᱯ',
+  'Success Stories': 'ᱡᱤᱛᱠᱟᱹᱨ ᱠᱟᱹᱦᱱᱤ',
+  'News': 'ᱠᱷᱚᱵᱚᱨ',
+  'Apply Now': 'ᱱᱤᱛᱚᱜ ᱟᱨᱫᱟᱥ ᱢᱮ',
+  'Volunteer': 'ᱥᱮᱵᱟᱭᱤᱭᱟᱹ',
+}

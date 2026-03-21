@@ -1,0 +1,16 @@
+{
+  "short_name": "DVS Jharkhand",
+  "name": "Dronacharya Vidyarthi Sangh",
+  "icons": [
+    {
+      "src": "logo_dvs.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#FF6B35",
+  "background_color": "#ffffff"
+}

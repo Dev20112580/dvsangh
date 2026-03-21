@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline | DVS</title>
+    <style>
+        body { font-family: system-ui, -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f8fafc; color: #1e293b; text-align: center; padding: 20px; }
+        .icon { font-size: 4rem; margin-bottom: 20px; }
+        h1 { margin: 0 0 10px; color: #A1401D; }
+        p { color: #64748b; margin-bottom: 30px; max-width: 400px; }
+        button { background: #A1401D; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="icon">📡</div>
+    <h1>You're Offline</h1>
+    <p>It seems you've lost your internet connection. Don't worry, DVS supports offline access for rural areas. You can still navigate previously visited pages.</p>
+    <button onclick="window.location.reload()">Retry Connection</button>
+</body>
+</html>

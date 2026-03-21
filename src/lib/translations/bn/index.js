@@ -1,0 +1,17 @@
+export const bn = {
+  'Home': 'হোম',
+  'About Us': 'আমাদের সম্পর্কে',
+  'Programs': 'প্রোগ্রাম',
+  'Events': 'ইভেন্ট',
+  'Gallery': 'গ্যালারি',
+  'Contact': 'যোগাযোগ',
+  'Student Portal': 'স্টুডেন্ট পোর্টাল',
+  'Sign In': 'সাইন ইন',
+  'Donate Now': 'এখনি দান করুন',
+  'Dashboard': 'ড্যাশবোর্ড',
+  'Scholarship': 'স্কলারশিপ',
+  'Success Stories': 'সফলতার গল্প',
+  'News': 'খবর',
+  'Apply Now': 'এখনই আবেদন করুন',
+  'Volunteer': 'সেচ্ছাসেবক',
+}
