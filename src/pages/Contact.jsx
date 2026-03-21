@@ -23,7 +23,7 @@ export default function Contact() {
     { 
       icon: <MapPin size={22} />, 
       title: 'Our Location', 
-      detail: t('Jairuva Khilkanali, Masalia, Dumka, JH - 814166'),
+      detail: t('Jaroakhilkanali, Masalia, Dumka, Jharkhand - 814166'),
       bg: 'var(--dvs-orange-bg)',
       color: 'var(--dvs-orange)'
     },

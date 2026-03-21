@@ -74,7 +74,7 @@ export default function Footer() {
           <div className="footer-contact">
             <p>
               <MapPin size={16} />
-              <span>{t('Jairuva Khilkanali, Masalia, Dumka, Jharkhand - 814166')}</span>
+              <span>{t('Jaroakhilkanali, Masalia, Dumka, Jharkhand - 814166')}</span>
             </p>
             <p>
               <Phone size={16} />

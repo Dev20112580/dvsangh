@@ -45,7 +45,7 @@ export default function About() {
             <div className="founder-photo-side" style={{ flex: '1 1 200px', textAlign: 'center' }}>
               <div style={{ position: 'relative', display: 'inline-block' }}>
                 <img 
-                  src="/images/logo_founder.webp" 
+                  src="/images/founder.webp" 
                   alt="Sumit Kumar Pandit" 
                   width="200" 
                   height="200" 
@@ -176,7 +176,7 @@ export default function About() {
                   <div style={{ background: 'var(--dvs-orange-bg)', padding: 12, borderRadius: 12 }}><MapPin size={24} color="var(--dvs-orange)" /></div>
                   <div>
                     <h5 style={{ margin: 0, fontWeight: 700 }}>{t('Main Office')}</h5>
-                    <p style={{ margin: 0, color: 'var(--gray-500)', fontSize: '0.9rem' }}>{t('Jairuva Khilkanali, Masalia, Dumka, JH')}</p>
+                    <p style={{ margin: 0, color: 'var(--gray-500)', fontSize: '0.9rem' }}><span className="hindi">{t('Jaroakhilkanali, Masalia, Dumka, JH - 814166')}</span></p>
                   </div>
                 </div>
                  <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>

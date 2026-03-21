@@ -78,13 +78,13 @@ export default function Events() {
       title: 'संस्थापक सदस्य चयन बैठक',
       title_en: 'Founder Members Selection Meeting',
       date: '2026-03-22T09:00:00',
-      location: 'सामुदायिक पुस्तकालय, जेरुवा (Community Library, Jeruwa)',
-      mode: 'offline',
+      location: 'सामुदायिक पुस्तकालय, जेरुवा (Community Library, Jerwa)',
       status: 'upcoming',
       is_featured: true,
-      category: 'Organizational Meeting',
-      description_hi: `द्रोणाचार्य विद्यार्थी संघ (DVS) की स्थापना हेतु संस्थापक सदस्यों के चयन की बैठक। 
-      इस बैठक में निम्नलिखित विषयों पर निर्णय लिया जाएगा:
+      mode: 'offline',
+      category: 'Meeting',
+      description_hi: `“द्रोणाचार्य विद्यार्थी संघ (DVS)” की स्थापना हेतु संस्थापक सदस्य (Founder Members) की पूर्ति एवं चयन हेतु बैठक। 
+      एजेंडा:
       - संस्था की रूपरेखा एवं उद्देश्य
       - नियम एवं सदस्यता प्रक्रिया
       - शिक्षा, डिजिटल साक्षरता, महिला सशक्तिकरण, योग एवं सामाजिक जागरूकता कार्यक्रम

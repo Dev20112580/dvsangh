@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import { supabase } from '../../lib/supabase'
 import { Home, FileText, BookOpen, User, GraduationCap, Award, TrendingUp, Clock, ArrowRight, Menu, X, CheckCircle, Star } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
+import DashboardHeader from '../../components/dashboard/DashboardHeader'
 
 export default function StudentDashboard() {
   const { user, profile } = useAuth()
@@ -70,6 +71,9 @@ export default function StudentDashboard() {
 
       {/* Sidebar */}
       <aside className={`sidebar ${isMobileMenuOpen ? 'open' : ''}`}>
+        <div style={{ padding: '24px 24px 0', textAlign: 'center' }}>
+           <img src="/logo_dvs.webp" alt="DVS Logo" width="60" height="60" style={{ borderRadius: '50%', marginBottom: 12, border: '2px solid #FF6B35' }} />
+        </div>
         <div className="sidebar-profile">
           <div style={{ position: 'absolute', top: 12, right: 12 }} className="desktop-hidden">
              <button onClick={() => setIsMobileMenuOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--gray-400)' }}>
@@ -92,19 +96,10 @@ export default function StudentDashboard() {
 
       {/* Main Content */}
       <main className="dashboard-content">
-        <div className="dashboard-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-          <div>
-            <h1 className="hindi">नमस्ते, {profile?.full_name?.split(' ')[0] || t('Student')}! 👋</h1>
-            <p className="hindi" style={{ fontSize: '0.9rem' }}>{t('Welcome to your dashboard')}</p>
-          </div>
-          <button 
-            className="mobile-only-flex" 
-            onClick={() => setIsMobileMenuOpen(true)}
-            style={{ padding: 10, background: 'white', border: '1px solid #e2e8f0', borderRadius: 8, color: '#A1401D' }}
-          >
-            <Menu size={20} />
-          </button>
-        </div>
+        <DashboardHeader 
+          onMenuClick={() => setIsMobileMenuOpen(true)} 
+          profile={profile} 
+        />
 
         {/* Stats */}
         <div className="grid grid-4" style={{ marginBottom: 32 }}>
