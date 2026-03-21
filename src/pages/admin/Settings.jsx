@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { 
   ShieldAlert, Settings as SettingsIcon, Globe, Lock, 
   Unlink, Bell, Save, AlertTriangle, Key, ExternalLink 

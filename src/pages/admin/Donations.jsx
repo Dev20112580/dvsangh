@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { jsPDF } from 'jspdf'
 import { supabase } from '../../lib/supabase'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { 
   TrendingUp, Calendar, Clock, FileText, Wallet, CreditCard, 
   Trash2, Plus, Download, Filter, Info, AlertTriangle, Shield, Upload

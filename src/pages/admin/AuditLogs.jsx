@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { History, User, Activity, FileText, Database, Terminal, Clock, Shield, Search } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 

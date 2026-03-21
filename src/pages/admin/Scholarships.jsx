@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../context/AuthContext'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { 
   Search, Filter, Download, GraduationCap, TrendingUp, Calendar, 
   Clock, CheckCircle, XCircle, AlertCircle, ChevronLeft, ChevronRight,

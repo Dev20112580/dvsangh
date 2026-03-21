@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
-import { Calendar, Eye, ArrowRight, Search, Newspaper, Tag, Clock } from 'lucide-react'
+import { Calendar, Eye, ArrowRight, Search, Newspaper, Tag, Clock, Share2 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
 export default function News() {
@@ -35,77 +35,152 @@ export default function News() {
   const otherArticles = filtered.filter(a => a.id !== (featuredArticle?.id || ''))
 
   return (
-    <div style={{ background: '#fcfcfd', minHeight: '100vh', paddingBottom: 100 }}>
-      <div className="page-header" style={{ background: 'linear-gradient(135deg, #FF6B35 0%, #E85A24 100%)' }}>
-        <div className="container" style={{ textAlign: 'center', color: 'white' }}>
-          <h1 className="hindi responsive-title" style={{ fontWeight: 900, marginBottom: 16 }}>{t('News & Updates')}</h1>
-          <p className="hindi" style={{ fontSize: '1.1rem', opacity: 0.9 }}>{t('Stay informed with the latest happenings at DVS Foundation')}</p>
+    <div className="news-page" style={{ background: '#F8FAFC', minHeight: '100vh' }}>
+      <div className="page-header" style={{ background: 'var(--dark)', padding: '100px 0 140px' }}>
+        <div className="container">
+          <h1 className="hindi responsive-title" style={{ color: 'white', fontWeight: 900, marginBottom: 16 }}>{t('News & Updates')}</h1>
+          <p className="hindi" style={{ color: 'rgba(255,255,255,0.7)', fontSize: '1.1rem', maxWidth: 600, margin: '0 auto' }}>{t('Stay informed with the latest happenings at DVS Foundation')}</p>
+          <div className="breadcrumb" style={{ justifyContent: 'center', marginTop: 24 }}>
+            <Link to="/">{t('Home')}</Link> <span>/</span> <span style={{ color: 'rgba(255,255,255,0.5)' }}>{t('News')}</span>
+          </div>
         </div>
       </div>
 
-      <section className="section" style={{ marginTop: -80 }}>
+      <section className="section" style={{ marginTop: -100 }}>
         <div className="container">
           
-          {/* Featured Hero */}
-          {!loading && featuredArticle && (
-            <div className="card grid grid-2" style={{ marginBottom: 60, padding: 0, overflow: 'hidden', border: 'none', boxShadow: '0 20px 40px rgba(0,0,0,0.1)', borderRadius: 24, background: 'white' }}>
-              <div style={{ height: 400, position: 'relative' }}>
-                <img src={featuredArticle.featured_image || '/images/news-community.png'} alt="Featured News" width="800" height="400" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                <div style={{ position: 'absolute', top: 20, left: 20, background: '#FF6B35', color: 'white', padding: '8px 16px', borderRadius: 40, fontWeight: 800, fontSize: '0.8rem', textTransform: 'uppercase' }}>{t('Featured')}</div>
+          {/* Featured Hero Article */}
+          {!loading && featuredArticle && !search && activeTab === 'All' && (
+            <div className="featured-news-card">
+              <div className="featured-image">
+                <img src={featuredArticle.featured_image || '/images/news-community.png'} alt="Featured" />
+                <div className="featured-tag">{t('Featured')}</div>
               </div>
-              <div style={{ padding: 'clamp(20px, 5vw, 48px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                <div style={{ display: 'flex', gap: 12, marginBottom: 20 }}>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', color: '#64748b' }}><Calendar size={14} /> {new Date(featuredArticle.published_at).toLocaleDateString()}</span>
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.85rem', color: '#64748b' }}><Clock size={14} /> 5 min read</span>
+              <div className="featured-content">
+                <div className="news-meta">
+                  <span><Calendar size={14} /> {new Date(featuredArticle.published_at).toLocaleDateString()}</span>
+                  <span><Clock size={14} /> 5 min read</span>
                 </div>
-                <h2 className="responsive-h2" style={{ fontWeight: 900, lineHeight: 1.2, marginBottom: 20, color: '#1e293b' }}>{language === 'hi' ? (featuredArticle.title_hi || featuredArticle.title) : featuredArticle.title}</h2>
-                <p style={{ color: '#475569', fontSize: '1.05rem', lineHeight: 1.6, marginBottom: 32 }}>{language === 'hi' ? featuredArticle.excerpt_hi : featuredArticle.excerpt}</p>
-                <Link to={`/news/${featuredArticle.slug}`} style={{ width: 'fit-content', display: 'flex', alignItems: 'center', gap: 10, padding: '12px 28px', background: '#111', color: 'white', borderRadius: 40, textDecoration: 'none', fontWeight: 700 }}>{t('Read Full Story')} <ArrowRight size={18} /></Link>
+                <h2 className="hindi">{language === 'hi' ? (featuredArticle.title_hi || featuredArticle.title) : featuredArticle.title}</h2>
+                <p className="hindiExcerpt">{language === 'hi' ? featuredArticle.excerpt_hi : featuredArticle.excerpt}</p>
+                <div style={{ marginTop: 'auto', paddingTop: 24 }}>
+                  <Link to={`/news/${featuredArticle.slug}`} className="btn btn-primary">{t('Read Full Story')} <ArrowRight size={18} /></Link>
+                </div>
               </div>
             </div>
           )}
 
-          {/* Filters & Search */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 40, gap: 20, flexWrap: 'wrap' }}>
-            <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 10 }}>
+          {/* Filters & Search Bar */}
+          <div className="news-controls">
+            <div className="news-filters">
               {categories.map(cat => (
-                <button key={cat} onClick={() => setActiveTab(cat)} style={{ padding: '10px 24px', borderRadius: 40, border: '2px solid', borderColor: activeTab === cat ? '#FF6B35' : '#e2e8f0', background: activeTab === cat ? '#FF6B35' : 'white', color: activeTab === cat ? 'white' : '#475569', fontWeight: 800, fontSize: '0.9rem', cursor: 'pointer', transition: 'all 0.2s', whiteSpace: 'nowrap' }}>{t(cat)}</button>
+                <button 
+                  key={cat} 
+                  className={`filter-btn ${activeTab === cat ? 'active' : ''}`}
+                  onClick={() => setActiveTab(cat)}
+                >
+                  {t(cat)}
+                </button>
               ))}
             </div>
-            <div style={{ position: 'relative', width: 300 }}>
-              <Search size={18} style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-              <input type="text" placeholder={t('Search articles...')} value={search} onChange={e => setSearch(e.target.value)} style={{ width: '100%', padding: '12px 14px 12px 42px', borderRadius: 40, border: '1px solid #e2e8f0', outline: 'none' }} />
+            <div className="news-search">
+              <Search size={20} color="var(--gray-400)" />
+              <input 
+                type="text" 
+                placeholder={t('Search articles...')} 
+                value={search} 
+                onChange={e => setSearch(e.target.value)} 
+              />
             </div>
           </div>
 
           {/* Articles Grid */}
           {loading ? (
-            <div className="grid grid-3">{[1,2,3].map(i => <div key={i} className="skeleton" style={{ height: 400, borderRadius: 24 }} />)}</div>
-          ) : otherArticles.length > 0 ? (
             <div className="grid grid-3">
-              {otherArticles.map(article => (
-                <div key={article.id} className="card" style={{ padding: 0, borderRadius: 24, overflow: 'hidden', border: 'none', boxShadow: '0 4px 20px rgba(0,0,0,0.04)', transition: 'transform 0.3s ease' }} onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-10px)'} onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}>
-                  <div style={{ height: 200, position: 'relative' }}>
-                    <img src={article.featured_image || (article.category === 'TECH' ? '/images/news-digital.png' : '/images/news-community.png')} alt="News Article" width="400" height="200" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    <div style={{ position: 'absolute', bottom: 12, left: 12, background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(10px)', padding: '4px 12px', borderRadius: 20, fontSize: '0.75rem', fontWeight: 800, color: '#FF6B35' }}>{t(article.category)}</div>
+              {[1,2,3].map(i => <div key={i} className="skeleton" style={{ height: 450, borderRadius: 24 }} />)}
+            </div>
+          ) : filtered.length > 0 ? (
+            <div className="grid grid-3">
+              {filtered.map(article => (
+                <div key={article.id} className="news-card hover-up">
+                  <div className="card-image">
+                    <img src={article.featured_image || (article.category === 'Scholarships' ? '/images/news-scholarship.png' : '/images/news-community.png')} alt="News" />
+                    <div className="card-category">{t(article.category)}</div>
                   </div>
-                  <div style={{ padding: 24 }}>
-                    <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 6 }}><Calendar size={14} /> {new Date(article.published_at).toLocaleDateString()}</div>
-                    <h4 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#1e293b', marginBottom: 12, lineHeight: 1.4 }}>{language === 'hi' ? (article.title_hi || article.title) : article.title}</h4>
-                    <p style={{ color: '#64748b', fontSize: '0.9rem', lineHeight: 1.5, marginBottom: 20 }}>{(language === 'hi' ? article.excerpt_hi : article.excerpt)?.substring(0, 100)}...</p>
-                    <Link to={`/news/${article.slug}`} style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#FF6B35', fontWeight: 800, textDecoration: 'none', fontSize: '0.9rem' }}>{t('Read More')} <ArrowRight size={16} /></Link>
+                  <div className="card-body">
+                    <div className="news-meta">
+                      <span><Calendar size={14} /> {new Date(article.published_at).toLocaleDateString()}</span>
+                    </div>
+                    <h3 className="hindi">{language === 'hi' ? (article.title_hi || article.title) : article.title}</h3>
+                    <p className="hindi" style={{ opacity: 0.7, fontSize: '0.9rem', marginBottom: 20 }}>
+                      {(language === 'hi' ? article.excerpt_hi : article.excerpt)?.substring(0, 90)}...
+                    </p>
+                    <div style={{ marginTop: 'auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <Link to={`/news/${article.slug}`} className="read-more-link">{t('Read More')} <ArrowRight size={16} /></Link>
+                      <button className="share-btn"><Share2 size={16} /></button>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
-            <div style={{ textAlign: 'center', padding: '100px 0', background: 'white', borderRadius: 24 }}>
-               <Newspaper size={80} style={{ margin: '0 auto 24px', opacity: 0.2 }} />
-               <p className="hindi" style={{ fontSize: '1.25rem', color: '#64748b' }}>{t('No articles found matching your criteria')}</p>
+            <div className="news-empty">
+               <Newspaper size={80} strokeWidth={1} style={{ opacity: 0.2, marginBottom: 24 }} />
+               <p className="hindi">{t('No articles found matching your criteria')}</p>
             </div>
           )}
         </div>
       </section>
+
+      <style>{`
+        .featured-news-card { 
+          display: flex; background: white; border-radius: 32px; overflow: hidden; 
+          box-shadow: 0 20px 50px rgba(0,0,0,0.08); margin-bottom: 60px; min-height: 440px;
+        }
+        .featured-image { flex: 1.2; position: relative; }
+        .featured-image img { width: 100%; height: 100%; object-fit: cover; }
+        .featured-tag { position: absolute; top: 24px; left: 24px; background: var(--dvs-orange); color: white; padding: 8px 16px; border-radius: 20px; font-weight: 800; font-size: 0.75rem; }
+        .featured-content { flex: 1; padding: 48px; display: flex; flexDirection: column; }
+        .news-meta { display: flex; gap: 16px; margin-bottom: 16px; color: var(--gray-400); font-size: 0.85rem; font-weight: 600; }
+        .news-meta span { display: flex; align-items: center; gap: 6px; }
+        .featured-content h2 { font-size: 2.25rem; font-weight: 800; color: var(--dark); margin-bottom: 16px; line-height: 1.2; }
+        .hindiExcerpt { color: var(--gray-600); font-size: 1.1rem; line-height: 1.7; }
+
+        .news-controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 48px; gap: 24px; flex-wrap: wrap; }
+        .news-filters { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; flex: 1; scrollbar-width: none; }
+        .news-filters::-webkit-scrollbar { display: none; }
+        .filter-btn { padding: 10px 24px; borderRadius: 30px; border: 1.5px solid var(--gray-200); background: white; color: var(--gray-600); font-weight: 700; white-space: nowrap; cursor: pointer; transition: all 0.2s; }
+        .filter-btn.active { background: var(--dark); color: white; border-color: var(--dark); }
+        .news-search { position: relative; width: 100%; maxWidth: 320px; }
+        .news-search input { width: 100%; padding: 12px 20px 12px 48px; borderRadius: 30px; border: 1.5px solid var(--gray-200); outline: none; transition: 0.2s; }
+        .news-search input:focus { border-color: var(--dvs-orange); }
+        .news-search svg { position: absolute; left: 16px; top: 12px; }
+
+        .news-card { background: white; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; transition: all 0.4s; }
+        .card-image { height: 220px; position: relative; }
+        .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1); }
+        .news-card:hover .card-image img { transform: scale(1.05); }
+        .card-category { position: absolute; bottom: 12px; left: 12px; background: rgba(255,255,255,0.9); backdrop-filter: blur(8px); padding: 5px 14px; border-radius: 12px; font-weight: 800; font-size: 0.7rem; color: var(--dvs-orange); }
+        .card-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+        .card-body h3 { font-size: 1.25rem; font-weight: 800; color: var(--dark); margin-bottom: 12px; line-height: 1.4; }
+        .read-more-link { display: flex; align-items: center; gap: 6px; color: var(--dvs-orange); font-weight: 800; text-decoration: none; font-size: 0.9rem; }
+        .share-btn { background: var(--gray-50); border: none; padding: 8px; border-radius: 50%; color: var(--gray-400); cursor: pointer; transition: 0.2s; }
+        .share-btn:hover { background: var(--dvs-orange-bg); color: var(--dvs-orange); }
+
+        .news-empty { text-align: center; padding: 80px 20px; background: white; border-radius: 32px; color: var(--gray-400); }
+
+        @media (max-width: 1023px) {
+          .featured-news-card { flex-direction: column; }
+          .featured-image { height: 300px; }
+          .featured-content { padding: 32px; }
+          .featured-content h2 { font-size: 1.75rem; }
+        }
+        @media (max-width: 768px) {
+          .news-controls { gap: 16px; }
+          .news-search { max-width: 100%; }
+          .news-page .section { padding: 40px 0; }
+        }
+      `}</style>
     </div>
   )
 }

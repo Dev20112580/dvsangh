@@ -63,6 +63,7 @@ import AdminWorkflows from './pages/admin/Workflows'
 import AdminCommunication from './pages/admin/Communication'
 import AdminReports from './pages/admin/ReportGenerator'
 import AdminPerformance from './pages/admin/Performance'
+import AdminProtectedRoute from './components/admin/AdminProtectedRoute'
 import SearchPage from './pages/Search'
 import NotFound from './pages/NotFound'
 import { useLockdown } from './context/LockdownContext'
@@ -188,25 +189,36 @@ export default function App() {
             </Route>
           </Route>
 
-          {/* Admin Panel */}
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="/admin/login" element={<AdminLogin />} />
-          <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+          
+          <Route element={<AdminProtectedRoute allowedLevels={['L1', 'L2', 'L3a', 'L3b']} />}>
             <Route path="/admin/dashboard" element={<AdminDashboard />} />
-            <Route path="/admin/dash" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/admin/chat" element={<AdminChat />} />
+          </Route>
+
+          <Route element={<AdminProtectedRoute allowedLevels={['L1', 'L2']} />}>
             <Route path="/admin/users" element={<AdminUsers />} />
+            <Route path="/admin/communication" element={<AdminCommunication />} />
+          </Route>
+
+          <Route element={<AdminProtectedRoute allowedLevels={['L1', 'L2', 'L3a']} />}>
             <Route path="/admin/scholarships" element={<AdminScholarships />} />
-            <Route path="/admin/performance" element={<AdminPerformance />} />
-            <Route path="/admin/donations" element={<AdminDonations />} />
             <Route path="/admin/events" element={<AdminEvents />} />
             <Route path="/admin/content" element={<AdminContent />} />
-            <Route path="/admin/chat" element={<AdminChat />} />
+          </Route>
+
+          <Route element={<AdminProtectedRoute allowedLevels={['L1', 'L3b']} />}>
+            <Route path="/admin/donations" element={<AdminDonations />} />
+            <Route path="/admin/reports" element={<AdminReports />} />
+          </Route>
+
+          <Route element={<AdminProtectedRoute allowedLevels={['L1']} />}>
             <Route path="/admin/management" element={<AdminManagement />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
             <Route path="/admin/audit" element={<AdminAuditLogs />} />
             <Route path="/admin/workflows" element={<AdminWorkflows />} />
-            <Route path="/admin/communication" element={<AdminCommunication />} />
-            <Route path="/admin/reports" element={<AdminReports />} />
+            <Route path="/admin/performance" element={<AdminPerformance />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

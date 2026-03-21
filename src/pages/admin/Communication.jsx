@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { 
   Send, Users, Mail, Phone, MessageSquare, 
   Search, Filter, ChevronRight, Bell, Sparkles,

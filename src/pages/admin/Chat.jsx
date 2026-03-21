@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../context/AuthContext'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { 
   Send, Search, User, Clock, Plus, Hash, Lock, 
   Bell, MoreHorizontal, Phone, Video, Mail, 
   FileText, List, Smile, AtSign, Image as ImageIcon,
-  Paperclip, ChevronDown, Download, X
+  Paperclip, ChevronDown, Download, X, Menu, MessageSquare
 } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
 
@@ -18,6 +18,7 @@ export default function AdminChat() {
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showChannels, setShowChannels] = useState(false)
   const scrollRef = useRef(null)
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function AdminChat() {
 
     setMessage('')
     const { error } = await supabase.from('admin_messages').insert([newMessage])
-    if (error) alert(error.message)
+    if (error) console.error('Error sending message:', error.message)
   }
 
   const channels = [
@@ -93,26 +94,60 @@ export default function AdminChat() {
 
   return (
     <AdminLayout title={t("Messages")} adminInfo={adminInfo}>
-      <div style={{ height: 'calc(100vh - 120px)', display: 'flex', background: 'white', borderRadius: 16, border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+      <div className="admin-chat-container" style={{ 
+        height: 'calc(100vh - 140px)', 
+        display: 'flex', 
+        background: 'white', 
+        borderRadius: 20, 
+        border: '1px solid #e2e8f0', 
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
         
-        {/* Left: Channels */}
-        <div style={{ width: 260, borderRight: '1px solid #f1f5f9', display: 'flex', flexDirection: 'column' }}>
+        {/* Left: Channels Sidebar */}
+        <div className={`chat-sidebar ${showChannels ? 'open' : ''}`} style={{ 
+          width: 260, 
+          borderRight: '1px solid #f1f5f9', 
+          display: 'flex', 
+          flexDirection: 'column',
+          background: 'white',
+          zIndex: 10,
+          transition: 'transform 0.3s ease'
+        }}>
           <div style={{ padding: '24px 20px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <span className="hindi" style={{ fontSize: '0.75rem', fontWeight: 800, color: '#64748b', letterSpacing: 1, textTransform: 'uppercase' }}>{t('Channels')}</span>
-            <Plus size={16} color="#64748b" style={{ cursor: 'pointer' }} />
+            <button 
+              className="mobile-only" 
+              onClick={() => setShowChannels(false)}
+              style={{ background: 'none', border: 'none', color: 'var(--gray-400)' }}
+            >
+              <X size={20} />
+            </button>
           </div>
           <div style={{ padding: '12px 10px', flex: 1, overflowY: 'auto' }}>
             {channels.map(c => (
-              <div key={c.id} onClick={() => !c.locked && setActiveChannel(c.id)} style={{ 
-                display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 8, cursor: c.locked ? 'not-allowed' : 'pointer',
-                background: c.id === activeChannel ? '#f1f5f9' : 'transparent',
-                color: c.id === activeChannel ? '#111' : '#64748b',
-                fontWeight: c.id === activeChannel ? 700 : 500,
-                fontSize: '0.88rem',
-                opacity: c.locked ? 0.5 : 1
-              }}>
-                {c.locked ? <Lock size={14} /> : <Hash size={16} color={c.color || '#94a3b8'} />}
+              <div 
+                key={c.id} 
+                onClick={() => {
+                  if (!c.locked) {
+                    setActiveChannel(c.id)
+                    setShowChannels(false)
+                  }
+                }} 
+                style={{ 
+                  display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', borderRadius: 12, cursor: c.locked ? 'not-allowed' : 'pointer',
+                  background: c.id === activeChannel ? 'var(--dvs-orange-bg)' : 'transparent',
+                  color: c.id === activeChannel ? 'var(--dvs-orange)' : 'var(--gray-600)',
+                  fontWeight: c.id === activeChannel ? 700 : 500,
+                  fontSize: '0.9rem',
+                  opacity: c.locked ? 0.5 : 1,
+                  marginBottom: 4,
+                  transition: 'all 0.2s'
+                }}
+              >
+                {c.locked ? <Lock size={14} /> : <Hash size={18} color={c.id === activeChannel ? 'var(--dvs-orange)' : '#94a3b8'} />}
                 <span style={{ flex: 1 }}>{c.name}</span>
+                {c.id === 'urgent-alerts' && <span style={{ width: 8, height: 8, background: 'var(--danger)', borderRadius: '50%' }}></span>}
               </div>
             ))}
           </div>
@@ -123,63 +158,112 @@ export default function AdminChat() {
           {/* Chat Header */}
           <div style={{ height: 64, background: 'white', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-               <Hash size={20} color="#94a3b8" />
+               <button 
+                 className="mobile-only" 
+                 onClick={() => setShowChannels(true)}
+                 style={{ background: 'none', border: 'none', color: 'var(--gray-500)', padding: 0 }}
+               >
+                 <Menu size={20} />
+               </button>
+               <Hash size={20} color="#var(--dvs-orange)" />
                <h3 style={{ fontSize: '1rem', fontWeight: 800 }}>{activeChannel}</h3>
             </div>
-            <div style={{ display: 'flex', gap: 18, color: '#64748b' }}>
-               <Search size={18} /> <Bell size={18} /> <MoreHorizontal size={18} />
+            <div style={{ display: 'flex', gap: 16, color: '#64748b' }}>
+               <Search size={18} className="mobile-hide" /> 
+               <Bell size={18} /> 
+               <MoreHorizontal size={18} />
             </div>
           </div>
 
           {/* Messages List */}
-          <div ref={scrollRef} style={{ flex: 1, overflowY: 'auto', padding: '24px 32px', display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div ref={scrollRef} className="messages-scrollbar" style={{ flex: 1, overflowY: 'auto', padding: '24px', display: 'flex', flexDirection: 'column', gap: 16 }}>
              {loading ? (
                 <div style={{ textAlign: 'center', color: '#94a3b8', padding: 20 }}>{t('Syncing messages...')}</div>
              ) : messages.length === 0 ? (
-                <div style={{ textAlign: 'center', color: '#94a3b8', padding: 40 }}>{t('No messages yet. Start the conversation!')}</div>
-             ) : messages.map((m) => (
-               <div key={m.id} style={{ 
-                 alignSelf: m.sender_id === user?.id ? 'flex-end' : 'flex-start',
-                 maxWidth: '70%',
-                 display: 'flex',
-                 flexDirection: 'column',
-                 alignItems: m.sender_id === user?.id ? 'flex-end' : 'flex-start'
-               }}>
-                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#475569' }}>{m.sender_name}</span>
-                    <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                 </div>
-                 <div style={{ 
-                    padding: '12px 16px', borderRadius: 16,
-                    background: m.sender_id === user?.id ? '#1d4ed8' : 'white',
-                    color: m.sender_id === user?.id ? 'white' : '#1e293b',
-                    boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
-                    border: m.sender_id === user?.id ? 'none' : '1px solid #e2e8f0',
-                    fontSize: '0.9rem',
-                    lineHeight: 1.5
-                 }}>
-                   {m.content}
-                 </div>
-               </div>
-             ))}
+                <div style={{ textAlign: 'center', color: '#94a3b8', padding: 40, border: '1px dashed #e2e8f0', borderRadius: 16, margin: '20px auto', maxWidth: 300 }}>
+                  <MessageSquare size={32} style={{ marginBottom: 12, opacity: 0.3 }} />
+                  <div>{t('No messages yet. Start the conversation!')}</div>
+                </div>
+             ) : messages.map((m) => {
+               const isMe = m.sender_id === user?.id
+               return (
+                <div key={m.id} style={{ 
+                  alignSelf: isMe ? 'flex-end' : 'flex-start',
+                  maxWidth: '85%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: isMe ? 'flex-end' : 'flex-start'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4, padding: '0 4px' }}>
+                     {!isMe && <span style={{ fontSize: '0.7rem', fontWeight: 800, color: 'var(--dvs-orange)' }}>{m.sender_name}</span>}
+                     <span style={{ fontSize: '0.65rem', color: '#94a3b8' }}>{new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  </div>
+                  <div style={{ 
+                     padding: '12px 16px', borderRadius: isMe ? '20px 20px 4px 20px' : '20px 20px 20px 4px',
+                     background: isMe ? 'var(--dark)' : 'white',
+                     color: isMe ? 'white' : '#1e293b',
+                     boxShadow: '0 4px 12px rgba(0,0,0,0.04)',
+                     border: isMe ? 'none' : '1px solid #e2e8f0',
+                     fontSize: '0.92rem',
+                     lineHeight: 1.6
+                  }}>
+                    {m.content}
+                  </div>
+                </div>
+               )
+             })}
           </div>
 
           {/* Message Input */}
-          <div style={{ padding: '20px 32px 32px' }}>
-            <form onSubmit={handleSendMessage} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: 16, padding: '12px 16px', display: 'flex', gap: 12, alignItems: 'flex-end', boxShadow: '0 4px 12px rgba(0,0,0,0.03)' }}>
+          <div style={{ padding: '16px 24px 24px' }}>
+            <form onSubmit={handleSendMessage} style={{ background: 'white', border: '1px solid #e2e8f0', borderRadius: 20, padding: '8px 12px', display: 'flex', gap: 12, alignItems: 'flex-end', boxShadow: '0 10px 30px rgba(0,0,0,0.05)' }}>
+              <button type="button" style={{ background: 'none', border: 'none', color: 'var(--gray-400)', padding: 8 }}><Paperclip size={20} /></button>
               <textarea 
                 value={message} 
                 onChange={e => setMessage(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSendMessage())}
                 placeholder={`${t('Message #')}${activeChannel}`}
-                style={{ flex: 1, border: 'none', resize: 'none', height: 44, padding: '10px 0', fontSize: '0.9rem', outline: 'none' }}
+                style={{ flex: 1, border: 'none', resize: 'none', height: 44, padding: '10px 0', fontSize: '0.95rem', outline: 'none', background: 'none' }}
               />
-              <button type="submit" disabled={!message.trim()} style={{ width: 44, height: 44, background: '#1d4ed8', color: 'white', border: 'none', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', opacity: message.trim() ? 1 : 0.5 }}>
-                 <Send size={18} />
+              <button 
+                type="submit" 
+                disabled={!message.trim()} 
+                style={{ 
+                  width: 44, height: 44, 
+                  background: message.trim() ? 'var(--dvs-orange)' : 'var(--gray-200)', 
+                  color: 'white', border: 'none', borderRadius: 14, 
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                  cursor: 'pointer', transition: 'all 0.2s' 
+                }}
+              >
+                 <Send size={18} fill={message.trim() ? 'white' : 'none'} />
               </button>
             </form>
           </div>
         </div>
+
+        <style>{`
+          @media (max-width: 768px) {
+            .chat-sidebar {
+              position: absolute;
+              left: 0;
+              top: 0;
+              bottom: 0;
+              transform: translateX(-100%);
+              box-shadow: 20px 0 40px rgba(0,0,0,0.1);
+            }
+            .chat-sidebar.open {
+              transform: translateX(0);
+            }
+            .admin-chat-container {
+              height: calc(100vh - 80px) !important;
+              border-radius: 0 !important;
+              border: none !important;
+            }
+          }
+          .messages-scrollbar::-webkit-scrollbar { width: 4px; }
+          .messages-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        `}</style>
       </div>
     </AdminLayout>
   )

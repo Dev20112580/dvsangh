@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { 
   Shield, UserPlus, Key, Mail, Phone, Trash2, 
   Edit, CheckCircle, X, AlertCircle, Save 

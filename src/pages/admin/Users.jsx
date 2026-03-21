@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { 
   Search, Shield, Eye, MoreHorizontal, UserCheck, 
   MapPin, Clock, Filter, AlertCircle, Download,

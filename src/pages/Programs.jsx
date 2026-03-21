@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom'
-import { BookOpen, GraduationCap, Heart, Laptop, Bike, Trophy, Users } from 'lucide-react'
+import { BookOpen, GraduationCap, Heart, Laptop, Bike, Trophy, Users, CheckCircle2, ChevronRight } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 
 const programs = [
   {
     icon: <BookOpen size={32} />,
     title: 'Quality Education',
+    label: 'Primary & Secondary',
     desc: 'Free coaching, homework help, and personalized learning support for all subjects from Class 1 to 12.',
     features: ['Free tuition classes', 'Subject-wise expert teachers', 'Exam preparation', 'Study material distribution'],
     color: '#3B82F6',
@@ -14,6 +15,7 @@ const programs = [
   {
     icon: <GraduationCap size={32} />,
     title: 'Scholarship Program',
+    label: 'Pragati Initiative',
     desc: 'Monthly/yearly financial aid for meritorious and economically weak students — 100% transparent process.',
     features: ['Merit-based scholarships', 'Need-based support', 'Direct bank transfer', '80G tax certificates'],
     color: '#FF6B35',
@@ -22,6 +24,7 @@ const programs = [
   {
     icon: <Heart size={32} />,
     title: 'Girl Education',
+    label: 'Empower Girls',
     desc: 'Encouraging rural girls for education — special scholarship + mentorship + safety awareness.',
     features: ['Girls-only scholarships', 'Mentorship by women', 'Self-defense training', 'Career counseling'],
     color: '#EC4899',
@@ -30,6 +33,7 @@ const programs = [
   {
     icon: <Laptop size={32} />,
     title: 'Digital Literacy',
+    label: 'Future Skills',
     desc: 'Computer fundamentals, MS Office, internet safety, and basic coding — future-ready skills for rural youth.',
     features: ['Computer basics', 'Internet & email', 'Online safety', 'Basic coding (Scratch)'],
     color: '#8B5CF6',
@@ -38,6 +42,7 @@ const programs = [
   {
     icon: <Bike size={32} />,
     title: 'Sports & Yoga',
+    label: 'Health & Wellness',
     desc: 'Cricket, football, athletics, kabaddi, badminton + daily yoga sessions — both physical and mental fitness.',
     features: ['Cricket & Football', 'Athletics & Kabaddi', 'Yoga & meditation', 'Annual sports meet'],
     color: '#10B981',
@@ -46,6 +51,7 @@ const programs = [
   {
     icon: <Trophy size={32} />,
     title: 'Competitive Coaching',
+    label: 'Career Fast-track',
     desc: 'UPSC, JPSC, Railway, Bank, SSC — free coaching with study material + mock tests + expert mentors.',
     features: ['UPSC & JPSC guidance', 'Railway & Bank prep', 'Weekly mock tests', 'Interview practice'],
     color: '#F59E0B',
@@ -54,6 +60,7 @@ const programs = [
   {
     icon: <Users size={32} />,
     title: 'Community Development',
+    label: 'Village Outreach',
     desc: 'Village-level education awareness, parent meetings, health camps, and environmental awareness drives.',
     features: ['Parent awareness', 'Health checkups', 'Tree planting', 'Village meetings'],
     color: '#06B6D4',
@@ -62,36 +69,85 @@ const programs = [
 ]
 
 export default function Programs() {
-  const { t, language } = useLanguage()
+  const { t } = useLanguage()
 
   return (
-    <>
+    <div className="programs-page">
       <div className="page-header">
-        <h1 className="hindi">{t('Our Programs')}</h1>
-        <p className="hindi">{t('DVS initiatives for education and holistic development')}</p>
-        <div className="breadcrumb">
-          <Link to="/">{t('Home')}</Link> <span>/</span> <span>{t('Programs')}</span>
+        <div className="container">
+          <h1 className="hindi">{t('Our Programs')}</h1>
+          <p className="hindi" style={{ maxWidth: 650, margin: '16px auto 0' }}>{t('Transforming the educational landscape of rural India through targeted initiatives.')}</p>
+          <div className="breadcrumb">
+            <Link to="/">{t('Home')}</Link> <span>/</span> <span>{t('Programs')}</span>
+          </div>
         </div>
       </div>
 
-      <section className="section">
+      <section className="section bg-gray">
         <div className="container">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+          <div className="programs-grid" style={{ display: 'grid', gap: 40 }}>
             {programs.map((prog, i) => (
-              <div className="card" key={i} style={{ display: 'flex', gap: 32, alignItems: 'flex-start', flexWrap: 'wrap', borderLeft: `4px solid ${prog.color}` }}>
-                <div style={{ flex: '0 0 80px' }}>
-                  <div style={{ width: 72, height: 72, borderRadius: 'var(--radius-md)', background: prog.bg, display: 'flex', alignItems: 'center', justifyContent: 'center', color: prog.color }}>
+              <div 
+                className="program-card hover-up" 
+                key={i} 
+                style={{ 
+                  display: 'flex', 
+                  background: 'white', 
+                  borderRadius: 32, 
+                  overflow: 'hidden', 
+                  boxShadow: 'var(--shadow-md)',
+                  flexDirection: i % 2 !== 0 ? 'row-reverse' : 'row'
+                }}
+              >
+                <div className="program-visual" style={{ 
+                  flex: '1 1 400px', 
+                  background: prog.bg, 
+                  display: 'flex', 
+                  flexDirection: 'column',
+                  alignItems: 'center', 
+                  justifyContent: 'center', 
+                  padding: 60,
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}>
+                  <div style={{ position: 'absolute', top: -20, right: -20, opacity: 0.1, transform: 'rotate(-15deg)' }}>
                     {prog.icon}
                   </div>
+                  <div style={{ 
+                    width: 120, 
+                    height: 120, 
+                    borderRadius: 32, 
+                    background: 'white', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'center', 
+                    color: prog.color,
+                    boxShadow: '0 10px 25px rgba(0,0,0,0.05)',
+                    marginBottom: 24,
+                    zIndex: 2
+                  }}>
+                    {prog.icon}
+                  </div>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 800, color: prog.color, background: 'rgba(255,255,255,0.7)', padding: '6px 16px', borderRadius: 20, zIndex: 2 }}>{t(prog.label)}</span>
                 </div>
-                <div style={{ flex: 1, minWidth: 280 }}>
-                  <h3 className="hindi" style={{ marginBottom: 4 }}>{t(prog.title)}</h3>
-                  <p style={{ color: 'var(--gray-400)', fontSize: '0.8rem', marginBottom: 12 }}>{prog.title}</p>
-                  <p className="hindi" style={{ color: 'var(--gray-600)', lineHeight: 1.7, marginBottom: 16 }}>{t(prog.desc)}</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                
+                <div className="program-details" style={{ flex: '1.5 1 450px', padding: 60, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <h2 className="hindi" style={{ fontSize: '2.25rem', marginBottom: 12, color: 'var(--dark)' }}>{t(prog.title)}</h2>
+                  <p className="hindi" style={{ color: 'var(--gray-600)', fontSize: '1.1rem', lineHeight: 1.8, marginBottom: 32 }}>{t(prog.desc)}</p>
+                  
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                     {prog.features.map((f, j) => (
-                      <span key={j} className="badge" style={{ background: prog.bg, color: prog.color }}>{t(f)}</span>
+                      <div key={j} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        <CheckCircle2 size={18} color={prog.color} />
+                        <span style={{ fontSize: '0.9rem', color: 'var(--dark)', fontWeight: 600 }}>{t(f)}</span>
+                      </div>
                     ))}
+                  </div>
+                  
+                  <div style={{ marginTop: 40 }}>
+                     <Link to="/register" className="btn" style={{ background: prog.bg, color: prog.color, border: 'none', fontWeight: 700, display: 'inline-flex', alignItems: 'center', gap: 8 }}>
+                       {t('Enroll Now')} <ChevronRight size={18} />
+                     </Link>
                   </div>
                 </div>
               </div>
@@ -100,19 +156,35 @@ export default function Programs() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section style={{ background: 'var(--dvs-orange-bg)', padding: '60px 24px', textAlign: 'center' }}>
-        <div className="container" style={{ maxWidth: 600 }}>
-          <h2 className="hindi" style={{ marginBottom: 12 }}>{t('Participate in these Programs')}</h2>
-          <p className="hindi" style={{ color: 'var(--gray-600)', marginBottom: 24 }}>
-            {t('Contribute as a student, volunteer, or donor')}
+      {/* Hero-like CTA */}
+      <section className="section" style={{ background: 'var(--dark)', color: 'white', overflow: 'hidden', position: 'relative' }}>
+        <div style={{ position: 'absolute', inset: 0, opacity: 0.1, backgroundImage: 'url("/images/hero_pattern.png")', backgroundSize: '200px' }} />
+        <div className="container" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
+          <h2 className="responsive-h2" style={{ marginBottom: 16 }}>{t('Ready to Make an Impact?')}</h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', maxWidth: 600, margin: '0 auto 40px', fontSize: '1.15rem' }}>
+            {t('Whether you want to learn, teach, or support, there is a place for you in our mission.')}
           </p>
-          <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/register" className="btn btn-primary">📚 {t('Become a Student')}</Link>
-            <Link to="/donate" className="btn btn-secondary">💝 {t('Donate Now')}</Link>
+          <div className="flex justify-center gap-3 flex-wrap">
+            <Link to="/register" className="btn btn-primary" style={{ minWidth: 200 }}>{t('Join a Program')}</Link>
+            <Link to="/donate" className="btn btn-secondary" style={{ minWidth: 200, borderColor: 'white', color: 'white' }}>{t('Support DVS')}</Link>
           </div>
         </div>
       </section>
-    </>
+
+      <style>{`
+        @media (max-width: 1023px) {
+          .program-card { flexDirection: column !important; }
+          .program-visual { padding: 40px !important; flex: 0 0 auto !important; height: 300px; }
+          .program-details { padding: 40px !important; flex: 1 1 auto !important; }
+          .program-details h2 { font-size: 1.75rem !important; }
+        }
+        @media (max-width: 640px) {
+          .program-details div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
+          .program-details { padding: 32px 24px !important; }
+          .program-visual { height: 250px; padding: 32px !important; }
+          .program-visual div[style*="width: 120"] { width: 80px !important; height: 80px !important; }
+        }
+      `}</style>
+    </div>
   )
 }

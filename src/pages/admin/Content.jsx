@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../lib/supabase'
-import { AdminLayout } from './Dashboard'
+import AdminLayout from '../../components/admin/AdminLayout'
 import { 
   Plus, Edit, Trash2, Image, Newspaper, Star, Eye,
   Search, CheckCircle, Clock, LayoutGrid, FileText, Upload, Filter, MoreVertical

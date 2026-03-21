@@ -28,7 +28,6 @@ export default function Home() {
 
   const heroSlides = [
     {
-      // Using local high-quality asset for primary hero
       image: '/images/hero_main.png',
       title: 'Lighting the Lamp of Education in Rural India',
       subtitle: 'DVS is dedicated to bridging the educational gap in Jharkhand, empowering rural students.',
@@ -67,14 +66,18 @@ export default function Home() {
   }, [])
 
   async function fetchData() {
-    const [statsRes, newsRes, storiesRes] = await Promise.all([
-      supabase.from('homepage_stats').select('*').order('sort_order'),
-      supabase.from('news_articles').select('*').eq('status', 'published').order('published_at', { ascending: false }).limit(3),
-      supabase.from('success_stories').select('*').eq('is_approved', true).eq('is_featured', true).limit(1), 
-    ])
-    if (statsRes.data) setStats(statsRes.data)
-    if (newsRes.data) setNews(newsRes.data)
-    if (storiesRes.data) setStories(storiesRes.data)
+    try {
+      const [statsRes, newsRes, storiesRes] = await Promise.all([
+        supabase.from('homepage_stats').select('*').order('sort_order'),
+        supabase.from('news_articles').select('*').eq('status', 'published').order('published_at', { ascending: false }).limit(3),
+        supabase.from('success_stories').select('*').eq('is_approved', true).eq('is_featured', true).limit(1), 
+      ])
+      if (statsRes.data) setStats(statsRes.data)
+      if (newsRes.data) setNews(newsRes.data)
+      if (storiesRes.data) setStories(storiesRes.data)
+    } catch (err) {
+      console.error('Error fetching data:', err)
+    }
   }
 
   const defaultStats = [
@@ -87,7 +90,7 @@ export default function Home() {
   const displayStats = stats.length > 0 ? stats.map(s => ({ stat_value: s.stat_value, label: language === 'en' ? s.label_en : s.label_hi })) : defaultStats
 
   return (
-    <>
+    <div className="home-container">
       {/* Hero Section */}
       <section className="hero">
         {heroSlides.map((slide, i) => (
@@ -108,18 +111,18 @@ export default function Home() {
           />
         ))}
         <div className="hero-overlay"></div>
-        <div className="hero-content-left">
-          <h2 className="responsive-title" style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'white', marginBottom: '24px', lineHeight: 1.1 }}>
+        <div className="hero-content-left container">
+          <h1 className="responsive-title" style={{ fontFamily: 'var(--font-heading)', fontWeight: 800, color: 'white', marginBottom: '24px', lineHeight: 1.1 }}>
             {t(heroSlides[currentSlide].title)}
-          </h2>
-          <p style={{ fontSize: '1.25rem', maxWidth: '700px', marginBottom: '40px', color: 'rgba(255,255,255,0.95)', lineHeight: 1.6 }}>
+          </h1>
+          <p className="hero-subtitle" style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)', maxWidth: '700px', marginBottom: '40px', color: 'rgba(255,255,255,0.95)', lineHeight: 1.6 }}>
             {t(heroSlides[currentSlide].subtitle)}
           </p>
-          <div className="hero-cta" style={{ justifyContent: 'flex-start' }}>
-            <Link to="/student/apply" className="btn btn-secondary" style={{ border: 'none', color: 'var(--dvs-orange)', fontWeight: 700, paddingLeft: 0, fontSize: '1.1rem' }}>
+          <div className="hero-cta" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+            <Link to="/student/apply" className="btn btn-primary" style={{ minWidth: '200px' }}>
               {t('Apply For Scholarship')}
             </Link>
-            <Link to="/register" className="btn btn-primary" style={{ background: 'rgba(92, 64, 51, 0.9)', borderColor: 'rgba(92, 64, 51, 0.9)', color: 'white' }}>
+            <Link to="/register" className="btn btn-secondary" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', borderColor: 'white', minWidth: '200px' }}>
               {t('Become a Volunteer')}
             </Link>
           </div>
@@ -135,23 +138,23 @@ export default function Home() {
       <section className="stats-overlap container">
         <div className="grid grid-4">
           {displayStats.map((stat, idx) => (
-            <div className="stat-card hover-up" key={idx} style={{ background: 'white', borderRadius: 20, padding: 32, textAlign: 'center', boxShadow: '0 10px 30px rgba(0,0,0,0.05)', border: '1px solid #f1f5f9' }}>
-              <div className="stat-value" style={{ color: 'var(--dvs-orange)', fontSize: '2.5rem', fontWeight: 900, marginBottom: 8 }}>{stat.stat_value}</div>
-              <div className="stat-label" style={{ color: '#64748b', fontWeight: 700, textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '1px' }}>{t(stat.label)}</div>
+            <div className="stat-card hover-up" key={idx}>
+              <div className="stat-value">{stat.stat_value}</div>
+              <div className="stat-label">{t(stat.label)}</div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Focus Areas - Mission */}
-      <section className="section bg-gray" style={{ marginTop: 60, paddingBottom: 100 }}>
+      <section className="section bg-gray">
         <div className="container">
           <div className="grid grid-2" style={{ gap: '48px', alignItems: 'flex-start', marginBottom: '64px' }}>
-            <div>
+            <div className="mobile-center-text">
               <p className="pill-red">{t('Our Mission')}</p>
-              <h2 className="responsive-h2" style={{ margin: 0, color: 'var(--dark)' }}>{t('Empowering Communities Through Focused Initiatives')}</h2>
+              <h2 className="responsive-h2" style={{ margin: 0 }}>{t('Empowering Communities Through Focused Initiatives')}</h2>
             </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '24px', paddingTop: '24px' }}>
+            <div className="mobile-hide" style={{ display: 'flex', alignItems: 'flex-start', gap: '24px', paddingTop: '24px' }}>
               <p style={{ color: 'var(--gray-600)', fontSize: '1.15rem', flex: 1, lineHeight: 1.6 }}>
                 {t('We provide holistic support systems designed specifically for the rural landscape of Jharkhand.')}
               </p>
@@ -163,17 +166,12 @@ export default function Home() {
           
           <div className="grid grid-3" style={{ gap: '24px' }}>
             {focusAreas.map((area, i) => (
-              <div className={`${area.bg} card-soft`} key={i} style={{ gridColumn: i === 0 ? 'span 1' : 'span 1', gridRow: i === 0 ? 'span 2' : 'span 1' }}>
-                <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
+              <div className={`${area.bg} card-soft`} key={i}>
+                <div className="focus-icon-circle" style={{ width: 48, height: 48, borderRadius: '50%', background: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
                   {area.icon}
                 </div>
                 <h3 style={{ fontSize: '1.5rem', marginBottom: 12 }}>{t(area.title)}</h3>
                 <p style={{ color: 'var(--gray-600)', lineHeight: 1.6 }}>{t(area.desc)}</p>
-                {i === 0 && (
-                  <div style={{ marginTop: 'auto', paddingTop: 24, display: 'flex', justifyContent: 'flex-end', opacity: 0.1 }}>
-                    <BookOpen size={120} />
-                  </div>
-                )}
               </div>
             ))}
           </div>
@@ -181,7 +179,7 @@ export default function Home() {
       </section>
 
       {/* Latest Updates */}
-      <section className="section bg-gray">
+      <section className="section bg-white">
         <div className="container">
           <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
             <h2 className="responsive-h2" style={{ margin: 0 }}>{t('Latest Updates')}</h2>
@@ -191,100 +189,78 @@ export default function Home() {
           </div>
           
           <div className="grid grid-3">
-            {news.length > 0 ? news.slice(0, 3).map((item, i) => (
-              <div className="card-flat" style={{ padding: 0, overflow: 'hidden' }} key={item.id}>
-                <div style={{ height: 200, background: 'var(--gray-200)', backgroundImage: `url(https://source.unsplash.com/random/800x600?education,india,${i})`, backgroundSize: 'cover' }}></div>
+            {(news.length > 0 ? news : [1,2,3]).slice(0, 3).map((item, i) => (
+              <div className="card-flat" style={{ padding: 0, overflow: 'hidden', border: 'none', boxShadow: 'var(--shadow-md)' }} key={item.id || i}>
+                <div style={{ height: 220, background: '#E5E7EB', position: 'relative' }}>
+                  <img 
+                    src={item.photo_url || (i === 0 ? '/images/news-scholarship.png' : i === 1 ? '/images/news-digital.png' : '/images/news-community.png')} 
+                    width="400" 
+                    height="220" 
+                    style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                    alt="News cover" 
+                  />
+                </div>
                 <div style={{ padding: 24 }}>
-                  <span className="pill-red">{t(item.category || 'ANNOUNCEMENT')}</span>
-                  <h3 style={{ fontSize: '1.2rem', marginBottom: 12, lineHeight: 1.4 }}>{language === 'hi' ? (item.title_hi || item.title) : item.title}</h3>
-                  <p style={{ color: 'var(--gray-500)', fontSize: '0.9rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    {language === 'hi' ? (item.content_hi || item.content) : item.content}
+                  <span className="pill-red">{t(item.category || (i === 0 ? 'ANNOUNCEMENT' : i === 1 ? 'EVENT' : 'COMMUNITY'))}</span>
+                  <h3 style={{ fontSize: '1.25rem', marginBottom: 12, lineHeight: 1.4, color: 'var(--dark)' }}>
+                    {item.title ? (language === 'hi' ? (item.title_hi || item.title) : item.title) : (i===0 ? (language === 'hi' ? '2024 प्रगति छात्रवृत्ति आवेदन अब खुले हैं' : '2024 Pragati Scholarship Applications Now Open') : i===1 ? (language==='hi' ? 'खूंटी में डिजिटल साक्षरता केंद्र शुरू' : 'Digital Literacy Hub Launched in Khunti') : (language === 'hi' ? 'DVS स्वयंसेवक दूरस्थ गुमला गांवों तक पहुंचे' : 'DVS Volunteers Reach Remote Gumla Villages'))}
+                  </h3>
+                  <p style={{ color: 'var(--gray-500)', fontSize: '0.95rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    {item.content ? (language === 'hi' ? (item.content_hi || item.content) : item.content) : (i===0 ? (language === 'hi' ? 'पूरे झारखंड से मेधावी छात्रों से आवेदन आमंत्रित हैं...' : 'Applications are invited from meritorious students across Jharkhand...') : i===1 ? (language==='hi'?'हमारी 5वीं समर्पित कंप्यूटर लैब अब चालू है...':'Our 5th dedicated computer lab is now operational...') : (language==='hi'?'उन तक पहुँचना जो अभी भी दूर हैं...':'Reaching the unreached, distribution of learning kits...'))}
                   </p>
                 </div>
               </div>
-            )) : (
-              [1,2,3].map(i => (
-                <div className="card-flat" style={{ padding: 0, overflow: 'hidden', border: 'none', boxShadow: 'var(--shadow-md)' }} key={i}>
-                  <div style={{ height: 220, background: '#E5E7EB', position: 'relative' }}>
-                    <img src={i === 1 ? '/images/news-scholarship.png' : i === 2 ? '/images/news-digital.png' : '/images/news-community.png'} width="400" height="220" style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="News cover" />
-                  </div>
-                  <div style={{ padding: 24 }}>
-                    <span className="pill-red">{t(i===1 ? 'ANNOUNCEMENT' : i===2 ? 'EVENT' : 'COMMUNITY')}</span>
-                    <h3 style={{ fontSize: '1.25rem', marginBottom: 12, lineHeight: 1.4, color: 'var(--dark)' }}>
-                      {i===1 ? (language === 'hi' ? '2024 प्रगति छात्रवृत्ति आवेदन अब खुले हैं' : '2024 Pragati Scholarship Applications Now Open') : i===2 ? (language==='hi' ? 'खूंटी में डिजिटल साक्षरता केंद्र शुरू' : 'Digital Literacy Hub Launched in Khunti') : (language === 'hi' ? 'DVS स्वयंसेवक दूरस्थ गुमला गांवों तक पहुंचे' : 'DVS Volunteers Reach Remote Gumla Villages')}
-                    </h3>
-                    <p style={{ color: 'var(--gray-500)', fontSize: '0.95rem', lineHeight: 1.5 }}>
-                      {i===1 ? (language === 'hi' ? 'पूरे झारखंड से मेधावी छात्रों से आवेदन आमंत्रित हैं...' : 'Applications are invited from meritorious students across Jharkhand...') : i===2 ? (language==='hi'?'हमारी 5वीं समर्पित कंप्यूटर लैब अब चालू है...':'Our 5th dedicated computer lab is now operational...') : (language==='hi'?'उन तक पहुँचना जो अभी भी दूर हैं...':'Reaching the unreached, distribution of learning kits...')}
-                    </p>
-                  </div>
-                </div>
-              ))
-            )}
+            ))}
           </div>
         </div>
       </section>
 
       {/* Success Story Block */}
-      <section className="section bg-white">
-        <div className="container" style={{ padding: '40px 0' }}>
-          {stories.length > 0 ? (
-            <div className="success-story-card" style={{ background: '#A1401D', borderRadius: 'var(--radius-xl)', padding: '64px', position: 'relative', overflow: 'hidden', display: 'flex', flexWrap: 'wrap', gap: 48 }}>
-              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(200,60,20,0.9) 0%, rgba(160,50,15,1) 100%)', zIndex: 0 }}></div>
-              
-              <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', color: 'white' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1.5px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px', textTransform: 'uppercase' }}>
-                  <Star size={14} fill="white"/> {t('SUCCESS STORY')}
-                </div>
-                <h3 className="responsive-h3" style={{ lineHeight: 1.2, marginBottom: '32px', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
-                  "{language === 'hi' ? (stories[0].content_hi || stories[0].content) : stories[0].content}"
-                </h3>
-                <p style={{ fontWeight: 700, fontSize: '1.2rem', marginBottom: 4 }}>{stories[0].title}</p>
-                <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>{stories[0].achievement}</p>
+      <section className="section bg-gray" style={{ padding: '60px 0' }}>
+        <div className="container">
+          <div className="success-story-card" style={{ background: '#A1401D', borderRadius: 'var(--radius-xl)', padding: '64px', position: 'relative', overflow: 'hidden', display: 'flex', flexWrap: 'wrap', gap: 48 }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(200,60,20,0.9) 0%, rgba(160,50,15,1) 100%)', zIndex: 0 }}></div>
+            
+            <div style={{ flex: '1 1 350px', zIndex: 1, position: 'relative', color: 'white' }}>
+              <div style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1.5px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px', textTransform: 'uppercase' }}>
+                <Star size={14} fill="white"/> {t('SUCCESS STORY')}
               </div>
-              
-              <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                 <div style={{ background: '#1c4a5a', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '400px', height: '100%', minHeight: '350px', padding: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-xl)', border: '4px solid rgba(255,255,255,0.1)' }}>
-                    <img src={stories[0].photo_url || "/images/success_story.png"} width="150" height="150" style={{ width: 150, height: 150, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff', filter: 'contrast(1.1)' }} alt="Student Portrait" />
-                    <div style={{ fontSize: '1.1rem', letterSpacing: '3px', fontWeight: 300, color: 'rgba(255,255,255,0.7)' }}>{t('SUCCESS STORY')}</div>
-                    <div style={{ fontSize: '1.4rem', fontStyle: 'italic', fontFamily: 'serif', color: '#6fbddb' }}>{t(stories[0].category || 'student')}</div>
-                 </div>
-              </div>
+              <h3 className="responsive-h3" style={{ lineHeight: 1.2, marginBottom: '32px', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
+                {stories.length > 0 
+                  ? `"${language === 'hi' ? (stories[0].content_hi || stories[0].content) : stories[0].content}"`
+                  : t('"DVS empowered me to look beyond the boundaries of my village and reach for my dreams."')}
+              </h3>
+              <p style={{ fontWeight: 700, fontSize: '1.2rem', marginBottom: 4 }}>
+                {stories.length > 0 ? stories[0].title : t('A DVS Scholar')}
+              </p>
+              <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
+                {stories.length > 0 ? stories[0].achievement : t('DVS Scholar, Now pursuing higher studies.')}
+              </p>
+            </div>
+            
+            <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+               <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '380px', padding: '32px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-xl)', border: '2px solid rgba(255,255,255,0.1)' }}>
+                  <img 
+                    src={stories.length > 0 ? (stories[0].photo_url || "/images/success_story.png") : "/images/success_story.png"} 
+                    width="150" 
+                    height="150" 
+                    style={{ width: 140, height: 140, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff' }} 
+                    alt="Student" 
+                  />
+                  <div style={{ fontSize: '1rem', letterSpacing: '2px', fontWeight: 300, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase' }}>{t('Impact Candidate')}</div>
+                  <div style={{ fontSize: '1.25rem', fontStyle: 'italic', fontFamily: 'serif', color: 'white', marginTop: 8 }}>{stories.length > 0 ? t(stories[0].category || 'student') : t('Student')}</div>
+               </div>
+            </div>
 
-              <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translate(-50%, 50%)', width: 72, height: 72, background: 'white', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)', zIndex: 2 }}>
-                <div style={{ fontSize: '3rem', color: '#A1401D', lineHeight: 0, transform: 'translateY(10px)' }}>”</div>
-              </div>
+            <div className="mobile-hide" style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translate(-50%, 50%)', width: 72, height: 72, background: 'white', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)', zIndex: 2 }}>
+              <div style={{ fontSize: '3rem', color: '#A1401D', lineHeight: 0, transform: 'translateY(10px)' }}>”</div>
             </div>
-          ) : (
-            <div className="success-story-card" style={{ background: '#A1401D', borderRadius: 'var(--radius-xl)', padding: '64px', position: 'relative', overflow: 'hidden', display: 'flex', flexWrap: 'wrap', gap: 48 }}>
-              {/* Fallback to hardcoded if no featured story exists in DB */}
-              <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(200,60,20,0.9) 0%, rgba(160,50,15,1) 100%)', zIndex: 0 }}></div>
-              <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', color: 'white' }}>
-                <div style={{ fontSize: '0.8rem', fontWeight: 800, letterSpacing: '1.5px', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px', textTransform: 'uppercase' }}>
-                  <Star size={14} fill="white"/> {t('SUCCESS STORY')}
-                </div>
-                <h3 className="responsive-h3" style={{ lineHeight: 1.2, marginBottom: '32px', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
-                  {t('"DVS empowered me to look beyond the boundaries of my village and reach for my dreams."')}
-                </h3>
-                <p style={{ fontWeight: 700, fontSize: '1.2rem', marginBottom: 4 }}>{t('A DVS Scholar')}</p>
-                <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>{t('DVS Scholar, Now pursuing higher studies.')}</p>
-              </div>
-              <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                 <div style={{ background: '#1c4a5a', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '400px', height: '100%', minHeight: '350px', padding: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-xl)', border: '4px solid rgba(255,255,255,0.1)' }}>
-                    <img src="/images/success_story.png" width="150" height="150" style={{ width: 150, height: 150, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff', filter: 'contrast(1.1)' }} alt="Student Portrait" />
-                    <div style={{ fontSize: '1.1rem', letterSpacing: '3px', fontWeight: 300, color: 'rgba(255,255,255,0.7)' }}>{t('SUCCESS STORY')}</div>
-                    <div style={{ fontSize: '1.4rem', fontStyle: 'italic', fontFamily: 'serif', color: '#6fbddb' }}>{t('student')}</div>
-                 </div>
-              </div>
-              <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translate(-50%, 50%)', width: 72, height: 72, background: 'white', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-lg)', zIndex: 2 }}>
-                <div style={{ fontSize: '3rem', color: '#A1401D', lineHeight: 0, transform: 'translateY(10px)' }}>”</div>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       </section>
 
       {/* Partner Marquee Section */}
-      <section className="section bg-gray" style={{ padding: '60px 0', borderTop: '1px solid #e2e8f0', overflow: 'hidden' }}>
+      <section className="section bg-white" style={{ padding: '60px 0', overflow: 'hidden' }}>
         <div className="container">
           <div className="text-center mb-10">
             <h2 style={{ fontSize: '2rem', marginBottom: '12px', color: 'var(--dark)' }}>{t('Partner Organizations')}</h2>
@@ -293,12 +269,11 @@ export default function Home() {
             </p>
           </div>
           
-          <div className="marquee-wrapper" style={{ display: 'flex', width: '200%', overflow: 'hidden', position: 'relative' }}>
-            <div className="marquee-content" style={{ display: 'flex', gap: '80px', animation: 'marquee 30s linear infinite', alignItems: 'center' }}>
+          <div className="marquee-wrapper" style={{ display: 'flex', width: '200%', overflow: 'hidden', position: 'relative', marginTop: 32 }}>
+            <div className="marquee-content" style={{ display: 'flex', gap: '40px', animation: 'marquee 30s linear infinite', alignItems: 'center' }}>
               {['NGO Jharkhand', 'CSR India', 'Digital Mission', 'Rural Education', 'Tribal Welfare', 'Masalia Trust'].map((name, i) => (
                 <PartnerPlaceholder key={i} name={name} />
               ))}
-              {/* Duplicate for seamless loop */}
               {['NGO Jharkhand', 'CSR India', 'Digital Mission', 'Rural Education', 'Tribal Welfare', 'Masalia Trust'].map((name, i) => (
                 <PartnerPlaceholder key={`dup-${i}`} name={name} />
               ))}
@@ -312,8 +287,18 @@ export default function Home() {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
         }
+        @media (max-width: 768px) {
+          .hero-dots { bottom: 20px; }
+          .stat-card { padding: 20px !important; }
+          .stat-value { font-size: 1.8rem !important; }
+          .mobile-center-text { text-align: center; }
+          .mobile-hide { display: none !important; }
+          .focus-icon-circle { margin: 0 auto 20px !important; }
+          .card-soft { text-align: center; }
+          .home-container .section { padding: 48px 0; }
+        }
       `}</style>
 
-    </>
+    </div>
   )
 }

@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
-import { Menu, X, Globe, LogOut, Search, Bell, XCircle, GraduationCap, Calendar, MessageSquare, ChevronRight, Heart } from 'lucide-react'
+import { 
+  Menu, X, Globe, LogOut, Search, Bell, XCircle, 
+  GraduationCap, Calendar, MessageSquare, ChevronRight, Heart 
+} from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
 const navLinks = [
@@ -11,7 +14,7 @@ const navLinks = [
   { to: '/programs', label: 'Programs' },
   { to: '/events', label: 'Events' },
   { to: '/gallery', label: 'Gallery' },
-  { to: '/news', label: 'News' }, // Added News to Navbar
+  { to: '/news', label: 'News' },
   { to: '/contact', label: 'Contact' },
 ]
 
@@ -53,6 +56,21 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Close mobile menu on escape key
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') setMobileOpen(false)
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [])
+
+  // Prevent scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) document.body.style.overflow = 'hidden'
+    else document.body.style.overflow = 'unset'
+  }, [mobileOpen])
+
   const handleSignOut = async () => {
     await signOut()
     navigate('/')
@@ -68,10 +86,17 @@ export default function Navbar() {
     <>
       <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
         <div className="navbar-inner">
-          <Link to="/" className="navbar-brand" style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <img src="/logo_dvs.webp" alt="DVS Logo" width="44" height="44" style={{ borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #A1401D' }} loading="eager" />
-            <div className="brand-text" style={{ marginLeft: 0 }}>
-              <div className="brand-hi" style={{ fontSize: '1.25rem', color: '#A1401D', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>Dronacharya Vidyarthi Sangh</div>
+          <Link to="/" className="navbar-brand">
+            <img 
+              src="/logo_dvs.webp" 
+              alt="DVS Logo" 
+              width="44" 
+              height="44" 
+              style={{ borderRadius: '50%', objectFit: 'cover', border: '1.5px solid #A1401D' }} 
+              loading="eager" 
+            />
+            <div className="brand-text">
+              <div className="brand-hi">Dronacharya Vidyarthi Sangh</div>
             </div>
           </Link>
 
@@ -95,7 +120,7 @@ export default function Navbar() {
             </button>
 
             {/* Notification Button */}
-            <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative' }} className="mobile-only">
                <button 
                  onClick={() => setNotificationsOpen(!notificationsOpen)}
                  className="btn-icon" 
@@ -106,39 +131,27 @@ export default function Navbar() {
                  <span style={{ position: 'absolute', top: 8, right: 8, width: 8, height: 8, background: 'var(--danger)', borderRadius: '50%', border: '2px solid white' }}></span>
                </button>
 
-               {/* Notifications Dropdown */}
                {notificationsOpen && (
-                 <div style={{ position: 'absolute', top: '100%', right: 0, width: 320, background: 'white', border: '1px solid var(--gray-200)', borderRadius: 12, boxShadow: 'var(--shadow-lg)', zIndex: 100, padding: 16, marginTop: 12 }}>
+                 <div style={{ position: 'absolute', top: '100%', right: 0, width: 300, background: 'white', border: '1px solid var(--gray-200)', borderRadius: 12, boxShadow: 'var(--shadow-lg)', zIndex: 100, padding: 16, marginTop: 12 }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
                        <h4 style={{ margin: 0, fontSize: '0.9rem', fontWeight: 700 }}>{t('Notifications')}</h4>
-                       <button onClick={() => setNotificationsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer' }} aria-label={t('Close')}><X size={16} /></button>
+                       <button onClick={() => setNotificationsOpen(false)} style={{ background: 'none', border: 'none', color: 'var(--gray-400)', cursor: 'pointer' }}><X size={16} /></button>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                        <div style={{ padding: '8px 0', borderBottom: '1px solid var(--gray-100)', cursor: 'pointer' }}>
                           <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('Scholarship Approved')}!</div>
                           <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>2 {t('hours ago')}</div>
                        </div>
-                       <div style={{ padding: '8px 0', borderBottom: '1px solid var(--gray-100)', cursor: 'pointer' }}>
-                          <div style={{ fontSize: '0.85rem', fontWeight: 600 }}>{t('New Event')}: UPSC Strategy</div>
-                          <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>5 {t('hours ago')}</div>
-                       </div>
                     </div>
-                    <button className="hindi" style={{ width: '100%', marginTop: 12, padding: 8, background: 'var(--gray-50)', border: 'none', borderRadius: 8, fontSize: '0.75rem', fontWeight: 600, color: '#A1401D', cursor: 'pointer' }}>
-                       {t('View All Notifications')}
-                    </button>
                  </div>
                )}
             </div>
 
-            {/* Language Selector */}
-            <div style={{ position: 'relative' }} className="language-selector desktop-hidden">
-              <button 
-                onClick={() => setNotificationsOpen(false) || setSearchOpen(false)} // Close other dropdowns
-                className="btn btn-sm" 
-                style={{ background: 'var(--gray-100)', color: 'var(--dark)', fontWeight: 700, border: '1px solid var(--gray-200)', display: 'flex', alignItems: 'center', gap: 6, borderRadius: 20, padding: '6px 14px', marginRight: 8, marginLeft: 8 }}
-              >
+            {/* Language Selector (Desktop) */}
+            <div className="language-selector mobile-only" style={{ position: 'relative' }}>
+              <button className="btn btn-sm" style={{ background: 'var(--gray-100)', color: 'var(--dark)', fontWeight: 700, border: '1px solid var(--gray-200)', borderRadius: 20, padding: '6px 14px' }}>
                 <Globe size={14} color="#A1401D" /> 
-                {supportedLanguages.find(l => l.code === language)?.native || 'English'}
+                <span style={{ marginLeft: 6 }}>{supportedLanguages.find(l => l.code === language)?.native || 'English'}</span>
               </button>
               <div className="language-dropdown" style={{ position: 'absolute', top: '100%', right: 0, background: 'white', border: '1px solid var(--gray-200)', borderRadius: 12, boxShadow: 'var(--shadow-lg)', zIndex: 100, padding: 8, marginTop: 12, display: 'none', flexDirection: 'column', minWidth: 120 }}>
                 {supportedLanguages.map(lang => (
@@ -152,35 +165,33 @@ export default function Navbar() {
                 ))}
               </div>
             </div>
-            <style>{`
-              .language-selector:hover .language-dropdown { display: flex !important; }
-            `}</style>
 
-            {user ? (
-              <>
-                <Link to={getDashboardLink()} className="btn btn-sm" style={{ background: 'transparent', color: 'var(--dark)', fontWeight: 600, border: 'none' }}>
-                  {t(profile?.role === 'admin' ? 'Admin Panel' : 'Dashboard')}
-                </Link>
-                <button onClick={handleSignOut} className="btn btn-sm btn-icon" title="Logout" aria-label={t('Logout')}>
-                  <LogOut size={18} color="var(--dark)" />
-                </button>
-              </>
-            ) : (
-              <>
+            {/* Dashboard/Login Actions (Desktop) */}
+            <div className="mobile-only" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              {user ? (
+                <>
+                  <Link to={getDashboardLink()} className="btn btn-sm" style={{ background: 'transparent', color: 'var(--dark)', fontWeight: 600, border: 'none' }}>
+                    {t(profile?.role === 'admin' ? 'Admin Panel' : 'Dashboard')}
+                  </Link>
+                  <button onClick={handleSignOut} className="btn btn-sm btn-icon" title="Logout">
+                    <LogOut size={18} color="var(--dark)" />
+                  </button>
+                </>
+              ) : (
                 <Link to="/login" className="btn btn-sm" style={{ background: 'transparent', color: 'var(--dark)', fontWeight: 600, border: 'none' }}>{t('Sign In')}</Link>
-              </>
-            )}
+              )}
+            </div>
             
-            <Link to="/donate" className="btn btn-sm desktop-hidden" style={{ background: '#A1401D', color: 'white', borderRadius: '4px', padding: '10px 24px', fontWeight: 600, marginLeft: 8 }}>
+            <Link to="/donate" className="btn btn-sm desktop-hidden" style={{ background: '#A1401D', color: 'white', borderRadius: '8px', padding: '10px 24px', fontWeight: 600 }}>
               {t('Donate Now')}
             </Link>
 
             <button
               className="navbar-hamburger"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label={mobileOpen ? t('Close Menu') : t('Open Menu')}
+              onClick={() => setMobileOpen(true)}
+              aria-label={t('Open Menu')}
             >
-              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              <Menu size={24} />
             </button>
           </div>
         </div>
@@ -228,64 +239,97 @@ export default function Navbar() {
                       ))}
                    </div>
                  )}
-                <div style={{ marginTop: 40 }}>
-                   <h4 className="hindi" style={{ fontSize: '1rem', color: 'var(--gray-400)', textTransform: 'uppercase', letterSpacing: 1, marginBottom: 20 }}>{t('Recent Searches')}</h4>
-                   <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                      {['UPSC Batch', 'Scholarship 2024', 'Volunteering', 'Success Stories'].map(term => (
-                        <div key={term} style={{ padding: '8px 16px', borderRadius: 20, background: '#f8fafc', color: '#A1401D', fontWeight: 600, fontSize: '0.9rem', cursor: 'pointer' }}>{term}</div>
-                      ))}
-                   </div>
-                </div>
              </div>
           </div>
         )}
       </nav>
 
+      {/* Premium Mobile Menu Drawer */}
+      <div className={`mobile-nav-overlay ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(false)} />
+      
       <div className={`mobile-nav ${mobileOpen ? 'open' : ''}`}>
-        <div style={{ padding: '16px', display: 'flex', justifyContent: 'center' }}>
-           <div style={{ width: '100%', display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-             {supportedLanguages.map(lang => (
-               <button 
-                 key={lang.code}
-                 onClick={() => { setLanguage(lang.code); setMobileOpen(false); }}
-                 style={{ flex: 1, padding: '12px', background: language === lang.code ? 'var(--gray-100)' : 'white', color: language === lang.code ? '#A1401D' : 'var(--dark)', fontWeight: 700, border: '1px solid var(--gray-200)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
-               >
-                 {lang.native}
-               </button>
-             ))}
-           </div>
+        <button className="mobile-nav-close" onClick={() => setMobileOpen(false)}>
+          <X size={20} />
+        </button>
+
+        <div style={{ marginBottom: 32 }}>
+          <img src="/logo_dvs.webp" alt="Logo" width="48" height="48" style={{ borderRadius: '50%', marginBottom: 12 }} />
+          <h2 style={{ fontSize: '1.2rem', color: '#A1401D' }}>Dronacharya Vidyarthi Sangh</h2>
         </div>
-        
-        <Link to="/donate" style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, color: '#A1401D', fontWeight: 700, borderBottom: '1px solid var(--gray-100)' }} onClick={() => setMobileOpen(false)}>
-          <Heart size={18} /> {t('Donate Now')}
-        </Link>
-        
-        {navLinks.map(link => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            end={link.to === '/'}
+
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          {navLinks.map(link => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end={link.to === '/'}
+              onClick={() => setMobileOpen(false)}
+            >
+              {t(link.label)}
+              <ChevronRight size={16} color="var(--gray-300)" />
+            </NavLink>
+          ))}
+        </div>
+
+        <div className="mobile-nav-footer">
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            {supportedLanguages.slice(0, 4).map(lang => (
+              <button 
+                key={lang.code}
+                onClick={() => { setLanguage(lang.code); setMobileOpen(false); }}
+                style={{ 
+                  padding: '12px', 
+                  background: language === lang.code ? 'var(--dvs-orange-bg)' : 'var(--gray-50)', 
+                  color: language === lang.code ? '#A1401D' : 'var(--dark)', 
+                  fontWeight: 700, 
+                  border: language === lang.code ? '1.5px solid #A1401D' : '1px solid var(--gray-200)', 
+                  borderRadius: 12,
+                  fontSize: '0.85rem'
+                }}
+              >
+                {lang.native}
+              </button>
+            ))}
+          </div>
+
+          <Link 
+            to="/donate" 
+            className="btn btn-primary" 
+            style={{ padding: '16px', borderRadius: 12, marginTop: 12 }}
             onClick={() => setMobileOpen(false)}
           >
-            {t(link.label)}
-          </NavLink>
-        ))}
-        <hr style={{ border: 'none', borderTop: '1px solid var(--gray-200)', margin: '12px 0' }} />
-        {user ? (
-          <>
-            <Link to={getDashboardLink()} onClick={() => setMobileOpen(false)}>
-              {t('Student Portal')}
+            <Heart size={18} fill="white" /> {t('Donate Now')}
+          </Link>
+
+          {user ? (
+            <div style={{ display: 'flex', gap: 8 }}>
+              <Link 
+                to={getDashboardLink()} 
+                className="btn" 
+                style={{ flex: 1, background: 'var(--gray-100)', color: 'var(--dark)', borderRadius: 12 }}
+                onClick={() => setMobileOpen(false)}
+              >
+                {t('Dashboard')}
+              </Link>
+              <button 
+                onClick={() => { handleSignOut(); setMobileOpen(false) }}
+                className="btn"
+                style={{ padding: '12px', background: 'var(--danger-bg)', color: 'var(--danger)', borderRadius: 12, border: 'none' }}
+              >
+                <LogOut size={20} />
+              </button>
+            </div>
+          ) : (
+            <Link 
+              to="/login" 
+              className="btn" 
+              style={{ background: 'var(--gray-100)', color: 'var(--dark)', borderRadius: 12 }}
+              onClick={() => setMobileOpen(false)}
+            >
+              {t('Sign In')}
             </Link>
-            <button onClick={() => { handleSignOut(); setMobileOpen(false) }}
-              style={{ padding: '14px 16px', textAlign: 'left', background: 'none', border: 'none', color: 'var(--danger)', fontWeight: 500, cursor: 'pointer' }}>
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" onClick={() => setMobileOpen(false)}>{t('Sign In')}</Link>
-          </>
-        )}
+          )}
+        </div>
       </div>
     </>
   )

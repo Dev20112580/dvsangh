@@ -1,8 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
 import { LanguageProvider } from './context/LanguageContext'
+import { AuthProvider } from './context/AuthContext'
+import { AdminAuthProvider } from './context/AdminAuthProvider'
 import { LockdownProvider } from './context/LockdownContext'
 import ErrorBoundary from './components/common/ErrorBoundary'
 import App from './App'
@@ -14,15 +15,18 @@ createRoot(document.getElementById('root')).render(
       <BrowserRouter>
         <LanguageProvider>
           <AuthProvider>
-            <LockdownProvider>
-              <App />
-            </LockdownProvider>
+            <AdminAuthProvider>
+              <LockdownProvider>
+                <App />
+              </LockdownProvider>
+            </AdminAuthProvider>
           </AuthProvider>
         </LanguageProvider>
       </BrowserRouter>
     </ErrorBoundary>
   </StrictMode>
 )
+
 // Register Service Worker for PWA
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
