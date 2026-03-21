@@ -108,35 +108,22 @@ export default function DonorDashboard() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 24 }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            {/* Donation Trends */}
             <div className="card" style={{ padding: 24 }}>
-               <h3 className="hindi" style={{ fontSize: '1.1rem', marginBottom: 24 }}>{t('Donation History')}</h3>
-               <div style={{ height: 160, display: 'flex', alignItems: 'flex-end', gap: 20, paddingBottom: 20, borderBottom: '1px solid #f1f5f9' }}>
-                  {[12, 18, 5, 25, 10, 15].map((h, i) => (
-                    <div key={i} style={{ flex: 1, position: 'relative' }}>
-                       <div style={{ width: '100%', height: h * 5, background: i === 3 ? '#db2777' : '#fce7f3', borderRadius: '4px 4px 0 0' }}></div>
-                       <div style={{ textAlign: 'center', fontSize: '0.65rem', marginTop: 8, color: 'var(--gray-400)' }}>{['Jan','Feb','Mar','Apr','May','Jun'][i]}</div>
-                    </div>
-                  ))}
-               </div>
-            </div>
-
-            <div className="card" style={{ padding: 24 }}>
-               <h3 className="hindi" style={{ fontSize: '1.1rem', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <TrendingUp size={20} color="#db2777" /> {t('Your Impact Summary')}
+               <h3 className="hindi" style={{ fontSize: '1.1rem', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10, color: 'var(--dvs-orange)' }}>
+                  {t('Our Mission & Programs')}
                </h3>
-               <div className="grid grid-3">
-                  <div style={{ textAlign: 'center', padding: 16, background: '#fdf2f8', borderRadius: 12 }}>
-                     <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#db2777' }}>{Math.floor(stats.total / 5000)}</div>
-                     <div style={{ fontSize: '0.7rem', color: '#9d174d' }}>{t('Children Supported')}</div>
+               <div className="grid grid-3" style={{ gap: 20 }}>
+                  <div className="program-card-mini">
+                     <img src="/images/news-scholarship.png" alt="Education" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                     <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Quality Education')}</h5>
                   </div>
-                  <div style={{ textAlign: 'center', padding: 16, background: '#f0fdf4', borderRadius: 12 }}>
-                     <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#166534' }}>{Math.floor(stats.total / 50)}</div>
-                     <div style={{ fontSize: '0.7rem', color: '#166534' }}>{t('Meals Provided')}</div>
+                  <div className="program-card-mini">
+                     <img src="/images/news-digital.png" alt="Digital" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                     <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Digital Literacy')}</h5>
                   </div>
-                  <div style={{ textAlign: 'center', padding: 16, background: '#eff6ff', borderRadius: 12 }}>
-                     <div style={{ fontSize: '1.2rem', fontWeight: 800, color: '#1e40af' }}>{Math.floor(stats.total / 200)}</div>
-                     <div style={{ fontSize: '0.7rem', color: '#1e40af' }}>{t('Books Donated')}</div>
+                  <div className="program-card-mini">
+                     <img src="/images/success_story.png" alt="Coaching" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                     <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Impact Stories')}</h5>
                   </div>
                </div>
             </div>

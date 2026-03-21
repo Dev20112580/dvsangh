@@ -134,16 +134,23 @@ export default function VolunteerDashboard() {
 
         <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr)', gap: 24 }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-            {/* Hours Chart */}
             <div className="card" style={{ padding: 24 }}>
-               <h3 className="hindi" style={{ fontSize: '1.1rem', marginBottom: 24 }}>{t('Volunteer Hours (Weekly)')}</h3>
-               <div style={{ height: 160, display: 'flex', alignItems: 'flex-end', gap: 20, paddingBottom: 20, borderBottom: '1px solid #f1f5f9' }}>
-                  {[4, 2, 8, 5, 3, 6, 4].map((h, i) => (
-                    <div key={i} style={{ flex: 1, position: 'relative' }}>
-                       <div style={{ width: '100%', height: h * 15, background: i === 2 ? '#A1401D' : '#e2e8f0', borderRadius: '4px 4px 0 0' }}></div>
-                       <div style={{ textAlign: 'center', fontSize: '0.65rem', marginTop: 8, color: 'var(--gray-400)' }}>{['M','T','W','T','F','S','S'][i]}</div>
-                    </div>
-                  ))}
+               <h3 className="hindi" style={{ fontSize: '1.1rem', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10, color: 'var(--dvs-orange)' }}>
+                  {t('Our Core Programs')}
+               </h3>
+               <div className="grid grid-3" style={{ gap: 20 }}>
+                  <div className="program-card-mini">
+                     <img src="/images/news-scholarship.png" alt="Education" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                     <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Quality Education')}</h5>
+                  </div>
+                  <div className="program-card-mini">
+                     <img src="/images/news-digital.png" alt="Digital" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                     <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Digital Literacy')}</h5>
+                  </div>
+                  <div className="program-card-mini">
+                     <img src="/images/success_story.png" alt="Impact" style={{ width: '100%', height: 100, objectFit: 'cover', borderRadius: 12, marginBottom: 12 }} />
+                     <h5 className="hindi" style={{ margin: '0 0 4px', fontSize: '0.9rem' }}>{t('Social Awareness')}</h5>
+                  </div>
                </div>
             </div>
 
