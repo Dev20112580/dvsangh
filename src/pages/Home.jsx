@@ -84,9 +84,20 @@ export default function Home() {
       {/* Hero Section */}
       <section className="hero">
         {heroSlides.map((slide, i) => (
-          <div key={i} className={`hero-slide ${i === currentSlide ? 'active' : ''}`}
-            style={{ backgroundImage: `url(${slide.image})`, backgroundColor: '#1c4a5a' }} 
-            {...(i === 0 ? { fetchpriority: 'high' } : {})}
+          <img 
+            key={i} 
+            src={slide.image}
+            alt=""
+            className={`hero-slide ${i === currentSlide ? 'active' : ''}`}
+            style={{ 
+              backgroundColor: '#1c4a5a',
+              objectFit: 'cover',
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              inset: 0
+            }} 
+            {...(i === 0 ? { fetchpriority: 'high', loading: 'eager' } : { loading: 'lazy' })}
           />
         ))}
         <div className="hero-overlay"></div>
