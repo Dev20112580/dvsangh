@@ -56,7 +56,7 @@ export default function SuccessStories() {
                 <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr', gap: 60, alignItems: 'center' }}>
                   <div style={{ position: 'relative' }}>
                     <div style={{ width: 300, height: 380, borderRadius: 24, overflow: 'hidden', boxShadow: '0 20px 40px rgba(0,0,0,0.5)' }}>
-                      <img src={stories[currentIndex].photo_url || 'https://images.unsplash.com/photo-1544717297-fa154daaf762?auto=format&fit=crop&q=80&w=400'} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <img src={stories[currentIndex].photo_url || '/images/success_story.png'} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
                     <div style={{ position: 'absolute', bottom: -20, right: -20, background: '#FF6B35', color: 'white', padding: '12px 24px', borderRadius: 16, fontWeight: 800, fontSize: '0.9rem', boxShadow: '0 10px 20px rgba(0,0,0,0.2)' }}>{stories[currentIndex].achievement}</div>
                   </div>
@@ -112,7 +112,7 @@ export default function SuccessStories() {
                  <div key={story.id} className="card" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.1)', padding: 32, borderRadius: 24, cursor: 'pointer' }} onClick={() => setCurrentIndex(idx)}>
                     <div style={{ display: 'flex', gap: 16, marginBottom: 20 }}>
                        <div style={{ width: 48, height: 48, borderRadius: '50%', overflow: 'hidden' }}>
-                          <img src={story.photo_url || 'https://images.unsplash.com/photo-1544717297-fa154daaf762?auto=format&fit=crop&q=80&w=100'} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <img src={story.photo_url || '/images/success_story.png'} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                        </div>
                        <div>
                           <h4 style={{ fontSize: '1rem', fontWeight: 800 }}>{story.title}</h4>

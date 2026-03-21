@@ -27,22 +27,22 @@ export default function Home() {
       subtitle: 'DVS is dedicated to bridging the educational gap in Jharkhand, empowering rural students.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=1400',
+      image: '/images/hero1.png',
       title: 'Right to Education for Every Child',
       subtitle: 'Over 5,000+ students have been empowered so far with scholarships and mentorship.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?auto=format&fit=crop&q=80&w=1400',
+      image: '/images/hero2.png',
       title: 'Digital Literacy for Rural Youth',
       subtitle: 'Equipping students with essential computer skills to thrive in a digital economy.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=1400',
+      image: '/images/hero3.png',
       title: 'Empowering Girls through Education',
       subtitle: 'Special scholarships and counseling to ensure every girl achieves her dreams.',
     },
     {
-      image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1400',
+      image: '/images/hero.png',
       title: 'Join Our Mission Today',
       subtitle: 'Donate, volunteer, or enroll to be part of India\'s largest rural education network.',
     },
@@ -199,7 +199,7 @@ export default function Home() {
               [1,2,3].map(i => (
                 <div className="card-flat" style={{ padding: 0, overflow: 'hidden', border: 'none', boxShadow: 'var(--shadow-md)' }} key={i}>
                   <div style={{ height: 220, background: '#E5E7EB', position: 'relative' }}>
-                    <img src={`https://images.unsplash.com/photo-1544256718-3baf237f3974?q=80&w=800&auto=format&fit=crop&sig=${i}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="News cover" />
+                    <img src={i === 1 ? '/images/news-scholarship.png' : i === 2 ? '/images/news-digital.png' : '/images/news-community.png'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="News cover" />
                   </div>
                   <div style={{ padding: 24 }}>
                     <span className="pill-red">{t(i===1 ? 'ANNOUNCEMENT' : i===2 ? 'EVENT' : 'COMMUNITY')}</span>
@@ -291,7 +291,7 @@ export default function Home() {
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={i} className="partner-logo" style={{ filter: 'grayscale(100%)', transition: 'filter 0.3s ease', cursor: 'pointer' }}>
                   <img 
-                    src={`https://images.unsplash.com/photo-1599305445671-ac291c95aba9?w=200&h=100&fit=crop&q=80&sig=${i}`} 
+                    src={`https://images.unsplash.com/photo-1599305445671-ac291c95aba9?w=800&q=80&sig=${i}`} 
                     alt={`Partner ${i}`} 
                     width="100"
                     height="50"
@@ -305,7 +305,7 @@ export default function Home() {
               {[1, 2, 3, 4, 5, 6].map((i) => (
                 <div key={`dup-${i}`} className="partner-logo" style={{ filter: 'grayscale(100%)', transition: 'filter 0.3s ease', cursor: 'pointer' }}>
                   <img 
-                    src={`https://images.unsplash.com/photo-1599305445671-ac291c95aba9?w=200&h=100&fit=crop&q=80&sig=${i}`} 
+                    src={`https://images.unsplash.com/photo-1599305445671-ac291c95aba9?w=800&q=80&sig=${i}`} 
                     alt={`Partner ${i}`} 
                     style={{ height: '50px', width: 'auto', objectFit: 'contain' }}
                     onMouseOver={(e) => e.currentTarget.parentElement.style.filter = 'grayscale(0%)'}
