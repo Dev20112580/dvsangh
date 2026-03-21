@@ -200,7 +200,7 @@ const AdminLogin = () => {
     <div className="admin-login-page">
       <div className="admin-login-card">
         <div className="admin-login-header">
-          <img src="/logo_dvs.webp" alt="DVS Logo" width="60" height="60" style={{ borderRadius: '50%' }} />
+          <img src="/logo_dvs.jpg" alt="DVS Logo" width="60" height="60" style={{ borderRadius: '50%' }} />
           <h1>Admin Panel</h1>
           <p>प्रशासक लॉगिन</p>
           <span className="secure-badge">🔒 Secured by 2FA</span>

@@ -121,7 +121,7 @@ const AdminLayout = () => {
         </button>
         
         <div className="admin-topbar-logo">
-          <img src="/logo_dvs.webp" 
+          <img src="/logo_dvs.jpg" 
                alt="DVS" width="36" height="36" style={{ borderRadius: '50%' }} />
           <span>DVS Admin</span>
         </div>

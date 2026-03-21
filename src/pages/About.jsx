@@ -45,7 +45,7 @@ export default function About() {
             <div className="founder-photo-side" style={{ flex: '1 1 200px', textAlign: 'center' }}>
               <div style={{ position: 'relative', display: 'inline-block' }}>
                 <img 
-                  src="/images/founder.webp" 
+                  src="/logo_dvs.jpg" 
                   alt="Sumit Kumar Pandit" 
                   width="200" 
                   height="200" 
