@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
-import { GraduationCap, Heart, Trophy, BookOpen, Laptop, Bike, Star, ArrowRight } from 'lucide-react'
+import { GraduationCap, Trophy, BookOpen, Laptop, Bike, Star, ArrowRight } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import { useHomepageData } from '../hooks/useHomepageData'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const PartnerPlaceholder = ({ name }) => (
   <div style={{ padding: '12px 24px', background: '#f8fafc', border: '2px solid #e2e8f0', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, minWidth: 160 }}>
@@ -21,34 +22,33 @@ const focusAreas = [
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [stats, setStats] = useState([])
-  const [news, setNews] = useState([])
-  const [stories, setStories] = useState([])
   const { t, language } = useLanguage()
+  useDocumentTitle(t('Empowering Rural Literacy & Education'))
+  const { stats, news, story, loading } = useHomepageData()
 
   const heroSlides = [
     {
-      image: '/images/hero_main.png',
+      image: '/images/hero_main.webp',
       title: 'Lighting the Lamp of Education in Rural India',
       subtitle: 'DVS is dedicated to bridging the educational gap in Jharkhand, empowering rural students.',
     },
     {
-      image: '/images/hero1.png',
+      image: '/images/hero1.webp',
       title: 'Right to Education for Every Child',
       subtitle: 'Over 5,000+ students have been empowered so far with scholarships and mentorship.',
     },
     {
-      image: '/images/hero2.png',
+      image: '/images/hero2.webp',
       title: 'Digital Literacy for Rural Youth',
       subtitle: 'Equipping students with essential computer skills to thrive in a digital economy.',
     },
     {
-      image: '/images/hero3.png',
+      image: '/images/hero3.webp',
       title: 'Empowering Girls through Education',
       subtitle: 'Special scholarships and counseling to ensure every girl achieves her dreams.',
     },
     {
-      image: '/images/hero.png',
+      image: '/images/hero.webp',
       title: 'Join Our Mission Today',
       subtitle: 'Donate, volunteer, or enroll to be part of India\'s largest rural education network.',
     },
@@ -61,25 +61,6 @@ export default function Home() {
     return () => clearInterval(interval)
   }, [heroSlides.length])
 
-  useEffect(() => {
-    fetchData()
-  }, [])
-
-  async function fetchData() {
-    try {
-      const [statsRes, newsRes, storiesRes] = await Promise.all([
-        supabase.from('homepage_stats').select('*').order('sort_order'),
-        supabase.from('news_articles').select('*').eq('status', 'published').order('published_at', { ascending: false }).limit(3),
-        supabase.from('success_stories').select('*').eq('is_approved', true).eq('is_featured', true).limit(1), 
-      ])
-      if (statsRes.data) setStats(statsRes.data)
-      if (newsRes.data) setNews(newsRes.data)
-      if (storiesRes.data) setStories(storiesRes.data)
-    } catch (err) {
-      console.error('Error fetching data:', err)
-    }
-  }
-
   const defaultStats = [
     { stat_value: '5,000+', label: 'Students Helped' },
     { stat_value: '1,200+', label: 'Scholarships Given' },
@@ -87,7 +68,7 @@ export default function Home() {
     { stat_value: '₹25 L+', label: 'Donations' },
   ]
 
-  const displayStats = stats.length > 0 ? stats.map(s => ({ stat_value: s.stat_value, label: language === 'en' ? s.label_en : s.label_hi })) : defaultStats
+  const displayStats = stats && stats.length > 0 ? stats : defaultStats
 
   return (
     <div className="home-container">
@@ -97,7 +78,9 @@ export default function Home() {
           <img 
             key={i} 
             src={slide.image}
-            alt=""
+            alt={slide.title}
+            width="1400"
+            height="600"
             className={`hero-slide ${i === currentSlide ? 'active' : ''}`}
             style={{ 
               backgroundColor: '#1c4a5a',
@@ -118,11 +101,11 @@ export default function Home() {
           <p className="hero-subtitle" style={{ fontSize: 'clamp(1rem, 4vw, 1.25rem)', maxWidth: '700px', marginBottom: '40px', color: 'rgba(255,255,255,0.95)', lineHeight: 1.6 }}>
             {t(heroSlides[currentSlide].subtitle)}
           </p>
-          <div className="hero-cta" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-            <Link to="/student/apply" className="btn btn-primary" style={{ minWidth: '200px' }}>
+          <div className="hero-cta" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', width: '100%' }}>
+            <Link to="/scholarship/apply" className="btn btn-primary btn-mobile-full" style={{ minWidth: '200px', flex: '1 1 auto' }}>
               {t('Apply For Scholarship')}
             </Link>
-            <Link to="/register" className="btn btn-secondary" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', borderColor: 'white', minWidth: '200px' }}>
+            <Link to="/register" className="btn btn-secondary btn-mobile-full" style={{ background: 'rgba(255,255,255,0.1)', color: 'white', borderColor: 'white', minWidth: '200px', flex: '1 1 auto' }}>
               {t('Become a Volunteer')}
             </Link>
           </div>
@@ -189,24 +172,25 @@ export default function Home() {
           </div>
           
           <div className="grid grid-3">
-            {(news.length > 0 ? news : [1,2,3]).slice(0, 3).map((item, i) => (
+            {(news && news.length > 0 ? news : [1,2,3]).slice(0, 3).map((item, i) => (
               <div className="card-flat" style={{ padding: 0, overflow: 'hidden', border: 'none', boxShadow: 'var(--shadow-md)' }} key={item.id || i}>
                 <div style={{ height: 220, background: '#E5E7EB', position: 'relative' }}>
                   <img 
-                    src={item.photo_url || (i === 0 ? '/images/news-scholarship.png' : i === 1 ? '/images/news-digital.png' : '/images/news-community.png')} 
+                    src={item.cover_image_url || (i === 0 ? '/images/news-scholarship.webp' : i === 1 ? '/images/news-digital.webp' : '/images/news-community.webp')} 
                     width="400" 
                     height="220" 
                     style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
-                    alt="News cover" 
+                    alt={item.title || "News cover"} 
+                    loading="lazy"
                   />
                 </div>
                 <div style={{ padding: 24 }}>
                   <span className="pill-red">{t(item.category || (i === 0 ? 'ANNOUNCEMENT' : i === 1 ? 'EVENT' : 'COMMUNITY'))}</span>
                   <h3 style={{ fontSize: '1.25rem', marginBottom: 12, lineHeight: 1.4, color: 'var(--dark)' }}>
-                    {item.title ? (language === 'hi' ? (item.title_hi || item.title) : item.title) : (i===0 ? (language === 'hi' ? '2024 प्रगति छात्रवृत्ति आवेदन अब खुले हैं' : '2024 Pragati Scholarship Applications Now Open') : i===1 ? (language==='hi' ? 'खूंटी में डिजिटल साक्षरता केंद्र शुरू' : 'Digital Literacy Hub Launched in Khunti') : (language === 'hi' ? 'DVS स्वयंसेवक दूरस्थ गुमला गांवों तक पहुंचे' : 'DVS Volunteers Reach Remote Gumla Villages'))}
+                    {item.title ? (language === 'hi' ? (item.title_hindi || item.title) : item.title) : (i===0 ? (language === 'hi' ? '2024 प्रगति छात्रवृत्ति आवेदन अब खुले हैं' : '2024 Pragati Scholarship Applications Now Open') : i===1 ? (language==='hi' ? 'खूंटी में डिजिटल साक्षरता केंद्र शुरू' : 'Digital Literacy Hub Launched in Khunti') : (language === 'hi' ? 'DVS स्वयंसेवक दूरस्थ गुमला गांवों तक पहुंचे' : 'DVS Volunteers Reach Remote Gumla Villages'))}
                   </h3>
                   <p style={{ color: 'var(--gray-500)', fontSize: '0.95rem', lineHeight: 1.5, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                    {item.content ? (language === 'hi' ? (item.content_hi || item.content) : item.content) : (i===0 ? (language === 'hi' ? 'पूरे झारखंड से मेधावी छात्रों से आवेदन आमंत्रित हैं...' : 'Applications are invited from meritorious students across Jharkhand...') : i===1 ? (language==='hi'?'हमारी 5वीं समर्पित कंप्यूटर लैब अब चालू है...':'Our 5th dedicated computer lab is now operational...') : (language==='hi'?'उन तक पहुँचना जो अभी भी दूर हैं...':'Reaching the unreached, distribution of learning kits...'))}
+                    {item.excerpt ? (language === 'hi' ? (item.excerpt_hindi || item.excerpt) : item.excerpt) : (i===0 ? (language === 'hi' ? 'पूरे झारखंड से मेधावी छात्रों से आवेदन आमंत्रित हैं...' : 'Applications are invited from meritorious students across Jharkhand...') : i===1 ? (language==='hi'?'हमारी 5वीं समर्पित कंप्यूटर लैब अब चालू है...':'Our 5th dedicated computer lab is now operational...') : (language==='hi'?'उन तक पहुँचना जो अभी भी दूर हैं...':'Reaching the unreached, distribution of learning kits...'))}
                   </p>
                 </div>
               </div>
@@ -218,7 +202,7 @@ export default function Home() {
       {/* Success Story Block */}
       <section className="section bg-gray" style={{ padding: '60px 0' }}>
         <div className="container">
-          <div className="success-story-card" style={{ background: '#A1401D', borderRadius: 'var(--radius-xl)', padding: '64px', position: 'relative', overflow: 'hidden', display: 'flex', flexWrap: 'wrap', gap: 48 }}>
+          <div className="success-story-card responsive-card-padding" style={{ background: '#A1401D', borderRadius: 'var(--radius-xl)', position: 'relative', overflow: 'hidden', display: 'flex', flexWrap: 'wrap', gap: 48 }}>
             <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'linear-gradient(135deg, rgba(200,60,20,0.9) 0%, rgba(160,50,15,1) 100%)', zIndex: 0 }}></div>
             
             <div style={{ flex: '1 1 350px', zIndex: 1, position: 'relative', color: 'white' }}>
@@ -226,29 +210,30 @@ export default function Home() {
                 <Star size={14} fill="white"/> {t('SUCCESS STORY')}
               </div>
               <h3 className="responsive-h3" style={{ lineHeight: 1.2, marginBottom: '32px', fontFamily: 'var(--font-heading)', fontWeight: 700 }}>
-                {stories.length > 0 
-                  ? `"${language === 'hi' ? (stories[0].content_hi || stories[0].content) : stories[0].content}"`
+                {story 
+                  ? `"${language === 'hi' ? (story.content_hindi || story.content) : story.content}"`
                   : t('"DVS empowered me to look beyond the boundaries of my village and reach for my dreams."')}
               </h3>
               <p style={{ fontWeight: 700, fontSize: '1.2rem', marginBottom: 4 }}>
-                {stories.length > 0 ? stories[0].title : t('A DVS Scholar')}
+                {story ? story.title : t('A DVS Scholar')}
               </p>
               <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.95rem' }}>
-                {stories.length > 0 ? stories[0].achievement : t('DVS Scholar, Now pursuing higher studies.')}
+                {story ? story.achievement : t('DVS Scholar, Now pursuing higher studies.')}
               </p>
             </div>
             
             <div style={{ flex: '1 1 300px', zIndex: 1, position: 'relative', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: 'var(--radius-lg)', width: '100%', maxWidth: '380px', padding: '32px 24px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', boxShadow: 'var(--shadow-xl)', border: '2px solid rgba(255,255,255,0.1)' }}>
                   <img 
-                    src={stories.length > 0 ? (stories[0].photo_url || "/images/success_story.png") : "/images/success_story.png"} 
-                    width="150" 
-                    height="150" 
+                    src={story ? (story.photo_url || "/images/success_story.webp") : "/images/success_story.webp"} 
+                    width="140" 
+                    height="140" 
                     style={{ width: 140, height: 140, borderRadius: '50%', objectFit: 'cover', marginBottom: 24, border: '4px solid #fff' }} 
-                    alt="Student" 
+                    alt={story ? story.title : "Student Portrait"}
+                    loading="lazy"
                   />
                   <div style={{ fontSize: '1rem', letterSpacing: '2px', fontWeight: 300, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase' }}>{t('Impact Candidate')}</div>
-                  <div style={{ fontSize: '1.25rem', fontStyle: 'italic', fontFamily: 'serif', color: 'white', marginTop: 8 }}>{stories.length > 0 ? t(stories[0].category || 'student') : t('Student')}</div>
+                  <div style={{ fontSize: '1.25rem', fontStyle: 'italic', fontFamily: 'serif', color: 'white', marginTop: 8 }}>{story ? t(story.category || 'student') : t('Student')}</div>
                </div>
             </div>
 
@@ -296,6 +281,8 @@ export default function Home() {
           .focus-icon-circle { margin: 0 auto 20px !important; }
           .card-soft { text-align: center; }
           .home-container .section { padding: 48px 0; }
+          .responsive-card-padding { padding: 32px 24px !important; }
+          .btn-mobile-full { width: 100% !important; }
         }
       `}</style>
 

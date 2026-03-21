@@ -1,3 +1,9 @@
 User-agent: *
 Allow: /
-Sitemap: https://dvsangh.org/sitemap.xml
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /student/
+Disallow: /volunteer/
+Disallow: /donor/
+
+Sitemap: https://dvsngo.dpdns.org/sitemap.xml

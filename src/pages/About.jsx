@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Users, Target, Eye, Award, BookOpen, Heart, MapPin, Calendar } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const team = [
   { name: 'Sumit Kumar Pandit', role: 'Founder & President', id: 'DVS-F001' },
@@ -23,6 +24,7 @@ const milestones = [
 
 export default function About() {
   const { t, language } = useLanguage()
+  useDocumentTitle(t('About Our Mission & Vision'))
   
   return (
     <div className="about-page">
@@ -38,16 +40,18 @@ export default function About() {
 
       {/* Founder Message */}
       <section className="section">
-        <div className="container">
-          <div className="founder-message-card" style={{ maxWidth: 900, margin: '0 auto', display: 'flex', gap: 48, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div className="container" style={{ padding: '0 16px' }}>
+          <div className="founder-message-card responsive-flex-gap" style={{ maxWidth: 900, margin: '0 auto', display: 'flex', gap: 48, alignItems: 'center', flexWrap: 'wrap' }}>
             <div className="founder-photo-side" style={{ flex: '1 1 200px', textAlign: 'center' }}>
               <div style={{ position: 'relative', display: 'inline-block' }}>
                 <img 
-                  src="/images/logo_founder.png" 
+                  src="/images/logo_founder.webp" 
                   alt="Sumit Kumar Pandit" 
                   width="200" 
                   height="200" 
                   style={{ borderRadius: '24px', objectFit: 'cover', border: '8px solid var(--gray-50)', boxShadow: 'var(--shadow-lg)' }} 
+                  loading="lazy"
+                  fetchpriority="high"
                 />
                 <div style={{ position: 'absolute', bottom: -10, right: -10, background: 'var(--dvs-orange)', color: 'white', padding: '8px 16px', borderRadius: 12, fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase' }}>
                   Founder
@@ -109,12 +113,12 @@ export default function About() {
             <p style={{ color: 'var(--gray-500)', marginTop: 12 }}>{t('From a small initiative to a statewide impact movement.')}</p>
           </div>
           
-          <div className="timeline-container" style={{ maxWidth: 800, margin: '0 auto', position: 'relative', paddingLeft: 30 }}>
+          <div className="timeline-container mobile-timeline-fix" style={{ maxWidth: 800, margin: '0 auto', position: 'relative', paddingLeft: 30 }}>
             <div style={{ position: 'absolute', left: 4, top: 0, bottom: 0, width: 2, background: 'linear-gradient(to bottom, var(--dvs-orange), transparent)' }} />
             {milestones.map((m, i) => (
               <div key={i} className="timeline-item" style={{ position: 'relative', marginBottom: 48, paddingLeft: 40 }}>
                 <div style={{ position: 'absolute', left: -34, top: 6, width: 14, height: 14, borderRadius: '50%', background: 'white', border: '4px solid var(--dvs-orange)', zIndex: 2 }} />
-                <div className="milestone-card" style={{ background: 'var(--gray-50)', padding: '24px 32px', borderRadius: 16, border: '1px solid var(--gray-100)' }}>
+                <div className="milestone-card responsive-card-padding" style={{ background: 'var(--gray-50)', borderRadius: 16, border: '1px solid var(--gray-100)' }}>
                   <span className="badge badge-orange" style={{ marginBottom: 12, fontSize: '0.9rem', padding: '6px 16px' }}>{m.year}</span>
                   <h4 className="hindi" style={{ fontSize: '1.2rem', color: 'var(--dark)', fontWeight: 700 }}>{t(m.event)}</h4>
                 </div>
@@ -204,6 +208,9 @@ export default function About() {
           .grid-4 { grid-template-columns: 1fr 1fr !important; gap: 16px !important; }
           .team-card { padding: 20px !important; }
           .about-page .section { padding: 48px 0; }
+          .responsive-card-padding { padding: 20px 24px !important; }
+          .mobile-timeline-fix { padding-left: 20px !important; }
+          .timeline-item { padding-left: 30px !important; }
         }
         @media (max-width: 480px) {
           .grid-4 { grid-template-columns: 1fr !important; }

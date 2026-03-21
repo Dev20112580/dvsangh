@@ -58,7 +58,17 @@ export default function Register() {
     }
 
     try {
-      // Step 2 complete, move to OTP (Mock UI)
+      const { data, error } = await signUp(form.email, form.password, {
+        full_name: form.fullName,
+        phone: form.phone,
+        role: role,
+        district: form.district,
+        class: form.studentClass,
+        profession: form.profession
+      })
+
+      if (error) throw error
+      
       setStep(3)
     } catch (err) {
       setError(err.message)
@@ -67,13 +77,31 @@ export default function Register() {
     }
   }
 
-  const handleOtpSubmit = (e) => {
+  const { verifyOTP } = useAuth()
+
+  const handleOtpSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    setTimeout(() => {
-      navigate('/' + role + '/dashboard')
+    setError('')
+    
+    const otpString = otp.join('')
+    if (otpString.length < 6) {
+      setError(t('Please enter complete OTP'))
       setLoading(false)
-    }, 1500)
+      return
+    }
+
+    try {
+      const { data, error } = await verifyOTP(form.email, otpString, 'signup')
+      if (error) throw error
+      
+      // After verification, Supabase usually logs the user in automatically
+      navigate('/' + role + '/dashboard')
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -84,7 +112,14 @@ export default function Register() {
          <div style={{ position: 'relative', zIndex: 2 }}>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'white', marginBottom: 60 }}>
                <div style={{ width: 48, height: 48, background: 'white', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <img src="/logo.svg" alt="DVS Logo" style={{ width: 32 }} onError={(e) => { e.target.style.display='none'; e.target.parentElement.innerHTML = '<span style="color:#1d4ed8; font-weight:900">DVS</span>' }} />
+                  <img 
+                    src="/logo_dvs.webp" 
+                    alt="DVS Logo" 
+                    width="44" 
+                    height="44" 
+                    style={{ borderRadius: '50%', objectFit: 'cover' }} 
+                    loading="eager"
+                  />
                </div>
                <span style={{ fontSize: '1.5rem', fontWeight: 900, letterSpacing: -1 }}>DVSANGH</span>
             </Link>
@@ -251,11 +286,34 @@ export default function Register() {
                  <h2 className="hindi" style={{ fontSize: '1.5rem', fontWeight: 900, marginBottom: 8 }}>{t('Verify OTP')}</h2>
                  <p className="hindi" style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: 32 }}>{t('Enter OTP sent to')} <span style={{ fontWeight: 700, color: '#1e293b' }}>{form.phone}</span></p>
                  
-                 <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 32 }}>
+                  <div style={{ display: 'flex', gap: 12, justifyContent: 'center', marginBottom: 32 }}>
                     {otp.map((digit, i) => (
-                      <input key={i} maxLength={1} style={{ width: 56, height: 64, textAlign: 'center', fontSize: '1.5rem', fontWeight: 800, borderRadius: 12, border: '2px solid #e2e8f0', outline: 'none', focus: { borderColor: '#1d4ed8' } }} />
+                      <input 
+                        key={i} 
+                        id={`otp-${i}`}
+                        maxLength={1} 
+                        value={digit}
+                        onChange={(e) => {
+                          const val = e.target.value
+                          if (/^[0-9]$/.test(val) || val === '') {
+                            const newOtp = [...otp]
+                            newOtp[i] = val
+                            setOtp(newOtp)
+                            // Auto focus next input
+                            if (val !== '' && i < 5) {
+                              document.getElementById(`otp-${i+1}`).focus()
+                            }
+                          }
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Backspace' && otp[i] === '' && i > 0) {
+                            document.getElementById(`otp-${i-1}`).focus()
+                          }
+                        }}
+                        style={{ width: 56, height: 64, textAlign: 'center', fontSize: '1.5rem', fontWeight: 800, borderRadius: 12, border: '2px solid #e2e8f0', outline: 'none' }} 
+                      />
                     ))}
-                 </div>
+                  </div>
 
                  <p className="hindi" style={{ fontSize: '0.85rem', color: '#64748b', marginBottom: 32 }}>{t('Didn\'t receive code?')} <span style={{ color: '#1d4ed8', fontWeight: 700, cursor: 'pointer' }}>{t('Resend OTP')}</span></p>
 

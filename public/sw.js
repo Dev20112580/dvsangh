@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dvs-cache-v2';
+const CACHE_NAME = 'dvs-cache-v3';
 const OFFLINE_URL = '/offline.html';
 
 const ASSETS_TO_CACHE = [
@@ -6,8 +6,9 @@ const ASSETS_TO_CACHE = [
   '/index.html',
   '/manifest.json',
   '/favicon.ico',
-  '/logo_dvs.jpg',
-  '/offline.html'
+  '/logo_dvs.webp',
+  '/offline.html',
+  '/images/hero_main.webp'
 ];
 
 // Install Event
@@ -53,7 +54,8 @@ self.addEventListener('fetch', (event) => {
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
-            if (event.request.url.startsWith('http')) {
+            if (event.request.url.startsWith('http') && 
+                !event.request.url.includes('chrome-extension')) {
               cache.put(event.request, responseToCache);
             }
           });

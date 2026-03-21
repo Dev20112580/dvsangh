@@ -47,7 +47,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4>{t('Quick Links')}</h4>
+          <h4 className="footer-heading">{t('Quick Links')}</h4>
           <div className="footer-links">
             <Link to="/about">{t('About Us')}</Link>
             <Link to="/programs">{t('Programs')}</Link>
@@ -59,7 +59,7 @@ export default function Footer() {
         </div>
 
         <div>
-          <h4>{t('Our Programs')}</h4>
+          <h4 className="footer-heading">{t('Our Programs')}</h4>
           <div className="footer-links">
             <Link to="/programs">{t('Quality Education')}</Link>
             <Link to="/programs">{t('Girl Education')}</Link>
@@ -70,7 +70,7 @@ export default function Footer() {
         </div>
 
         <div>
-           <h4>{t('Contact Us')}</h4>
+           <h4 className="footer-heading">{t('Contact Us')}</h4>
           <div className="footer-contact">
             <p>
               <MapPin size={16} />
@@ -94,7 +94,7 @@ export default function Footer() {
       
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', padding: '40px 0', marginTop: 40, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: 24 }}>
         <div style={{ maxWidth: 400 }}>
-           <h4 style={{ color: 'white', marginBottom: 8 }}>{t('Subscribe to our Newsletter')}</h4>
+           <h4 className="footer-heading" style={{ color: 'white', marginBottom: 8 }}>{t('Subscribe to our Newsletter')}</h4>
            <p style={{ fontSize: '0.85rem', opacity: 0.7 }}>{t('Stay updated with our latest missions, success stories, and impact reports.')}</p>
         </div>
         <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: 12, flex: 1, maxWidth: 450 }}>

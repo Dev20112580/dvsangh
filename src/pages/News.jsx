@@ -53,7 +53,13 @@ export default function News() {
           {!loading && featuredArticle && !search && activeTab === 'All' && (
             <div className="featured-news-card">
               <div className="featured-image">
-                <img src={featuredArticle.featured_image || '/images/news-community.png'} alt="Featured" />
+                <img 
+                  src={featuredArticle.featured_image || '/images/news-community.webp'} 
+                  width="800" 
+                  height="440" 
+                  alt="Featured" 
+                  loading="eager" 
+                />
                 <div className="featured-tag">{t('Featured')}</div>
               </div>
               <div className="featured-content">
@@ -104,7 +110,13 @@ export default function News() {
               {filtered.map(article => (
                 <div key={article.id} className="news-card hover-up">
                   <div className="card-image">
-                    <img src={article.featured_image || (article.category === 'Scholarships' ? '/images/news-scholarship.png' : '/images/news-community.png')} alt="News" />
+                    <img 
+                      src={article.featured_image || (article.category === 'Scholarships' ? '/images/news-scholarship.webp' : '/images/news-community.webp')} 
+                      width="400" 
+                      height="220" 
+                      alt="News" 
+                      loading="lazy" 
+                    />
                     <div className="card-category">{t(article.category)}</div>
                   </div>
                   <div className="card-body">

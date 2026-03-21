@@ -45,7 +45,7 @@ export default function Navbar() {
     const combined = [
       ...(scholarships.data || []).map(s => ({ title: s.full_name, type: 'scholarship', link: '/dashboard/student' })),
       ...(events.data || []).map(e => ({ title: e.title, type: 'event', link: '/events' })),
-      ...(forum.data || []).map(f => ({ title: f.title, type: 'forum', link: '/forum' }))
+      ...(forum.data || []).map(f => ({ title: f.title, type: 'forum', link: '/community/forum' }))
     ]
     setSuggestions(combined)
   }

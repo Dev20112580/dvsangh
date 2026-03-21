@@ -9,7 +9,7 @@ export default function SocialFeed() {
       id: 1,
       user: { name: 'Vikram Mahto', role: 'Volunteer', avatar: 'https://i.pravatar.cc/150?u=vikram' },
       content: 'Just finished distributing study kits in Masalia village. The smiles on kids\' faces are priceless! ❤️ 📚',
-      image: '/images/news-community.png',
+      image: '/images/news-community.webp',
       likes: 42,
       comments: 12,
       time: '2 hours ago',
@@ -56,7 +56,14 @@ export default function SocialFeed() {
                 {/* Header */}
                 <div style={{ padding: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                      <img src={post.user.avatar} style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }} alt="" />
+                      <img 
+                        src={post.user.avatar} 
+                        width="44" 
+                        height="44" 
+                        style={{ width: 44, height: 44, borderRadius: '50%', objectFit: 'cover' }} 
+                        alt={post.user.name} 
+                        loading="lazy"
+                      />
                       <div>
                          <h4 style={{ fontSize: '0.95rem', fontWeight: 800, color: '#1e293b' }}>{post.user.name}</h4>
                          <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '0.75rem', color: '#64748b', fontWeight: 600 }}>
@@ -77,7 +84,14 @@ export default function SocialFeed() {
                 {/* Image if any */}
                 {post.image && (
                   <div style={{ width: '100%', maxHeight: 400, overflow: 'hidden' }}>
-                     <img src={post.image} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" />
+                     <img 
+                       src={post.image} 
+                       width="640" 
+                       height="400" 
+                       style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                       alt="Post content" 
+                       loading="lazy" 
+                     />
                   </div>
                 )}
 

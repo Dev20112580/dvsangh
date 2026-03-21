@@ -8,6 +8,8 @@ import { LockdownProvider } from './context/LockdownContext'
 import ErrorBoundary from './components/common/ErrorBoundary'
 import App from './App'
 import './index.css'
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/react'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -18,6 +20,8 @@ createRoot(document.getElementById('root')).render(
             <AdminAuthProvider>
               <LockdownProvider>
                 <App />
+                <Analytics />
+                <SpeedInsights />
               </LockdownProvider>
             </AdminAuthProvider>
           </AuthProvider>
@@ -31,7 +35,7 @@ createRoot(document.getElementById('root')).render(
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js')
-      .then(reg => console.log('SW Registered', reg))
-      .catch(err => console.log('SW Registration Failed', err))
+      .then(() => {})
+      .catch(() => {})
   })
 }

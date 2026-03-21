@@ -45,7 +45,14 @@ export default function Leaderboard() {
           {topThree[1] && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 200, animation: 'fadeInUp 0.6s ease-out 0.2s both' }}>
               <div style={{ position: 'relative', marginBottom: 16 }}>
-                <img src={topThree[1].avatar_url || `https://ui-avatars.com/api/?name=${topThree[1].full_name}&background=random`} alt="" style={{ width: 80, height: 80, borderRadius: '50%', border: '4px solid #e2e8f0', objectFit: 'cover' }} />
+                <img 
+                  src={topThree[1].avatar_url || `https://ui-avatars.com/api/?name=${topThree[1].full_name}&background=random`} 
+                  width="80" 
+                  height="80" 
+                  alt={topThree[1].full_name} 
+                  style={{ width: 80, height: 80, borderRadius: '50%', border: '4px solid #e2e8f0', objectFit: 'cover' }} 
+                  loading="eager"
+                />
                 <div style={{ position: 'absolute', bottom: -5, right: -5, background: '#e2e8f0', width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '0.8rem' }}>2</div>
               </div>
               <div style={{ height: 100, width: '100%', background: 'linear-gradient(to top, #f1f5f9, #ffffff)', borderRadius: '16px 16px 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '1px solid #e2e8f0', borderBottom: 'none', padding: '0 12px' }}>
@@ -60,7 +67,14 @@ export default function Leaderboard() {
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 240, animation: 'fadeInUp 0.8s ease-out' }}>
               <Crown color="#FFB800" fill="#FFB800" size={32} style={{ marginBottom: 4 }} />
               <div style={{ position: 'relative', marginBottom: 16 }}>
-                <img src={topThree[0].avatar_url || `https://ui-avatars.com/api/?name=${topThree[0].full_name}&background=random`} alt="" style={{ width: 110, height: 110, borderRadius: '50%', border: '6px solid #FFD700', objectFit: 'cover', boxShadow: '0 10px 30px rgba(255, 215, 0, 0.3)' }} />
+                <img 
+                  src={topThree[0].avatar_url || `https://ui-avatars.com/api/?name=${topThree[0].full_name}&background=random`} 
+                  width="110" 
+                  height="110" 
+                  alt={topThree[0].full_name} 
+                  style={{ width: 110, height: 110, borderRadius: '50%', border: '6px solid #FFD700', objectFit: 'cover', boxShadow: '0 10px 30px rgba(255, 215, 0, 0.3)' }} 
+                  loading="eager"
+                />
                 <div style={{ position: 'absolute', bottom: -5, right: -5, background: '#FFD700', width: 36, height: 36, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, color: 'white', fontSize: '1.2rem', boxShadow: '0 4px 10px rgba(0,0,0,0.1)' }}>1</div>
               </div>
               <div style={{ height: 140, width: '100%', background: 'linear-gradient(to top, #FFFDE7, #ffffff)', borderRadius: '24px 24px 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '2px solid #FFD700', borderBottom: 'none', padding: '0 12px' }}>
@@ -74,7 +88,14 @@ export default function Leaderboard() {
           {topThree[2] && (
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 200, animation: 'fadeInUp 0.6s ease-out 0.4s both' }}>
               <div style={{ position: 'relative', marginBottom: 16 }}>
-                <img src={topThree[2].avatar_url || `https://ui-avatars.com/api/?name=${topThree[2].full_name}&background=random`} alt="" style={{ width: 80, height: 80, borderRadius: '50%', border: '4px solid #cd7f32', objectFit: 'cover' }} />
+                <img 
+                  src={topThree[2].avatar_url || `https://ui-avatars.com/api/?name=${topThree[2].full_name}&background=random`} 
+                  width="80" 
+                  height="80" 
+                  alt={topThree[2].full_name} 
+                  style={{ width: 80, height: 80, borderRadius: '50%', border: '4px solid #cd7f32', objectFit: 'cover' }} 
+                  loading="eager"
+                />
                 <div style={{ position: 'absolute', bottom: -5, right: -5, background: '#cd7f32', width: 28, height: 28, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, color: 'white', fontSize: '0.8rem' }}>3</div>
               </div>
               <div style={{ height: 80, width: '100%', background: 'linear-gradient(to top, #FFF8E1, #ffffff)', borderRadius: '16px 16px 0 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', border: '1px solid #cd7f32', borderBottom: 'none', padding: '0 12px' }}>
@@ -103,7 +124,14 @@ export default function Leaderboard() {
             {rest.map((m, i) => (
               <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: 20, padding: '16px 24px', borderRadius: 16, border: '1px solid #f1f5f9', background: '#ffffff', transition: 'all 0.2s' }}>
                 <span style={{ fontWeight: 900, color: '#94a3b8', width: 30, fontSize: '1.1rem' }}>{i + 4}</span>
-                <img src={m.avatar_url || `https://ui-avatars.com/api/?name=${m.full_name}&background=random`} alt="" style={{ width: 44, height: 44, borderRadius: '50%' }} />
+                <img 
+                  src={m.avatar_url || `https://ui-avatars.com/api/?name=${m.full_name}&background=random`} 
+                  width="44" 
+                  height="44" 
+                  alt={m.full_name} 
+                  style={{ width: 44, height: 44, borderRadius: '50%' }} 
+                  loading="lazy"
+                />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 800, color: '#111' }}>{m.full_name}</div>
                   <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{m.district || 'Jharkhand'} • {m.current_level || 'Elite'}</div>

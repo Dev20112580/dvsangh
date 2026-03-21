@@ -20,7 +20,14 @@ export default function Login() {
     setLoading(true)
     const { data, error: err } = await signIn(email, password)
     if (err) { setError(err.message); setLoading(false); return }
-    navigate('/')
+    
+    // Check profile role and navigate
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', data.user.id).single()
+    if (profile?.role) {
+      navigate(`/${profile.role}/dashboard`)
+    } else {
+      navigate('/')
+    }
   }
 
   return (

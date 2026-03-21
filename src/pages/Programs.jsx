@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { BookOpen, GraduationCap, Heart, Laptop, Bike, Trophy, Users, CheckCircle2, ChevronRight } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import useDocumentTitle from '../hooks/useDocumentTitle'
 
 const programs = [
   {
@@ -70,6 +71,7 @@ const programs = [
 
 export default function Programs() {
   const { t } = useLanguage()
+  useDocumentTitle(t('Our Educational Programs'))
 
   return (
     <div className="programs-page">
@@ -99,14 +101,13 @@ export default function Programs() {
                   flexDirection: i % 2 !== 0 ? 'row-reverse' : 'row'
                 }}
               >
-                <div className="program-visual" style={{ 
+                <div className="program-visual responsive-section-padding" style={{ 
                   flex: '1 1 400px', 
                   background: prog.bg, 
                   display: 'flex', 
                   flexDirection: 'column',
                   alignItems: 'center', 
                   justifyContent: 'center', 
-                  padding: 60,
                   position: 'relative',
                   overflow: 'hidden'
                 }}>
@@ -131,7 +132,7 @@ export default function Programs() {
                   <span style={{ fontSize: '0.8rem', fontWeight: 800, color: prog.color, background: 'rgba(255,255,255,0.7)', padding: '6px 16px', borderRadius: 20, zIndex: 2 }}>{t(prog.label)}</span>
                 </div>
                 
-                <div className="program-details" style={{ flex: '1.5 1 450px', padding: 60, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                <div className="program-details responsive-section-padding" style={{ flex: '1.5 1 450px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                   <h2 className="hindi" style={{ fontSize: '2.25rem', marginBottom: 12, color: 'var(--dark)' }}>{t(prog.title)}</h2>
                   <p className="hindi" style={{ color: 'var(--gray-600)', fontSize: '1.1rem', lineHeight: 1.8, marginBottom: 32 }}>{t(prog.desc)}</p>
                   
@@ -172,17 +173,20 @@ export default function Programs() {
       </section>
 
       <style>{`
+        .responsive-section-padding { padding: 60px; }
         @media (max-width: 1023px) {
           .program-card { flexDirection: column !important; }
           .program-visual { padding: 40px !important; flex: 0 0 auto !important; height: 300px; }
           .program-details { padding: 40px !important; flex: 1 1 auto !important; }
           .program-details h2 { font-size: 1.75rem !important; }
+          .responsive-section-padding { padding: 40px !important; }
         }
         @media (max-width: 640px) {
           .program-details div[style*="grid-template-columns"] { grid-template-columns: 1fr !important; }
           .program-details { padding: 32px 24px !important; }
           .program-visual { height: 250px; padding: 32px !important; }
           .program-visual div[style*="width: 120"] { width: 80px !important; height: 80px !important; }
+          .responsive-section-padding { padding: 32px 20px !important; }
         }
       `}</style>
     </div>

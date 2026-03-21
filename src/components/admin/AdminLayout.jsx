@@ -1,96 +1,216 @@
-import { useState, useEffect } from 'react'
-import { Menu, Bell, Search, Shield, User, LogOut } from 'lucide-react'
-import AdminSidebar from './AdminSidebar'
-import { useAdminAuth } from '../../context/AdminAuthProvider'
-import { useLanguage } from '../../context/LanguageContext'
+import { Link, useLocation, Navigate, Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import { useAdmin } from '../../context/AdminContext';
+import AdminNotificationBell from './AdminNotificationBell';
 
-export default function AdminLayout({ children }) {
-  const { adminProfile, refinedLevel, logout } = useAdminAuth()
-  const { t } = useLanguage()
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024)
+const AdminLayout = () => {
+  const { admin, logout, can, loading } = useAdmin();
+  const location = useLocation();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024)
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+  if (loading) return <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh', background: '#f8fafc' }}>
+    <div className="hindi" style={{ fontSize: '1.2rem', color: '#64748b' }}>प्रशासक लोड हो रहा है...</div>
+  </div>;
+  if (!admin) return <Navigate to="/admin/login" />;
 
-  const headerStyles = {
-    height: '64px',
-    background: 'white',
-    borderBottom: '1px solid #e2e8f0',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '0 24px',
-    position: 'sticky',
-    top: 0,
-    zIndex: 40,
-  }
+  // Build sidebar based on permissions
+  const sidebarItems = [
+    { 
+      icon: '📊', label: 'Dashboard', 
+      path: '/admin/dashboard', 
+      show: true 
+    },
+    { 
+      icon: '👥', label: 'Users', 
+      path: '/admin/users', 
+      show: can.manageUsers 
+    },
+    { 
+      icon: '🎓', label: 'Scholarships', 
+      path: '/admin/scholarships', 
+      show: can.reviewApplications 
+    },
+    { 
+      icon: '💰', label: 'Donations', 
+      path: '/admin/donations', 
+      show: can.manageDonations 
+    },
+    { 
+      icon: '💸', label: 'Disbursements', 
+      path: '/admin/disbursements', 
+      show: can.manageDisbursements 
+    },
+    { 
+      icon: '📄', label: '80G Certificates', 
+      path: '/admin/certificates', 
+      show: can.generate80G 
+    },
+    { 
+      icon: '🧾', label: 'Expenses', 
+      path: '/admin/expenses', 
+      show: can.manageExpenses 
+    },
+    { 
+      icon: '📊', label: 'Financial Reports', 
+      path: '/admin/reports', 
+      show: can.manageDonations 
+    },
+    { 
+      icon: '🏦', label: 'Bank Recon', 
+      path: '/admin/bank', 
+      show: can.bankReconciliation 
+    },
+    { 
+      icon: '📅', label: 'Events', 
+      path: '/admin/events', 
+      show: can.manageEvents 
+    },
+    { 
+      icon: '📝', label: 'Content', 
+      path: '/admin/content', 
+      show: can.uploadMaterials 
+    },
+    { 
+      icon: '📸', label: 'Gallery', 
+      path: '/admin/gallery', 
+      show: can.manageGallery 
+    },
+    { 
+      icon: '🔔', label: 'Notifications', 
+      path: '/admin/notifications', 
+      show: can.sendNotifications 
+    },
+    { 
+      icon: '💬', label: 'Admin Chat', 
+      path: '/admin/chat', 
+      show: true 
+    },
+    { 
+      icon: '✅', label: 'Tasks', 
+      path: '/admin/tasks', 
+      show: true 
+    },
+    { 
+      icon: '📋', label: 'Audit Trail', 
+      path: '/admin/audit', 
+      show: can.viewAuditLog 
+    },
+    { 
+      icon: '👑', label: 'Admin Accounts', 
+      path: '/admin/management', 
+      show: can.manageAdmins 
+    },
+    { 
+      icon: '⚙️', label: 'System Settings', 
+      path: '/admin/settings', 
+      show: can.systemSettings 
+    },
+  ].filter(item => item.show);
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#f8fafc' }}>
-      {/* Sidebar */}
-      <AdminSidebar 
-        isMobile={isMobile} 
-        isOpen={isMobileSidebarOpen} 
-        onClose={() => setIsMobileSidebarOpen(false)} 
-      />
+    <div className="admin-layout">
+      
+      {/* Top Bar */}
+      <header className="admin-topbar">
+        <button 
+          className="sidebar-toggle"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          style={{ display: 'block' }}
+        >
+          ☰
+        </button>
+        
+        <div className="admin-topbar-logo">
+          <img src="/logo_dvs.webp" 
+               alt="DVS" width="36" height="36" style={{ borderRadius: '50%' }} />
+          <span>DVS Admin</span>
+        </div>
 
-      {/* Main Content Area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
-        {/* Header */}
-        <header style={headerStyles}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            {isMobile && (
-              <button 
-                onClick={() => setIsMobileSidebarOpen(true)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}
+        <div className="admin-topbar-right">
+          <AdminNotificationBell />
+          
+          <div className="admin-info">
+            <div className="admin-avatar">
+              {admin.name?.charAt(0)}
+            </div>
+            <div className="admin-meta">
+              <span className="admin-name">
+                {admin.name}
+              </span>
+              <span className="admin-designation">
+                {admin.designation}
+              </span>
+            </div>
+          </div>
+
+          <button 
+            onClick={logout}
+            className="logout-btn"
+            style={{ background: '#374151', color: 'white', border: 'none', padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontWeight: 600 }}
+          >
+            Logout
+          </button>
+        </div>
+      </header>
+
+      <div className="admin-body">
+        {/* Sidebar */}
+        <aside className={`admin-sidebar ${sidebarOpen ? 'open' : ''}`}>
+          
+          <div className="sidebar-profile">
+            <div className="sidebar-avatar">
+              {admin.name?.charAt(0)}
+            </div>
+            <div>
+              <p className="sidebar-name">
+                {admin.name}
+              </p>
+              <span className={`admin-level-badge level-${admin.level}`}>
+                {admin.level === 1 && '⭐ Super Admin'}
+                {admin.level === 2 && '🔵 VP / Secretary'}
+                {admin.level === 3 && '🟢 Level 3'}
+              </span>
+              <p className="sidebar-id">
+                {admin.adminId}
+              </p>
+            </div>
+          </div>
+
+          <nav className="sidebar-nav">
+            {sidebarItems.map(item => (
+              <Link
+                key={item.path}
+                to={item.path}
+                className={`sidebar-item ${location.pathname === item.path ? 'active' : ''}`}
+                onClick={() => setSidebarOpen(false)}
               >
-                <Menu size={24} />
-              </button>
-            )}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, color: '#64748b' }}>
-              <Search size={18} />
-              <input 
-                type="text" 
-                placeholder={t('Global search...')} 
-                style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.9rem', width: isMobile ? '120px' : '200px' }}
-              />
-            </div>
-          </div>
+                <span className="sidebar-icon">
+                  {item.icon}
+                </span>
+                <span className="sidebar-label">
+                  {item.label}
+                </span>
+              </Link>
+            ))}
+          </nav>
+        </aside>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-            <button style={{ position: 'relative', background: 'none', border: 'none', cursor: 'pointer', color: '#64748b' }}>
-              <Bell size={20} />
-              <span style={{ position: 'absolute', top: -2, right: -2, width: 8, height: 8, background: '#ef4444', borderRadius: '50%', border: '2px solid white' }}></span>
-            </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '4px 12px', borderLeft: '1px solid #e2e8f0' }}>
-              <div style={{ textAlign: 'right', display: isMobile ? 'none' : 'block' }}>
-                <div style={{ fontSize: '0.85rem', fontWeight: 700, color: '#1e293b' }}>{adminProfile?.name}</div>
-                <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{refinedLevel} Access</div>
-              </div>
-              <div style={{ width: 36, height: 36, borderRadius: 10, background: '#f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#A1401D' }}>
-                <User size={20} />
-              </div>
-            </div>
-          </div>
-        </header>
+        {/* Overlay for mobile */}
+        {sidebarOpen && (
+          <div 
+            className="sidebar-overlay"
+            onClick={() => setSidebarOpen(false)}
+            style={{ display: 'block' }}
+          />
+        )}
 
-        {/* Page Content */}
-        <main style={{ flex: 1, padding: isMobile ? '20px' : '32px', maxWidth: '1600px', margin: '0 auto', width: '100%', boxSizing: 'border-box' }}>
-          {children}
+        {/* Main Content */}
+        <main className="admin-main">
+          <Outlet />
         </main>
       </div>
-
-      {/* Mobile Overlay */}
-      {isMobile && isMobileSidebarOpen && (
-        <div 
-          onClick={() => setIsMobileSidebarOpen(false)}
-          style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 45, backdropFilter: 'blur(4px)' }}
-        />
-      )}
     </div>
-  )
-}
+  );
+};
+
+export default AdminLayout;

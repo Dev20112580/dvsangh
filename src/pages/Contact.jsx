@@ -6,6 +6,7 @@ import { useLanguage } from '../context/LanguageContext'
 
 export default function Contact() {
   const { t } = useLanguage()
+  useDocumentTitle(t('Contact DVS NGO'))
   const [form, setForm] = useState({ name: '', email: '', mobile: '', subject: '', message: '' })
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
@@ -200,8 +201,10 @@ export default function Contact() {
           .contact-wrapper { grid-template-columns: 1fr; gap: 60px; }
           .premium-form { padding: 32px; }
         }
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .form-grid { grid-template-columns: 1fr; gap: 0; }
+        }
+        @media (max-width: 640px) {
           .contact-cards-grid { grid-template-columns: 1fr; }
           .whatsapp-box { flex-direction: column; text-align: center; }
           .wa-btn { width: 100%; }

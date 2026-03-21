@@ -350,9 +350,9 @@ export default function GuruBot() {
         }
         @keyframes bounce { to { transform: translateY(-4px); } }
         .guru-pill {
-          padding: 8px 16px; border-radius: 12px; border: 1px solid #E2E8F0; 
-          background: white; font-size: 0.8rem; font-weight: 700; cursor: pointer; color: #475569;
-          transition: all 0.2s;
+          padding: 10px 18px; border-radius: 14px; border: 1px solid #E2E8F0; 
+          background: white; font-size: 0.85rem; font-weight: 700; cursor: pointer; color: #475569;
+          transition: all 0.2s; min-height: 44px;
         }
         .guru-pill:hover {
           background: #FF6B35; color: white; border-color: #FF6B35; transform: translateY(-2px);

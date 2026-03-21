@@ -327,7 +327,7 @@ export default function AdminDonations() {
                     <td style={{ padding: '16px 20px' }}>
                       <button 
                         onClick={() => {
-                          console.log(`Audit: ${adminInfo?.admin_id} disbursed ${row.amount} to ${row.name}`)
+                          // Audit: ${adminInfo?.admin_id} disbursed ${row.amount} to ${row.name}
                           alert(`${t('Disbursement successful')} for ${row.name}`)
                         }}
                         className="hindi" 

@@ -12,24 +12,8 @@ export function LockdownProvider({ children }) {
   useEffect(() => {
     fetchLockdown()
     
-    let subscription
-    if (user && user.role === 'admin') {
-      subscription = supabase
-        .channel('system_config_changes')
-        .on('postgres_changes', { 
-          event: 'UPDATE', 
-          schema: 'public', 
-          table: 'system_config',
-          filter: 'key=eq.emergency_lockdown'
-        }, payload => {
-          setIsLockdown(payload.new.value === true || payload.new.value === 'true')
-        })
-        .subscribe()
-    }
-
-    return () => {
-      if (subscription) supabase.removeChannel(subscription)
-    }
+    // Realtime subscription removed to follow "Keep realtime ONLY in AdminChat" rule
+    return () => {}
   }, [user])
 
   async function fetchLockdown() {
