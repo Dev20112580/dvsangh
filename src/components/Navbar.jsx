@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import { useLanguage } from '../context/LanguageContext'
 import { 
   Menu, X, Globe, LogOut, Search, Bell, XCircle, 
-  GraduationCap, Calendar, MessageSquare, ChevronRight, Heart 
+  GraduationCap, Calendar, MessageSquare, ChevronRight, Heart, User, Home 
 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
@@ -148,7 +148,7 @@ export default function Navbar() {
             </div>
 
             {/* Language Selector */}
-            <div className="language-selector" style={{ position: 'relative' }}>
+            <div className="language-selector mobile-hidden" style={{ position: 'relative' }}>
               <button 
                 className="btn btn-sm" 
                 onClick={(e) => {
@@ -174,7 +174,7 @@ export default function Navbar() {
             </div>
 
             {/* Dashboard/Login Actions */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <div className="mobile-hidden" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               {user ? (
                 <>
                   <Link to={getDashboardLink()} className="btn btn-sm" style={{ background: 'var(--dvs-orange-bg)', color: 'var(--dvs-orange)', fontWeight: 700, border: 'none', padding: '6px 12px', borderRadius: 12 }}>
@@ -278,64 +278,57 @@ export default function Navbar() {
           ))}
         </div>
 
-        <div className="mobile-nav-footer">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            {supportedLanguages.slice(0, 4).map(lang => (
-              <button 
-                key={lang.code}
-                onClick={() => { setLanguage(lang.code); setMobileOpen(false); }}
-                style={{ 
-                  padding: '12px', 
-                  background: language === lang.code ? 'var(--dvs-orange-bg)' : 'var(--gray-50)', 
-                  color: language === lang.code ? '#A1401D' : 'var(--dark)', 
-                  fontWeight: 700, 
-                  border: language === lang.code ? '1.5px solid #A1401D' : '1px solid var(--gray-200)', 
-                  borderRadius: 12,
-                  fontSize: '0.85rem'
-                }}
-              >
-                {lang.native}
-              </button>
-            ))}
-          </div>
+        <div className="mobile-nav-footer" style={{ marginTop: 'auto', paddingTop: 24, borderTop: '1px solid var(--gray-100)', display: 'flex', flexDirection: 'column', gap: 12 }}>
+          
+          <button 
+            onClick={() => { setLanguage(language === 'hi' ? 'en' : 'hi'); setMobileOpen(false); }}
+            style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: '#fff7ed', border: '1px solid #FFEDD5', borderRadius: 12, color: '#A1401D', fontSize: '1rem', fontWeight: 700, cursor: 'pointer', textAlign: 'left' }}
+          >
+            <Globe size={20} /> {language === 'hi' ? 'Language Change (EN)' : 'Language Change (HI)'}
+          </button>
 
           <Link 
-            to="/donate" 
-            className="btn btn-primary" 
-            style={{ padding: '16px', borderRadius: 12, marginTop: 12 }}
+            to="/" 
+            style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: 'var(--gray-50)', border: '1px solid var(--gray-200)', color: 'var(--dark)', borderRadius: 12, fontSize: '1rem', fontWeight: 700, textDecoration: 'none' }}
             onClick={() => setMobileOpen(false)}
           >
-            <Heart size={18} fill="white" /> {t('Donate Now')}
+            <Home size={20} /> {t('Home')}
           </Link>
 
           {user ? (
-            <div style={{ display: 'flex', gap: 8 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <Link 
                 to={getDashboardLink()} 
-                className="btn" 
-                style={{ flex: 1, background: 'var(--gray-100)', color: 'var(--dark)', borderRadius: 12 }}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: 'var(--dvs-orange-bg)', border: '1px solid var(--dvs-orange)', color: 'var(--dvs-orange)', borderRadius: 12, fontSize: '1rem', fontWeight: 700, textDecoration: 'none' }}
                 onClick={() => setMobileOpen(false)}
               >
-                {t('Dashboard')}
+                <User size={20} /> {t('Dashboard')}
               </Link>
               <button 
                 onClick={() => { handleSignOut(); setMobileOpen(false) }}
-                className="btn"
-                style={{ padding: '12px', background: 'var(--danger-bg)', color: 'var(--danger)', borderRadius: 12, border: 'none' }}
+                style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: '#fee2e2', border: '1px solid #fca5a5', color: '#dc2626', borderRadius: 12, fontSize: '1rem', fontWeight: 700, cursor: 'pointer', textAlign: 'left' }}
               >
-                <LogOut size={20} />
+                <LogOut size={20} /> {t('Logout')}
               </button>
             </div>
           ) : (
             <Link 
-              to="/login" 
-              className="btn" 
-              style={{ background: 'var(--gray-100)', color: 'var(--dark)', borderRadius: 12 }}
-              onClick={() => setMobileOpen(false)}
-            >
-              {t('Sign In')}
-            </Link>
+               to="/login" 
+               style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 12, padding: '14px 20px', background: 'var(--dvs-orange-bg)', border: '1px solid var(--dvs-orange)', color: 'var(--dvs-orange)', borderRadius: 12, fontSize: '1rem', fontWeight: 700, textDecoration: 'none' }}
+               onClick={() => setMobileOpen(false)}
+             >
+               <User size={20} /> {t('Sign In')}
+             </Link>
           )}
+
+          <Link 
+            to="/donate" 
+            className="btn btn-primary" 
+            style={{ padding: '16px', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, fontSize: '1rem', marginTop: 8 }}
+            onClick={() => setMobileOpen(false)}
+          >
+            <Heart size={20} fill="white" /> {t('Donate Now')}
+          </Link>
         </div>
       </div>
     </>
