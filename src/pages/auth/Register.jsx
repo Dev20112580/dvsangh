@@ -105,10 +105,10 @@ export default function Register() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: '#f8fafc' }}>
+    <div className="auth-layout">
       
       {/* Left Column: Visual Brand */}
-      <div style={{ flex: '1', background: 'linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%)', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 80px', color: 'white', position: 'relative', overflow: 'hidden' }}>
+      <div className="auth-left">
          <div style={{ position: 'relative', zIndex: 2 }}>
             <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', color: 'white', marginBottom: 60 }}>
                <div style={{ width: 48, height: 48, background: 'white', borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -120,7 +120,7 @@ export default function Register() {
             <h1 className="hindi" style={{ fontSize: '3rem', fontWeight: 900, lineHeight: 1.1, marginBottom: 24 }}>{t('Your Journey to Transformation Starts Here.')}</h1>
             <p className="hindi" style={{ fontSize: '1.25rem', opacity: 0.8, maxWidth: 500, lineHeight: 1.6 }}>{t('Join thousands of rural students and volunteers building a brighter Jharkhand.')}</p>
 
-            <div style={{ display: 'flex', gap: 40, marginTop: 80 }}>
+            <div className="stats-container" style={{ display: 'flex', gap: 40, marginTop: 80 }}>
                <div>
                  <div style={{ fontSize: '2rem', fontWeight: 900 }}>12k+</div>
                  <div className="hindi" style={{ fontSize: '0.85rem', opacity: 0.7 }}>{t('Active Students')}</div>
@@ -135,7 +135,7 @@ export default function Register() {
       </div>
 
       {/* Right Column: Registration Form */}
-      <div style={{ flex: '1.2', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px' }}>
+      <div className="auth-right">
          <div style={{ width: '100%', maxWidth: 540 }}>
             
             {/* Form Header */}

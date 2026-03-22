@@ -151,7 +151,7 @@ h5 { font-size: 1.125rem; }
 @media (max-width: 480px) {
   h1 { font-size: 1.6rem !important; }
   .container { padding: 0 16px; }
-  .navbar-logo span { display: none; }
+  .navbar-brand .brand-text { display: none; }
   
   .hero-content-left {
     text-align: center !important;
@@ -851,8 +851,17 @@ button, a, input, select {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
   font-size: 0.8rem;
   color: var(--gray-500);
+}
+
+@media (max-width: 640px) {
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+  }
 }
 
 .footer-bottom-links {
@@ -1616,6 +1625,42 @@ button, a, input, select {
   .mobile-hidden { display: none !important; }
   .desktop-hidden { display: flex !important; }
   .desktop-only { display: none !important; }
+}
+
+/* --- Auth Layout (Login/Register) --- */
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  background: var(--gray-50);
+}
+
+.auth-left {
+  flex: 1;
+  background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 80px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.auth-right {
+  flex: 1.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+@media (max-width: 1024px) {
+  .auth-layout { flex-direction: column; }
+  .auth-left { padding: 60px 24px; text-align: center; }
+  .auth-left h1 { font-size: 2.2rem !important; margin-top: 24px; }
+  .auth-left p { margin: 0 auto; }
+  .auth-left .stats-container { justify-content: center; margin-top: 40px !important; }
+  .auth-right { padding: 40px 24px; }
 }
 
 /* Spin Animation for PageLoader */
