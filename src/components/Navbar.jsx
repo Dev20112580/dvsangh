@@ -147,13 +147,20 @@ export default function Navbar() {
                )}
             </div>
 
-            {/* Language Selector (Desktop) */}
-            <div className="language-selector mobile-only" style={{ position: 'relative' }}>
-              <button className="btn btn-sm" style={{ background: 'var(--gray-100)', color: 'var(--dark)', fontWeight: 700, border: '1px solid var(--gray-200)', borderRadius: 20, padding: '6px 14px' }}>
-                <Globe size={14} color="#A1401D" /> 
-                <span style={{ marginLeft: 6 }}>{supportedLanguages.find(l => l.code === language)?.native || 'English'}</span>
+            {/* Language Selector */}
+            <div className="language-selector" style={{ position: 'relative' }}>
+              <button 
+                className="btn btn-sm" 
+                onClick={(e) => {
+                  const drop = e.currentTarget.nextSibling;
+                  drop.style.display = drop.style.display === 'flex' ? 'none' : 'flex';
+                }}
+                style={{ background: 'var(--gray-100)', color: 'var(--dark)', fontWeight: 700, border: '1px solid var(--gray-200)', borderRadius: 20, padding: '6px 14px', display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer' }}
+              >
+                <Globe size={16} color="#A1401D" /> 
+                <span>{supportedLanguages.find(l => l.code === language)?.native || 'English'}</span>
               </button>
-              <div className="language-dropdown" style={{ position: 'absolute', top: '100%', right: 0, background: 'white', border: '1px solid var(--gray-200)', borderRadius: 12, boxShadow: 'var(--shadow-lg)', zIndex: 100, padding: 8, marginTop: 12, display: 'none', flexDirection: 'column', minWidth: 120 }}>
+              <div className="language-dropdown" style={{ position: 'absolute', top: '100%', right: 0, background: 'white', border: '1px solid var(--gray-200)', borderRadius: 12, boxShadow: 'var(--shadow-lg)', zIndex: 1000, padding: 8, marginTop: 12, display: 'none', flexDirection: 'column', minWidth: 140 }}>
                 {supportedLanguages.map(lang => (
                   <button
                     key={lang.code}
@@ -166,19 +173,19 @@ export default function Navbar() {
               </div>
             </div>
 
-            {/* Dashboard/Login Actions (Desktop) */}
-            <div className="mobile-only" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {/* Dashboard/Login Actions */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               {user ? (
                 <>
-                  <Link to={getDashboardLink()} className="btn btn-sm" style={{ background: 'transparent', color: 'var(--dark)', fontWeight: 600, border: 'none' }}>
-                    {t(profile?.role === 'admin' ? 'Admin Panel' : 'Dashboard')}
+                  <Link to={getDashboardLink()} className="btn btn-sm" style={{ background: 'var(--dvs-orange-bg)', color: 'var(--dvs-orange)', fontWeight: 700, border: 'none', padding: '6px 12px', borderRadius: 12 }}>
+                    {t(profile?.role === 'admin' ? 'Admin' : 'Dashboard')}
                   </Link>
-                  <button onClick={handleSignOut} className="btn btn-sm btn-icon" title="Logout">
-                    <LogOut size={18} color="var(--dark)" />
+                  <button onClick={handleSignOut} className="btn btn-sm btn-icon" style={{ background: '#fee2e2', border: 'none', padding: 8, borderRadius: 12, cursor: 'pointer' }} title="Logout">
+                    <LogOut size={18} color="#dc2626" />
                   </button>
                 </>
               ) : (
-                <Link to="/login" className="btn btn-sm" style={{ background: 'transparent', color: 'var(--dark)', fontWeight: 600, border: 'none' }}>{t('Sign In')}</Link>
+                <Link to="/login" className="btn btn-sm" style={{ background: 'var(--gray-100)', color: 'var(--dark)', fontWeight: 700, border: 'none', padding: '6px 14px', borderRadius: 20 }}>{t('Sign In')}</Link>
               )}
             </div>
             

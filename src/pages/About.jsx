@@ -129,36 +129,60 @@ export default function About() {
             ))}
           </div>
 
-          {/* Community Voices */}
-          <div className="community-testimony">
-            <h3 className="hindi text-center mb-12" style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: 48 }}>{t('Voices from the Community')}</h3>
-            <div className="grid grid-2" style={{ gap: 32 }}>
-              <div className="card" style={{ padding: 40, border: 'none', background: 'white', borderRadius: 24, boxShadow: 'var(--shadow-sm)' }}>
-                <Quote size={40} style={{ opacity: 0.1, color: 'var(--dvs-orange)', marginBottom: 20 }} />
-                <p style={{ fontSize: '1.1rem', lineHeight: 1.7, fontStyle: 'italic', color: 'var(--gray-600)' }} className="hindi">
-                  {t('"Before DVS, our children had no guidance after 10th grade. Now, they are learning computers and dreaming of becoming engineers and doctors right from our village."')}
+          {/* Committee Voices */}
+          <div className="committee-testimony">
+            <h3 className="hindi text-center mb-12" style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: 48 }}>{t('Voices from the Committee')}</h3>
+            <div className="grid grid-3" style={{ gap: 24, marginBottom: 48 }}>
+              {/* Founder/President */}
+              <div className="card" style={{ padding: 32, border: 'none', background: 'white', borderRadius: 20, boxShadow: 'var(--shadow-sm)' }}>
+                <Quote size={32} style={{ opacity: 0.1, color: 'var(--dvs-orange)', marginBottom: 16 }} />
+                <p style={{ fontSize: '1rem', lineHeight: 1.6, fontStyle: 'italic', color: 'var(--gray-600)' }} className="hindi">
+                  {t('"Our commitment to transparency and direct impact is what sets DVS apart. Every rupee donated and every hour volunteered goes directly to a student\'s future."')}
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 32 }}>
-                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--dvs-orange-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'var(--dvs-orange)' }}>R</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 24 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--dvs-orange-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'var(--dvs-orange)' }}>S</div>
                   <div>
-                    <div style={{ fontWeight: 800 }}>Ramesh Mahto</div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--gray-500)' }}>{t('Parent, Jerwa Village')}</div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>Sumit Kumar Pandit</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>{t('Founder & President')}</div>
                   </div>
                 </div>
               </div>
-              <div className="card" style={{ padding: 40, border: 'none', background: 'white', borderRadius: 24, boxShadow: 'var(--shadow-sm)' }}>
-                <Quote size={40} style={{ opacity: 0.1, color: 'var(--dvs-orange)', marginBottom: 20 }} />
-                <p style={{ fontSize: '1.1rem', lineHeight: 1.7, fontStyle: 'italic', color: 'var(--gray-600)' }} className="hindi">
-                  {t('"The DVS scholarship changed my life. It took off the financial burden from my father, allowing me to focus entirely on my JPSC preparation."')}
+
+              {/* Secretary */}
+              <div className="card" style={{ padding: 32, border: 'none', background: 'white', borderRadius: 20, boxShadow: 'var(--shadow-sm)' }}>
+                <Quote size={32} style={{ opacity: 0.1, color: 'var(--dvs-orange)', marginBottom: 16 }} />
+                <p style={{ fontSize: '1rem', lineHeight: 1.6, fontStyle: 'italic', color: 'var(--gray-600)' }} className="hindi">
+                  {t('"DVS is not just an organization; it is a family. We work tirelessly to ensure that digital literacy reaches the most remote corners of Jharkhand."')}
                 </p>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 32 }}>
-                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'var(--dvs-orange-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'var(--dvs-orange)' }}>P</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 24 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--dvs-orange-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'var(--dvs-orange)' }}>P</div>
                   <div>
-                    <div style={{ fontWeight: 800 }}>Priya Kumari</div>
-                    <div style={{ fontSize: '0.8rem', color: 'var(--gray-500)' }}>{t('Student & Scholarship Recipient')}</div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>Prashant</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>{t('Secretary')}</div>
                   </div>
                 </div>
               </div>
+
+              {/* Treasurer */}
+              <div className="card" style={{ padding: 32, border: 'none', background: 'white', borderRadius: 20, boxShadow: 'var(--shadow-sm)' }}>
+                <Quote size={32} style={{ opacity: 0.1, color: 'var(--dvs-orange)', marginBottom: 16 }} />
+                <p style={{ fontSize: '1rem', lineHeight: 1.6, fontStyle: 'italic', color: 'var(--gray-600)' }} className="hindi">
+                  {t('"Financial empowerment starts with education. We manage our resources with the utmost integrity to maximize student benefits."')}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginTop: 24 }}>
+                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--dvs-orange-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, color: 'var(--dvs-orange)' }}>V</div>
+                  <div>
+                    <div style={{ fontWeight: 800, fontSize: '0.9rem' }}>Vijay</div>
+                    <div style={{ fontSize: '0.75rem', color: 'var(--gray-500)' }}>{t('Treasurer')}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="text-center" style={{ marginTop: 60 }}>
+               <img src="/logo_dvs.jpg" alt="DVS Logo" width="80" height="80" style={{ borderRadius: '50%', marginBottom: 16, border: '4px solid white', boxShadow: 'var(--shadow-md)' }} />
+               <h4 className="hindi" style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--dvs-orange-dark)', margin: 0 }}>Dronacharya Vidyarthi Sangh</h4>
+               <p style={{ color: 'var(--gray-500)', fontSize: '0.9rem' }}>{t('Together for a Brighter Jharkhand')}</p>
             </div>
           </div>
         </div>

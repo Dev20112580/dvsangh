@@ -1605,11 +1605,15 @@ button, a, input, select {
 
 /* --- Utilities --- */
 .mobile-only-flex { display: none !important; }
+.mobile-only { display: none !important; }
+.mobile-hidden { display: block !important; }
 .desktop-hidden { display: none !important; }
 .desktop-only { display: inline-block !important; }
 
 @media (max-width: 1024px) {
   .mobile-only-flex { display: flex !important; }
+  .mobile-only { display: block !important; }
+  .mobile-hidden { display: none !important; }
   .desktop-hidden { display: flex !important; }
   .desktop-only { display: none !important; }
 }
