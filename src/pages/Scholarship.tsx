@@ -1,12 +1,22 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { useNavigate, Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
 import { useSupabase } from '../SupabaseContext';
-import { GraduationCap, CheckCircle2, Send, AlertCircle } from 'lucide-react';
+import { supabase } from '../lib/supabase';
+
+enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
+
+import { GraduationCap, CheckCircle2, FileText, Send, AlertCircle } from 'lucide-react';
 
 export default function Scholarship() {
-  const { user, isAuthReady, userProfile } = useSupabase();
+  const { user, loading } = useSupabase();
   const [step, setStep] = React.useState(1);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [applicationId, setApplicationId] = React.useState('');
@@ -23,23 +33,17 @@ export default function Scholarship() {
     reason: ''
   });
 
-  React.useEffect(() => {
-    if (isAuthReady && userProfile && (formData.name === '' || formData.email === '')) {
-       setFormData(prev => ({
-         ...prev,
-         name: userProfile.full_name || '',
-         email: userProfile.email || '',
-         phone: userProfile.phone || ''
-       }));
-    }
-  }, [isAuthReady, userProfile, formData.name, formData.email]);
-
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
 
+  const handleSupabaseError = (error: any) => {
+    console.error('Supabase Error: ', error);
+    alert(error.message || 'An error occurred. Please try again.');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isAuthReady) return;
+    if (loading) return;
     if (!user) {
       alert('Please login to apply for scholarship');
       navigate('/auth');
@@ -50,21 +54,14 @@ export default function Scholarship() {
     try {
       const { data, error } = await supabase
         .from('scholarships')
-        .insert({
-          student_id: user.id,
-          full_name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          college_name: formData.school,
-          course: formData.class,
-          marks_percentage: parseFloat(formData.marks),
-          family_income: parseFloat(formData.income),
-          reason: formData.reason,
+        .insert([{
+          ...formData,
+          uid: user.id,
           status: 'pending'
-        })
+        }])
         .select()
         .single();
-        
+
       if (error) throw error;
       
       setApplicationId(data.id);
@@ -72,9 +69,8 @@ export default function Scholarship() {
       setFormData({
         name: '', email: '', phone: '', school: '', class: '', marks: '', income: '', reason: ''
       });
-    } catch (error: any) {
-      console.error('Submission Error:', error);
-      alert('Failed to submit application: ' + (error.message || 'Unknown error'));
+    } catch (error) {
+      handleSupabaseError(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -277,10 +273,9 @@ export default function Scholarship() {
                       </button>
                       <button
                         type="submit"
-                        disabled={isSubmitting}
-                        className="flex-[2] bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3 disabled:opacity-50"
+                        className="flex-[2] bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3"
                       >
-                        <Send size={20} /> {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                        <Send size={20} /> Submit Application
                       </button>
                     </div>
                   </motion.div>

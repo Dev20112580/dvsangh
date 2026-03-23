@@ -1,43 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Hero from '../components/Hero';
 import Stats from '../components/Stats';
 import FocusAreas from '../components/FocusAreas';
 import Testimonials from '../components/Testimonials';
 import { motion } from 'motion/react';
-import { ArrowRight, Heart, Users } from 'lucide-react';
+import { ArrowRight, BookOpen, Users, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { NEWS_ITEMS as STATIC_NEWS } from '../constants';
 import { supabase } from '../lib/supabase';
 
 export default function Home() {
-  const [news, setNews] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [news, setNews] = React.useState<any[]>([]);
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('news')
-          .select('*')
-          .order('created_at', { ascending: false })
-          .limit(3);
-          
-        if (data && data.length > 0) {
-          setNews(data);
-        } else {
-          // Fallback to static news if DB is empty
-          setNews(STATIC_NEWS.slice(0, 3));
-        }
-      } catch (err) {
-        console.error('Error fetching news:', err);
-        setNews(STATIC_NEWS.slice(0, 3));
-      } finally {
-        setLoading(false);
-      }
-    };
+  React.useEffect(() => {
+    async function fetchNews() {
+      const { data } = await supabase
+        .from('news')
+        .select('*')
+        .order('published_at', { ascending: false })
+        .limit(3);
+      if (data) setNews(data);
+    }
     fetchNews();
   }, []);
-
   return (
     <div className="pt-0">
       <Hero />
@@ -69,14 +53,14 @@ export default function Home() {
                 className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
               >
                 <img
-                  src={item.image_url || item.image || 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80'}
+                  src={item.image_url}
                   alt={item.title}
                   className="w-full h-48 object-cover"
                   referrerPolicy="no-referrer"
                 />
                 <div className="p-6">
                   <div className="flex items-center gap-4 text-xs text-medium-gray mb-4">
-                    <span>{item.created_at ? new Date(item.created_at).toLocaleDateString() : item.date}</span>
+                    <span>{new Date(item.published_at).toLocaleDateString()}</span>
                     <span className="w-1 h-1 bg-gray-300 rounded-full" />
                     <span className="text-dvs-orange font-bold uppercase">{item.category}</span>
                   </div>
@@ -84,7 +68,7 @@ export default function Home() {
                     {item.title}
                   </h3>
                   <p className="body-text text-sm mb-6 line-clamp-3">
-                    {item.content || item.excerpt}
+                    {item.content?.substring(0, 150)}...
                   </p>
                   <Link to={`/news/${item.id}`} className="text-dvs-orange font-bold text-sm flex items-center gap-2">
                     Read More <ArrowRight size={16} />

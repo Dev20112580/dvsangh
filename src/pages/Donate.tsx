@@ -2,15 +2,11 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Heart, Shield, CheckCircle, Calculator } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
-import { useSupabase } from '../SupabaseContext';
 
 export default function Donate() {
-  const { user } = useSupabase();
   const [amount, setAmount] = React.useState<number | ''>('');
   const [category, setCategory] = React.useState('General Fund');
   const [frequency, setFrequency] = React.useState('One-time');
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const navigate = useNavigate();
 
   const quickAmounts = [500, 1000, 2500, 5000, 10000, 25000];
@@ -21,42 +17,22 @@ export default function Donate() {
       return;
     }
 
-    setIsSubmitting(true);
     try {
-      // In a real app, this would call a Supabase Edge Function to create a Razorpay order.
-      // For now, we'll log the intention to Supabase and mock the success.
-      const { data, error } = await supabase
-        .from('donations')
-        .insert({
-          user_id: user?.id || null,
-          amount: Number(amount),
-          currency: 'INR',
-          category,
-          frequency,
-          status: 'pending'
-        })
-        .select()
-        .single();
-        
-      if (error) throw error;
+      const response = await fetch('/api/donations/create-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ amount: Number(amount) * 100, currency: 'INR' })
+      });
+      const order = await response.json();
       
-      // Mocking Razorpay Success and update status
-      const orderId = `order_${data.id}_${Date.now()}`;
-      
-      await supabase
-        .from('donations')
-        .update({ status: 'completed', transaction_id: orderId })
-        .eq('id', data.id);
-
-      alert(`Order initiated. Redirecting to secure payment portal...`);
+      // Mock Razorpay Success
+      alert(`Order ${order.id} created successfully. Redirecting to payment...`);
       setTimeout(() => {
-        navigate('/donation-success', { state: { amount, orderId } });
+        navigate('/donation-success', { state: { amount, orderId: order.id } });
       }, 1500);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Donation Error:', error);
-      alert('Something went wrong: ' + (error.message || 'Unknown error'));
-    } finally {
-      setIsSubmitting(false);
+      alert('Something went wrong. Please try again.');
     }
   };
 
@@ -184,10 +160,9 @@ export default function Donate() {
               {/* Submit */}
               <button
                 onClick={handleDonate}
-                disabled={isSubmitting}
-                className="w-full bg-dvs-orange text-white py-5 rounded-2xl font-bold text-xl hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3 disabled:opacity-50"
+                className="w-full bg-dvs-orange text-white py-5 rounded-2xl font-bold text-xl hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3"
               >
-                <Heart size={24} /> {isSubmitting ? 'Processing...' : `Donate ₹${amount || 0}`}
+                <Heart size={24} /> Donate ₹{amount || 0}
               </button>
 
               <p className="text-center text-xs text-medium-gray">

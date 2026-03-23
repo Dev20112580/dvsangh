@@ -1,57 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowLeft, Calendar, Share2, MessageSquare } from 'lucide-react';
-import { NEWS_ITEMS as STATIC_NEWS } from '../constants';
-import { supabase } from '../lib/supabase';
+import { ArrowLeft, Calendar, Tag, Share2, MessageSquare } from 'lucide-react';
+import { NEWS_ITEMS } from '../constants';
 
 export default function NewsDetail() {
   const { id } = useParams();
-  const [news, setNews] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchNewsDetail = async () => {
-      setLoading(true);
-      try {
-        // Try Supabase first
-        const { data, error } = await supabase
-          .from('news')
-          .select('*')
-          .eq('id', id)
-          .single();
-          
-        if (data) {
-          setNews(data);
-        } else {
-          // Fallback to static news
-          const staticItem = STATIC_NEWS.find(n => n.id === id);
-          setNews(staticItem || null);
-        }
-      } catch (err) {
-        console.error('Error fetching news detail:', err);
-        const staticItem = STATIC_NEWS.find(n => n.id === id);
-        setNews(staticItem || null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchNewsDetail();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="pt-32 pb-24 text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-dvs-orange mx-auto"></div>
-      </div>
-    );
-  }
+  const news = NEWS_ITEMS.find(n => n.id === id);
 
   if (!news) {
     return (
       <div className="pt-32 pb-24 text-center">
-        <h1 className="text-2xl font-bold mb-4 text-dark-text">News not found</h1>
-        <Link to="/news" className="text-dvs-orange font-bold hover:underline">Back to News</Link>
+        <h1 className="text-2xl font-bold mb-4">News not found</h1>
+        <Link to="/news" className="text-dvs-orange font-bold">Back to News</Link>
       </div>
     );
   }
@@ -75,7 +36,7 @@ export default function NewsDetail() {
               </span>
               <div className="flex items-center gap-2">
                 <Calendar size={16} />
-                <span>{news.created_at ? new Date(news.created_at).toLocaleDateString() : news.date}</span>
+                <span>{news.date}</span>
               </div>
             </div>
             <h1 className="text-3xl md:text-5xl font-bold text-dark-text leading-tight">
@@ -85,7 +46,7 @@ export default function NewsDetail() {
 
           <div className="rounded-[2.5rem] overflow-hidden shadow-2xl aspect-video">
             <img
-              src={news.image_url || news.image || 'https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&q=80'}
+              src={news.image}
               alt={news.title}
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
@@ -93,42 +54,33 @@ export default function NewsDetail() {
           </div>
 
           <div className="prose prose-lg max-w-none body-text leading-relaxed space-y-6">
-            {news.content ? (
-               <div className="whitespace-pre-wrap">{news.content}</div>
-            ) : (
-              <>
-                <p className="text-xl font-medium text-dark-text italic">
-                  {news.excerpt}
-                </p>
-                <p>
-                  Dronacharya Vidyarthi Sangh (DVS) continues to make significant strides in rural education through its innovative programs and community-driven initiatives. This update highlights our recent efforts to bridge the digital divide and provide quality educational opportunities to students in remote areas of Jharkhand.
-                </p>
-                <h3 className="text-2xl font-bold text-dark-text pt-4">Community Impact</h3>
-                <p>
-                  Our volunteers have been working tirelessly on the ground, engaging with parents and local leaders to ensure that every child has access to the tools they need to succeed in the modern world.
-                </p>
-                <ul className="list-disc list-inside space-y-2">
-                  <li>Successful implementation of digital literacy workshops</li>
-                  <li>Distribution of scholarship funds to deserving students</li>
-                  <li>Inauguration of new rural study centers</li>
-                  <li>Community-led sports and cultural events</li>
-                </ul>
-              </>
-            )}
+            <p className="text-xl font-medium text-dark-text italic">
+              {news.excerpt}
+            </p>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p>
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <h3 className="text-2xl font-bold text-dark-text pt-4">Key Highlights</h3>
+            <ul className="list-disc list-inside space-y-2">
+              <li>Expansion of educational resources in rural areas</li>
+              <li>Increased community participation in digital literacy</li>
+              <li>New partnerships with local schools and organizations</li>
+              <li>Success stories from our scholarship recipients</li>
+            </ul>
+            <p>
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+            </p>
           </div>
 
           <div className="pt-12 border-t border-gray-100 flex flex-wrap justify-between items-center gap-6">
             <div className="flex gap-4">
-              <button 
-                onClick={() => alert('Sharing functionality coming soon!')}
-                className="flex items-center gap-2 bg-gray-50 text-dark-text px-6 py-3 rounded-xl font-bold hover:bg-gray-100 transition-all"
-              >
+              <button className="flex items-center gap-2 bg-gray-50 text-dark-text px-6 py-3 rounded-xl font-bold hover:bg-gray-100 transition-all">
                 <Share2 size={20} /> Share
               </button>
-              <button 
-                onClick={() => alert('Commenting functionality coming soon!')}
-                className="flex items-center gap-2 bg-gray-50 text-dark-text px-6 py-3 rounded-xl font-bold hover:bg-gray-100 transition-all"
-              >
+              <button className="flex items-center gap-2 bg-gray-50 text-dark-text px-6 py-3 rounded-xl font-bold hover:bg-gray-100 transition-all">
                 <MessageSquare size={20} /> Comment
               </button>
             </div>

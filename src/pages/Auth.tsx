@@ -1,13 +1,13 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { User, Users, Heart, ArrowRight, ArrowLeft, Mail, Lock, Phone } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { User, Users, Heart, ArrowRight, ArrowLeft, Mail, Lock, Phone, MapPin } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
 import { UserRole } from '../types';
 import { useSupabase } from '../SupabaseContext';
 import { supabase } from '../lib/supabase';
 
 export default function Auth() {
-  const { user, isAuthReady, loading } = useSupabase();
+  const { user, loading } = useSupabase();
   const [isLogin, setIsLogin] = React.useState(true);
   const [step, setStep] = React.useState(1);
   const [role, setRole] = React.useState<UserRole | null>(null);
@@ -15,10 +15,10 @@ export default function Auth() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (isAuthReady && user) {
+    if (!loading && user) {
       navigate('/dashboard');
     }
-  }, [user, isAuthReady, navigate]);
+  }, [user, loading, navigate]);
 
   const [formData, setFormData] = React.useState({
     name: '',
@@ -44,7 +44,7 @@ export default function Auth() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: window.location.origin + '/dashboard'
+          redirectTo: `${window.location.origin}/dashboard`
         }
       });
       if (error) throw error;
@@ -59,15 +59,9 @@ export default function Auth() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const elements = (e.target as any).elements;
-      const email = elements[0].value;
-      const password = elements[1].value;
-      
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-      
+      const email = (e.target as any).elements[0].value;
+      const password = (e.target as any).elements[1].value;
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
       navigate('/dashboard');
     } catch (error: any) {
@@ -82,51 +76,31 @@ export default function Auth() {
     if (!role) return;
     setIsLoading(true);
     try {
-      // 1. Sign up with Supabase Auth
-      const { data: authData, error: authError } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
           data: {
             full_name: formData.name,
             phone: formData.phone,
+            role: formData.email === 'pawanjerwa2023@gmail.com' ? UserRole.ADMIN : role,
+            district: formData.district
           }
         }
       });
 
-      if (authError) throw authError;
-
-      if (authData.user) {
-        // 2. Create profile in 'profiles' table
-        const { error: profileError } = await supabase
-          .from('profiles')
-          .insert({
-            id: authData.user.id,
-            full_name: formData.name,
-            email: formData.email,
-            phone: formData.phone,
-            role: role,
-            district: formData.district
-          });
-
-        if (profileError) {
-           console.error('Profile creation error:', profileError);
-           // We don't throw here to avoid blocking login if the profile already existed or had a non-critical issue
-        }
+      if (error) throw error;
+      
+      if (data.user) {
+        alert('Registration successful! Please check your email for verification if required.');
+        navigate('/dashboard');
       }
-
-      alert('Registration successful! Please check your email for verification if required.');
-      navigate('/dashboard');
     } catch (error: any) {
       handleAuthError(error);
     } finally {
       setIsLoading(false);
     }
   };
-
-  if (loading && !isAuthReady) {
-    return <div className="min-h-screen flex items-center justify-center">Authenticating...</div>;
-  }
 
   return (
     <div className="min-h-screen pt-20 flex items-center justify-center bg-light-gray-bg p-4">
@@ -182,13 +156,13 @@ export default function Auth() {
                 className="space-y-6"
               >
                 <div>
-                  <label className="block text-sm font-bold text-dark-text mb-2">Email Address</label>
+                  <label className="block text-sm font-bold text-dark-text mb-2">Email or Mobile</label>
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-medium-gray" size={20} />
                     <input
-                      type="email"
+                      type="text"
                       required
-                      placeholder="Enter your email"
+                      placeholder="Enter your email or mobile"
                       className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-4 py-4 text-sm focus:outline-none focus:border-dvs-orange"
                     />
                   </div>
@@ -205,15 +179,15 @@ export default function Auth() {
                     />
                   </div>
                 </div>
-                <div className="flex justify-between items-center text-xs">
-                  <p className="text-medium-gray">Don't have an account? <span className="text-dvs-orange font-bold cursor-pointer" onClick={() => setIsLogin(false)}>Register here</span></p>
+                <div className="flex justify-between items-center">
+                  <p className="text-[10px] text-medium-gray">Admin? Use your official email.</p>
+                  <Link to="/forgot-password" title="Forgot Password?" className="text-xs font-bold text-dvs-orange">Forgot Password?</Link>
                 </div>
                 <button
                   type="submit"
-                  disabled={isLoading}
                   className="w-full bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20"
                 >
-                  {isLoading ? 'Verifying...' : 'Login'}
+                  Login
                 </button>
 
                 <div className="relative my-8">

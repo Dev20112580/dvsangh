@@ -1,7 +1,17 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2 } from 'lucide-react';
+
 import { supabase } from '../lib/supabase';
+
+enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
 
 export default function Contact() {
   const [formData, setFormData] = React.useState({
@@ -13,26 +23,21 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
 
+  const handleSupabaseError = (error: any) => {
+    console.error('Supabase Error: ', error);
+    alert(error.message || 'An error occurred. Please try again.');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
-      const { error } = await supabase
-        .from('contact_messages')
-        .insert({
-          name: formData.name,
-          email: formData.email,
-          subject: formData.subject,
-          message: formData.message
-        });
-        
+      const { error } = await supabase.from('contact_messages').insert([formData]);
       if (error) throw error;
-      
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (error: any) {
-      console.error('Contact Error:', error);
-      alert('Failed to send message: ' + (error.message || 'Unknown error'));
+    } catch (error) {
+      handleSupabaseError(error);
     } finally {
       setIsSubmitting(false);
     }
@@ -101,17 +106,12 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Map Placement */}
+            {/* Map Placeholder */}
             <div className="mt-12 rounded-3xl overflow-hidden h-64 bg-gray-200 border border-gray-100">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14612.3789314488!2d87.0!3d24.0!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMjTCsDAwJzAwLjAiTiA4N8KwMDAnMDAuMCJF!5e0!3m2!1sen!2sin!4v1710987654321!5m2!1sen!2sin" 
-                width="100%" 
-                height="100%" 
-                style={{ border: 0 }} 
-                allowFullScreen 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+              <div className="w-full h-full flex items-center justify-center text-medium-gray">
+                <MapPin size={48} className="opacity-20" />
+                <span className="ml-4 font-bold">Google Maps Embed Placeholder</span>
+              </div>
             </div>
           </div>
 
@@ -185,10 +185,9 @@ export default function Contact() {
               </div>
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3 disabled:opacity-50"
+                className="w-full bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3"
               >
-                <Send size={20} /> {isSubmitting ? 'Sending...' : 'Send Message'}
+                <Send size={20} /> Send Message
               </button>
             </form>
           </>

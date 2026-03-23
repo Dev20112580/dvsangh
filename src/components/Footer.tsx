@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Youtube, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+
 import { supabase } from '../lib/supabase';
 
 export default function Footer() {
@@ -11,17 +12,13 @@ export default function Footer() {
     setIsSubmitting(true);
     const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value;
     try {
-      const { error } = await supabase
-        .from('newsletter_subscriptions')
-        .insert({ email });
-        
+      const { error } = await supabase.from('newsletter_subscriptions').insert([{ email }]);
       if (error) throw error;
-      
       alert('Thank you for subscribing!');
       e.currentTarget.reset();
-    } catch (error: any) {
+    } catch (error) {
       console.error('Newsletter Error:', error);
-      alert('Failed to subscribe: ' + (error.message || 'Unknown error'));
+      alert('Failed to subscribe. Please try again.');
     } finally {
       setIsSubmitting(false);
     }

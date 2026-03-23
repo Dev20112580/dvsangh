@@ -1,8 +1,21 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageCircle, X, Send, Bot, Loader2 } from 'lucide-react';
+import { MessageCircle, X, Send, User, Bot, Loader2 } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { askGuru } from '../lib/pico';
+
+const SYSTEM_PROMPT = `You are Guru Bot, official AI assistant of Dronacharya Vidyarthi Sangh (DVS) — NGO in Dumka, Jharkhand. You help rural students with scholarships, UPSC/JPSC coaching, digital literacy, sports programs, and volunteering.
+Facts: Founder: Sumit Kumar Pandit | Contact: 9241859951 | dvs.ngo.official@gmail.com | Address: Jairuwa Khilkanali, Masalia, Dumka — 814166
+Website Sections:
+- Home: Overview of DVS
+- About: Vision, Mission, Founder's Message
+- Programs: 7 focus areas (Education, Girls, Digital, Sports, Competitive Exams, Health, Social)
+- Scholarship: Eligibility and Application form
+- Gallery: Photos of DVS events
+- News: Latest updates and announcements
+- Donate: Support DVS with 80G tax benefits
+- Contact: Reach out to us
+Rules: (1) Match user language Hindi/English (2) Max 2–3 paragraphs (3) TEXT ONLY — no images ever (4) If unsure: tell them to call 9241859951 (5) Be warm and encouraging.`;
 
 export default function GuruBot() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -28,9 +41,7 @@ export default function GuruBot() {
     setIsLoading(true);
 
     try {
-      const data = await askGuru(userMessage);
-      
-      const botResponse = data.text || "I'm sorry, I couldn't process that. Please call 9241859951 for help.";
+      const botResponse = await askGuru(userMessage);
       setMessages(prev => [...prev, { role: 'bot', text: botResponse }]);
     } catch (error) {
       console.error('Guru Bot Error:', error);
@@ -49,6 +60,7 @@ export default function GuruBot() {
 
   return (
     <div className="fixed bottom-6 right-6 z-50">
+      {/* FAB */}
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -59,6 +71,7 @@ export default function GuruBot() {
         {isOpen ? <X size={32} /> : <MessageCircle size={32} />}
       </motion.button>
 
+      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -67,6 +80,7 @@ export default function GuruBot() {
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             className="absolute bottom-20 right-0 w-[375px] h-[545px] bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col border border-gray-100"
           >
+            {/* Header */}
             <div className="bg-[#1a1a2e] p-4 flex items-center justify-between text-white">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-dvs-orange rounded-full flex items-center justify-center">
@@ -97,6 +111,7 @@ export default function GuruBot() {
               </div>
             </div>
 
+            {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-4 bg-light-gray-bg">
               {messages.map((msg, idx) => (
                 <div key={idx} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
@@ -124,6 +139,7 @@ export default function GuruBot() {
               )}
             </div>
 
+            {/* Quick Replies */}
             <div className="p-2 bg-white border-t border-gray-100 overflow-x-auto whitespace-nowrap scrollbar-hide">
               <div className="flex gap-2">
                 {quickReplies.map((reply) => (
@@ -131,6 +147,7 @@ export default function GuruBot() {
                     key={reply.label}
                     onClick={() => {
                       setInput(reply.text);
+                      // handleSend(); // We'll let the user see it first
                     }}
                     className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-full text-xs font-semibold text-dark-text hover:bg-dvs-orange hover:text-white hover:border-dvs-orange transition-all"
                   >
@@ -140,6 +157,7 @@ export default function GuruBot() {
               </div>
             </div>
 
+            {/* Input */}
             <div className="p-4 bg-white border-t border-gray-100 flex gap-2">
               <input
                 type="text"

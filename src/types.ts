@@ -6,71 +6,47 @@ export enum UserRole {
 }
 
 export enum ApplicationStatus {
-  PENDING = 'pending',
+  SUBMITTED = 'submitted',
   UNDER_REVIEW = 'under_review',
   APPROVED = 'approved',
-  REJECTED = 'rejected'
+  REJECTED = 'rejected',
+  PAID = 'paid'
 }
 
 export interface UserProfile {
-  id: string;
+  uid: string;
   email: string;
-  full_name: string;
+  displayName: string;
   role: UserRole;
   district: string;
-  phone?: string;
-  avatar_url?: string;
-  created_at: string;
+  mobile?: string;
+  photoURL?: string;
+  createdAt: number;
 }
 
-export interface Scholarship {
+export interface ScholarshipApplication {
   id: string;
-  student_id: string;
-  full_name: string;
-  email: string;
-  phone: string;
-  college_name: string;
-  course: string;
-  marks_percentage: number;
-  family_income: number;
-  reason: string;
-  status: 'pending' | 'approved' | 'rejected';
-  created_at: string;
-}
-
-export interface NewsItem {
-  id: string;
-  title: string;
-  content: string;
-  excerpt: string;
-  category: string;
-  image_url: string;
-  created_at: string;
-}
-
-export interface ContactMessage {
-  id: string;
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  created_at: string;
-}
-
-export interface NewsletterSubscription {
-  id: string;
-  email: string;
-  created_at: string;
-}
-
-export interface Donation {
-  id: string;
-  user_id?: string;
-  amount: number;
-  currency: string;
-  category: string;
-  frequency: string;
-  status: 'pending' | 'completed' | 'failed';
-  transaction_id?: string;
-  created_at: string;
+  studentId: string;
+  programId: string;
+  status: ApplicationStatus;
+  personalInfo: {
+    dob: string;
+    category: string;
+    familyIncome: number;
+    marks: number;
+    bankDetails: {
+      accHolder: string;
+      accNumber: string;
+      ifsc: string;
+    };
+  };
+  documents: {
+    photo: string;
+    aadhaar: string;
+    incomeCert: string;
+    marksheet: string;
+    passbook: string;
+  };
+  submittedAt: number;
+  updatedAt: number;
 }

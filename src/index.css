@@ -21,7 +21,6 @@
 @layer base {
   body {
     @apply font-sans text-dark-text bg-light-gray-bg;
-    background-color: #ff0000 !important; /* DEBUG: RED BACKGROUND */
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-poppins;

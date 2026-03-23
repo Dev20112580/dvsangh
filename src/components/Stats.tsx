@@ -1,45 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
 import { supabase } from '../lib/supabase';
 
-interface Stat {
-  label: string;
-  hindiLabel: string;
-  value: string | number;
-}
-
 export default function Stats() {
-  const [stats, setStats] = useState<Stat[]>([
-    { label: 'Students Impacted', hindiLabel: 'प्रभावित छात्र', value: '1500+' },
-    { label: 'Villages Reached', hindiLabel: 'गाँव तक पहुँच', value: '50+' },
-    { label: 'Active Volunteers', hindiLabel: 'सक्रिय स्वयंसेवक', value: '200+' },
-    { label: 'Scholarships', hindiLabel: 'छात्रवृत्ति', value: '₹5L+' }
-  ]);
+  const [stats, setStats] = React.useState<any[]>([]);
 
-  useEffect(() => {
-    const fetchRealStats = async () => {
-      try {
-        const [
-          { count: studentCount },
-          { count: volunteerCount },
-          { count: scholarshipCount }
-        ] = await Promise.all([
-          supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
-          supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'volunteer'),
-          supabase.from('scholarships').select('*', { count: 'exact', head: true }).eq('status', 'approved')
-        ]);
-
+  React.useEffect(() => {
+    async function fetchStats() {
+      // In a real scenario, we'd aggregate these. For now, we fetch from system_metrics.
+      const { data } = await supabase.from('system_metrics').select('*');
+      if (data && data.length > 0) {
+        setStats(data);
+      } else {
+        // Fallback to constants if table is empty/missing
         setStats([
-          { label: 'Students Impacted', hindiLabel: 'प्रभावित छात्र', value: `${(studentCount || 0) + 1200}+` },
-          { label: 'Villages Reached', hindiLabel: 'गाँव तक पहुँच', value: '45+' }, // Static village count for now
-          { label: 'Active Volunteers', hindiLabel: 'सक्रिय स्वयंसेवक', value: `${(volunteerCount || 0) + 150}+` },
-          { label: 'Scholarships Awarded', hindiLabel: 'छात्रवृत्ति', value: `${scholarshipCount || 0}+` }
+          { label: 'Students Impacted', hindiLabel: 'प्रभावित छात्र', value: '1,200+' },
+          { label: 'Volunteers', hindiLabel: 'स्वयंसेवक', value: '150+' },
+          { label: 'Villages Covered', hindiLabel: 'कवर किए गए गांव', value: '45+' },
+          { label: 'Programs', hindiLabel: 'कार्यक्रम', value: '7+' }
         ]);
-      } catch (err) {
-        console.error('Error fetching live stats:', err);
       }
-    };
-    fetchRealStats();
+    }
+    fetchStats();
   }, []);
 
   return (
