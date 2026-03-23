@@ -32,7 +32,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.supabase.co https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co https://images.unsplash.com https://i.pravatar.cc https://ui-avatars.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://buildpicoapps.com; frame-src 'none'; object-src 'none';"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.supabase.co https://va.vercel-scripts.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.supabase.co https://images.unsplash.com https://i.pravatar.cc https://ui-avatars.com; connect-src 'self' https://*.supabase.co wss://*.supabase.co https://buildpicoapps.com https://backend.buildpicoapps.com; frame-src 'none'; object-src 'none';"
         }
       ]
     }
