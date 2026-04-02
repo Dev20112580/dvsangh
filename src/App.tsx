@@ -26,6 +26,10 @@ import NewsDetail from './pages/NewsDetail';
 import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
+import JoinUs from './pages/JoinUs';
+import Gyan from './pages/Gyan';
+import Jobs from './pages/Jobs';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import { SupabaseProvider } from './SupabaseContext';
 
@@ -45,6 +49,8 @@ export default function App() {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/news" element={<News />} />
               <Route path="/news/:id" element={<NewsDetail />} />
+              <Route path="/gyan" element={<Gyan />} />
+              <Route path="/jobs" element={<Jobs />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/scholarship" element={<Scholarship />} />
               <Route path="/donate" element={<Donate />} />
@@ -53,7 +59,15 @@ export default function App() {
               <Route path="/privacy-policy" element={<PrivacyPolicy />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/auth" element={<Auth />} />
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/join" element={<JoinUs />} />
+              <Route 
+                path="/dashboard" 
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                } 
+              />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

@@ -32,10 +32,9 @@ export default function Programs() {
                   <div className="relative">
                     <div className="absolute -top-4 -left-4 w-24 h-24 bg-dvs-orange/10 rounded-3xl -z-10" />
                     <img
-                      src={`https://picsum.photos/seed/${area.id}/800/600`}
+                      src={area.image}
                       alt={area.title}
                       className="rounded-3xl shadow-xl w-full h-[400px] object-cover"
-                      referrerPolicy="no-referrer"
                     />
                   </div>
                 </div>
@@ -58,7 +57,7 @@ export default function Programs() {
                       Learn More
                     </Link>
                     <Link
-                      to="/register"
+                      to="/join"
                       className="bg-gray-100 text-dark-text px-8 py-3 rounded-xl font-bold hover:bg-gray-200 transition-all"
                     >
                       Enroll Now
@@ -80,7 +79,7 @@ export default function Programs() {
           </p>
           <div className="flex flex-wrap justify-center gap-6">
             <Link
-              to="/register"
+              to="/join"
               className="bg-dvs-orange text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all"
             >
               Join as Student

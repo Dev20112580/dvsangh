@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Youtube, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 
-import { supabase } from '../lib/supabase';
+import { supabase } from '../supabase';
 
 export default function Footer() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -12,7 +12,10 @@ export default function Footer() {
     setIsSubmitting(true);
     const email = (e.currentTarget.elements.namedItem('email') as HTMLInputElement).value;
     try {
-      const { error } = await supabase.from('newsletter_subscriptions').insert([{ email }]);
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{ email }]);
+        
       if (error) throw error;
       alert('Thank you for subscribing!');
       e.currentTarget.reset();
@@ -31,7 +34,7 @@ export default function Footer() {
           {/* About */}
           <div>
             <div className="flex items-center gap-2 mb-6">
-              <div className="w-10 h-10 bg-white text-dvs-dark-green rounded-full flex items-center justify-center font-bold text-xl">D</div>
+              <img src="/logo_dvs.jpg" alt="DVS Logo" className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-md" />
               <h2 className="text-xl font-bold">DVS NGO</h2>
             </div>
             <p className="text-white/70 text-sm leading-relaxed mb-6">

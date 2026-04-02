@@ -4,10 +4,10 @@ import { User, Users, Heart, ArrowRight, ArrowLeft, Mail, Lock, Phone, MapPin } 
 import { Link, useNavigate } from 'react-router-dom';
 import { UserRole } from '../types';
 import { useSupabase } from '../SupabaseContext';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../supabase';
 
 export default function Auth() {
-  const { user, loading } = useSupabase();
+  const { user, isAuthReady } = useSupabase();
   const [isLogin, setIsLogin] = React.useState(true);
   const [step, setStep] = React.useState(1);
   const [role, setRole] = React.useState<UserRole | null>(null);
@@ -15,10 +15,10 @@ export default function Auth() {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (!loading && user) {
+    if (isAuthReady && user) {
       navigate('/dashboard');
     }
-  }, [user, loading, navigate]);
+  }, [user, isAuthReady, navigate]);
 
   const [formData, setFormData] = React.useState({
     name: '',
@@ -44,13 +44,12 @@ export default function Auth() {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/dashboard`
+          redirectTo: window.location.origin + '/dashboard'
         }
       });
       if (error) throw error;
     } catch (error: any) {
       handleAuthError(error);
-    } finally {
       setIsLoading(false);
     }
   };
@@ -61,7 +60,10 @@ export default function Auth() {
     try {
       const email = (e.target as any).elements[0].value;
       const password = (e.target as any).elements[1].value;
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
       if (error) throw error;
       navigate('/dashboard');
     } catch (error: any) {
@@ -76,6 +78,8 @@ export default function Auth() {
     if (!role) return;
     setIsLoading(true);
     try {
+      const finalRole = formData.email === 'pawanjerwa2023@gmail.com' ? UserRole.ADMIN : role;
+
       const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
@@ -83,18 +87,32 @@ export default function Auth() {
           data: {
             full_name: formData.name,
             phone: formData.phone,
-            role: formData.email === 'pawanjerwa2023@gmail.com' ? UserRole.ADMIN : role,
-            district: formData.district
+            role: finalRole,
+            district: formData.district,
           }
         }
       });
-
       if (error) throw error;
-      
+
       if (data.user) {
-        alert('Registration successful! Please check your email for verification if required.');
-        navigate('/dashboard');
+        // Attempt to insert into public.users if a trigger didn't already
+        const { error: profileError } = await supabase.from('users').insert({
+          id: data.user.id, // Assuming id matches auth.users.id
+          auth_id: data.user.id,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          role: finalRole,
+          district: formData.district,
+        });
+        
+        if (profileError) {
+            console.log("Profile insert skipped or failed:", profileError.message);
+        }
       }
+
+      alert('Account created successfully! Please check your email to verify.');
+      navigate('/dashboard');
     } catch (error: any) {
       handleAuthError(error);
     } finally {
@@ -156,13 +174,13 @@ export default function Auth() {
                 className="space-y-6"
               >
                 <div>
-                  <label className="block text-sm font-bold text-dark-text mb-2">Email or Mobile</label>
+                  <label className="block text-sm font-bold text-dark-text mb-2">Email</label>
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-medium-gray" size={20} />
                     <input
-                      type="text"
+                      type="email"
                       required
-                      placeholder="Enter your email or mobile"
+                      placeholder="Enter your email"
                       className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-12 pr-4 py-4 text-sm focus:outline-none focus:border-dvs-orange"
                     />
                   </div>
@@ -185,9 +203,10 @@ export default function Auth() {
                 </div>
                 <button
                   type="submit"
-                  className="w-full bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20"
+                  disabled={isLoading}
+                  className="w-full bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 disabled:opacity-50"
                 >
-                  Login
+                  {isLoading ? 'Logging in...' : 'Login'}
                 </button>
 
                 <div className="relative my-8">

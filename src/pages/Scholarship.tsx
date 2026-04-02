@@ -2,21 +2,12 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSupabase } from '../SupabaseContext';
-import { supabase } from '../lib/supabase';
-
-enum OperationType {
-  CREATE = 'create',
-  UPDATE = 'update',
-  DELETE = 'delete',
-  LIST = 'list',
-  GET = 'get',
-  WRITE = 'write',
-}
+import { supabase } from '../supabase';
 
 import { GraduationCap, CheckCircle2, FileText, Send, AlertCircle } from 'lucide-react';
 
 export default function Scholarship() {
-  const { user, loading } = useSupabase();
+  const { user, isAuthReady } = useSupabase();
   const [step, setStep] = React.useState(1);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [applicationId, setApplicationId] = React.useState('');
@@ -36,14 +27,9 @@ export default function Scholarship() {
   const nextStep = () => setStep(prev => prev + 1);
   const prevStep = () => setStep(prev => prev - 1);
 
-  const handleSupabaseError = (error: any) => {
-    console.error('Supabase Error: ', error);
-    alert(error.message || 'An error occurred. Please try again.');
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (loading) return;
+    if (!isAuthReady) return;
     if (!user) {
       alert('Please login to apply for scholarship');
       navigate('/auth');
@@ -52,25 +38,31 @@ export default function Scholarship() {
 
     setIsSubmitting(true);
     try {
-      const { data, error } = await supabase
-        .from('scholarships')
-        .insert([{
-          ...formData,
-          uid: user.id,
-          status: 'pending'
-        }])
-        .select()
-        .single();
+      const { data, error } = await supabase.from('scholarship_applications').insert([{
+        user_id: user.id,
+        full_name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        school_name: formData.school,
+        current_class: formData.class,
+        last_exam_marks: Number(formData.marks) || 0,
+        family_income: Number(formData.income) || 0,
+        reason: formData.reason,
+        status: 'pending' // Note: using default DB val or passing it explicitly
+      }]).select();
 
       if (error) throw error;
       
-      setApplicationId(data.id);
+      if (data && data.length > 0) {
+        setApplicationId(data[0].id);
+      }
       setStep(4);
       setFormData({
         name: '', email: '', phone: '', school: '', class: '', marks: '', income: '', reason: ''
       });
-    } catch (error) {
-      handleSupabaseError(error);
+    } catch (error: any) {
+      console.error('Supabase Error: ', error);
+      alert('Application failed. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -272,10 +264,11 @@ export default function Scholarship() {
                         Back
                       </button>
                       <button
+                        disabled={isSubmitting}
                         type="submit"
-                        className="flex-[2] bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3"
+                        className="flex-[2] bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3 disabled:opacity-50"
                       >
-                        <Send size={20} /> Submit Application
+                        {isSubmitting ? 'Submitting...' : <><Send size={20} /> Submit Application</>}
                       </button>
                     </div>
                   </motion.div>
@@ -287,7 +280,7 @@ export default function Scholarship() {
                     </div>
                     <h2 className="text-2xl font-bold text-dark-text mb-4">Application Submitted!</h2>
                     <p className="body-text mb-8">
-                      Your scholarship application has been received successfully. Your Application ID is <span className="font-bold text-dvs-orange">{applicationId}</span>. Please keep this for future reference.
+                      Your scholarship application has been received successfully. Your Application ID is <span className="font-bold text-dvs-orange">{applicationId.split('-')[0]}</span>. Please keep this for future reference.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                       <button

@@ -1,0 +1,9 @@
+{
+  "name": "Dronacharya Vidyarthi Sangh (DVS)",
+  "description": "A comprehensive platform for rural education in Jharkhand, providing scholarships, digital literacy, and free coaching to students.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ]
+}

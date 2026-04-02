@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Hero from '../components/Hero';
 import Stats from '../components/Stats';
 import FocusAreas from '../components/FocusAreas';
@@ -6,22 +6,39 @@ import Testimonials from '../components/Testimonials';
 import { motion } from 'motion/react';
 import { ArrowRight, BookOpen, Users, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { supabase } from '../lib/supabase';
+import { NEWS_ITEMS } from '../constants';
+import { supabase } from '../supabase';
 
 export default function Home() {
-  const [news, setNews] = React.useState<any[]>([]);
+  const [news, setNews] = useState<any[]>(NEWS_ITEMS.slice(0, 3));
 
-  React.useEffect(() => {
-    async function fetchNews() {
-      const { data } = await supabase
-        .from('news')
-        .select('*')
-        .order('published_at', { ascending: false })
-        .limit(3);
-      if (data) setNews(data);
-    }
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('news')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(3);
+          
+        if (!error && data && data.length > 0) {
+          const formatted = data.map(item => ({
+            id: item.id,
+            title: item.title,
+            excerpt: item.excerpt || item.summary,
+            image: item.image_url || 'https://images.unsplash.com/photo-1523050335456-adaba834597c?auto=format&fit=crop&q=80&w=800',
+            date: new Date(item.created_at).toLocaleDateString(),
+            category: item.category || 'Updates'
+          }));
+          setNews(formatted);
+        }
+      } catch (err) {
+        console.error('Error fetching news:', err);
+      }
+    };
     fetchNews();
   }, []);
+
   return (
     <div className="pt-0">
       <Hero />
@@ -53,14 +70,14 @@ export default function Home() {
                 className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
               >
                 <img
-                  src={item.image_url}
+                  src={item.image}
                   alt={item.title}
                   className="w-full h-48 object-cover"
                   referrerPolicy="no-referrer"
                 />
                 <div className="p-6">
                   <div className="flex items-center gap-4 text-xs text-medium-gray mb-4">
-                    <span>{new Date(item.published_at).toLocaleDateString()}</span>
+                    <span>{item.date}</span>
                     <span className="w-1 h-1 bg-gray-300 rounded-full" />
                     <span className="text-dvs-orange font-bold uppercase">{item.category}</span>
                   </div>
@@ -68,7 +85,7 @@ export default function Home() {
                     {item.title}
                   </h3>
                   <p className="body-text text-sm mb-6 line-clamp-3">
-                    {item.content?.substring(0, 150)}...
+                    {item.excerpt}
                   </p>
                   <Link to={`/news/${item.id}`} className="text-dvs-orange font-bold text-sm flex items-center gap-2">
                     Read More <ArrowRight size={16} />

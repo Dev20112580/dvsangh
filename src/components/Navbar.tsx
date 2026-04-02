@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu, X, Bell, User, LogOut, LayoutDashboard } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSupabase } from '../SupabaseContext';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../supabase';
 
 export default function Navbar() {
   const { user, userProfile } = useSupabase();
@@ -31,6 +31,8 @@ export default function Navbar() {
     { name: 'Home', path: '/' },
     { name: 'About', path: '/about' },
     { name: 'Programs', path: '/programs' },
+    { name: 'Gyan (ज्ञान)', path: '/gyan' },
+    { name: 'Jobs', path: '/jobs' },
     { name: 'Scholarship', path: '/scholarship' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'News', path: '/news' },
@@ -43,7 +45,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-dvs-orange rounded-full flex items-center justify-center text-white font-bold text-xl">D</div>
+            <img src="/logo_dvs.jpg" alt="DVS Logo" className="w-10 h-10 rounded-full object-cover border border-dvs-orange shadow-sm" />
             <div className="hidden sm:block">
               <h1 className={`text-lg font-bold leading-tight ${isScrolled ? 'text-dark-text' : 'text-white'}`}>द्रोणाचार्य विद्यार्थी संघ</h1>
               <p className={`text-xs ${isScrolled ? 'text-medium-gray' : 'text-white/80'}`}>Dronacharya Vidyarthi Sangh</p>
@@ -84,7 +86,7 @@ export default function Navbar() {
               </div>
             ) : (
               <Link
-                to="/auth"
+                to="/join"
                 className="bg-dvs-orange text-white px-6 py-2 rounded-full text-sm font-semibold hover:bg-opacity-90 transition-all"
               >
                 Join Us
@@ -143,7 +145,7 @@ export default function Navbar() {
                   </div>
                 ) : (
                   <Link
-                    to="/auth"
+                    to="/join"
                     onClick={() => setIsOpen(false)}
                     className="block w-full text-center bg-dvs-orange text-white px-6 py-3 rounded-xl font-semibold"
                   >

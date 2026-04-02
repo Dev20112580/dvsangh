@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2 } from 'lucide-react';
 
-import { supabase } from '../lib/supabase';
+import { supabase } from '../supabase';
 
 enum OperationType {
   CREATE = 'create',
@@ -23,21 +23,28 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
 
-  const handleSupabaseError = (error: any) => {
-    console.error('Supabase Error: ', error);
-    alert(error.message || 'An error occurred. Please try again.');
+  const handleSupabaseError = (error: unknown, operationType: OperationType, path: string | null) => {
+    const errInfo = {
+      error: error instanceof Error ? error.message : String(error),
+      operationType,
+      path
+    };
+    console.error('Supabase Error: ', JSON.stringify(errInfo));
+    throw new Error(JSON.stringify(errInfo));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    const path = 'contact_submissions';
     try {
-      const { error } = await supabase.from('contact_messages').insert([formData]);
+      const { error } = await supabase.from(path).insert([{ ...formData }]);
       if (error) throw error;
+      
       setIsSubmitted(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
-      handleSupabaseError(error);
+      handleSupabaseError(error, OperationType.CREATE, path);
     } finally {
       setIsSubmitting(false);
     }

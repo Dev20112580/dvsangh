@@ -22,10 +22,9 @@ export default function About() {
             <div className="relative">
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-dvs-orange rounded-3xl -z-10" />
               <img
-                src="https://picsum.photos/seed/founder/600/800"
+                src="/assets/founder.png"
                 alt="Founder"
                 className="rounded-3xl shadow-2xl w-full h-[500px] object-cover"
-                referrerPolicy="no-referrer"
               />
               <div className="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100">
                 <h3 className="font-bold text-dark-text">Shri Sumit Kumar Pandit</h3>
@@ -80,10 +79,10 @@ export default function About() {
           <h2 className="section-heading mb-16">Our Leadership Team</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { name: 'Prashant', role: 'VP & Secretary' },
-              { name: 'Madhu', role: 'Vice President' },
-              { name: 'Rita', role: 'Vice President' },
-              { name: 'Vijay', role: 'Treasurer' },
+              { name: 'Prashant', role: 'VP & Secretary', img: 'team4' },
+              { name: 'Madhu', role: 'Vice President', img: 'team1' },
+              { name: 'Rita', role: 'Vice President', img: 'rita' },
+              { name: 'Vijay', role: 'Treasurer', img: 'team3' },
             ].map((member, idx) => (
               <motion.div
                 key={member.name}
@@ -95,10 +94,9 @@ export default function About() {
               >
                 <div className="relative mb-6 overflow-hidden rounded-2xl aspect-square">
                   <img
-                    src={`https://picsum.photos/seed/team${idx}/400/400`}
+                    src={`/assets/${member.img}.png`}
                     alt={member.name}
                     className="w-full h-full object-cover transition-transform group-hover:scale-110"
-                    referrerPolicy="no-referrer"
                   />
                 </div>
                 <h3 className="font-bold text-dark-text text-lg">{member.name}</h3>

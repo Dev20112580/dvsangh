@@ -1,34 +1,13 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { supabase } from '../lib/supabase';
+import { STATS } from '../constants';
 
 export default function Stats() {
-  const [stats, setStats] = React.useState<any[]>([]);
-
-  React.useEffect(() => {
-    async function fetchStats() {
-      // In a real scenario, we'd aggregate these. For now, we fetch from system_metrics.
-      const { data } = await supabase.from('system_metrics').select('*');
-      if (data && data.length > 0) {
-        setStats(data);
-      } else {
-        // Fallback to constants if table is empty/missing
-        setStats([
-          { label: 'Students Impacted', hindiLabel: 'प्रभावित छात्र', value: '1,200+' },
-          { label: 'Volunteers', hindiLabel: 'स्वयंसेवक', value: '150+' },
-          { label: 'Villages Covered', hindiLabel: 'कवर किए गए गांव', value: '45+' },
-          { label: 'Programs', hindiLabel: 'कार्यक्रम', value: '7+' }
-        ]);
-      }
-    }
-    fetchStats();
-  }, []);
-
   return (
     <section className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat, idx) => (
+          {STATS.map((stat, idx) => (
             <motion.div
               key={stat.label}
               initial={{ opacity: 0, scale: 0.9 }}

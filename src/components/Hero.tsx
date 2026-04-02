@@ -4,9 +4,9 @@ import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const images = [
-  "https://picsum.photos/seed/dvs1/1920/1080",
-  "https://picsum.photos/seed/dvs2/1920/1080",
-  "https://picsum.photos/seed/dvs3/1920/1080"
+  "/assets/hero_classroom.png",
+  "/assets/hero_community.png",
+  "/assets/hero_achievement.png"
 ];
 
 export default function Hero() {

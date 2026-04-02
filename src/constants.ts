@@ -5,7 +5,7 @@ export const FOCUS_AREAS = [
     enTitle: 'Quality Education',
     description: 'Free coaching, e-learning, libraries, study materials',
     icon: 'BookOpen',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&q=80&w=800'
+    image: '/assets/hero_classroom.png'
   },
   {
     id: 'girls-education',
@@ -13,7 +13,7 @@ export const FOCUS_AREAS = [
     enTitle: 'Girls Education',
     description: 'Special scholarships, safety workshops, family counseling',
     icon: 'GraduationCap',
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=800'
+    image: '/assets/program_girls.png'
   },
   {
     id: 'competitive-exams',
@@ -21,7 +21,7 @@ export const FOCUS_AREAS = [
     enTitle: 'Competitive Exams',
     description: 'UPSC, JPSC, Railway, Bank, SSC — free online+offline',
     icon: 'Trophy',
-    image: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=800'
+    image: '/assets/program_exams.png'
   },
   {
     id: 'sports-yoga',
@@ -29,7 +29,7 @@ export const FOCUS_AREAS = [
     enTitle: 'Sports & Yoga',
     description: 'Equipment, tournaments, yoga camps, health programs',
     icon: 'Activity',
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800'
+    image: '/assets/hero_community.png' // Fallback for now
   },
   {
     id: 'digital-literacy',
@@ -37,7 +37,7 @@ export const FOCUS_AREAS = [
     enTitle: 'Digital Literacy',
     description: 'Computer training, internet safety, digital payments',
     icon: 'Cpu',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800'
+    image: '/assets/program_digital.png'
   },
   {
     id: 'library-services',
@@ -45,7 +45,7 @@ export const FOCUS_AREAS = [
     enTitle: 'Library Services',
     description: 'Physical + mobile libraries, e-book access',
     icon: 'Library',
-    image: 'https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&q=80&w=800'
+    image: '/assets/program_scholarship.png' // Fallback for now
   }
 ];
 
@@ -57,7 +57,7 @@ export const NEWS_ITEMS = [
     summary: 'DVS is now accepting applications for the 2026 scholarship program. Apply before April 30th.',
     excerpt: 'DVS is now accepting applications for the 2026 scholarship program. Apply before April 30th.',
     content: 'Full details about the scholarship program...',
-    image: 'https://images.unsplash.com/photo-1523050335456-adaba834597c?auto=format&fit=crop&q=80&w=800',
+    image: '/assets/hero_achievement.png',
     category: 'Scholarship'
   },
   {
@@ -67,7 +67,7 @@ export const NEWS_ITEMS = [
     summary: 'We are excited to announce the opening of our new digital learning center in Dumka.',
     excerpt: 'We are excited to announce the opening of our new digital learning center in Dumka.',
     content: 'The center will provide free computer training...',
-    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=800',
+    image: '/assets/program_digital.png',
     category: 'Education'
   },
   {
@@ -77,7 +77,7 @@ export const NEWS_ITEMS = [
     summary: 'Over 500 students participated in our annual sports meet held last week.',
     excerpt: 'Over 500 students participated in our annual sports meet held last week.',
     content: 'The event was a grand success...',
-    image: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&q=80&w=800',
+    image: '/assets/hero_community.png',
     category: 'Sports'
   }
 ];

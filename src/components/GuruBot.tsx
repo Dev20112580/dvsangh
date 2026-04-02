@@ -1,8 +1,8 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, X, Send, User, Bot, Loader2 } from 'lucide-react';
+import { GoogleGenAI } from "@google/genai";
 import ReactMarkdown from 'react-markdown';
-import { askGuru } from '../lib/pico';
 
 const SYSTEM_PROMPT = `You are Guru Bot, official AI assistant of Dronacharya Vidyarthi Sangh (DVS) — NGO in Dumka, Jharkhand. You help rural students with scholarships, UPSC/JPSC coaching, digital literacy, sports programs, and volunteering.
 Facts: Founder: Sumit Kumar Pandit | Contact: 9241859951 | dvs.ngo.official@gmail.com | Address: Jairuwa Khilkanali, Masalia, Dumka — 814166
@@ -41,7 +41,16 @@ export default function GuruBot() {
     setIsLoading(true);
 
     try {
-      const botResponse = await askGuru(userMessage);
+      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY! });
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: userMessage,
+        config: {
+          systemInstruction: SYSTEM_PROMPT,
+        },
+      });
+
+      const botResponse = response.text || "I'm sorry, I couldn't process that. Please call 9241859951 for help.";
       setMessages(prev => [...prev, { role: 'bot', text: botResponse }]);
     } catch (error) {
       console.error('Guru Bot Error:', error);

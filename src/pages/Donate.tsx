@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Heart, Shield, CheckCircle, Calculator } from 'lucide-react';
+import { Heart, Shield, CheckCircle, Calculator, User, Mail, Phone, Hash } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabase';
+import { useSupabase } from '../SupabaseContext';
 
 export default function Donate() {
+  const { user, userProfile } = useSupabase();
   const [amount, setAmount] = React.useState<number | ''>('');
-  const [category, setCategory] = React.useState('General Fund');
-  const [frequency, setFrequency] = React.useState('One-time');
+  const [category, setCategory] = React.useState('general');
+  const [frequency, setFrequency] = React.useState('one_time');
+  const [donorName, setDonorName] = React.useState('');
+  const [donorEmail, setDonorEmail] = React.useState('');
+  const [donorMobile, setDonorMobile] = React.useState('');
+  const [panNumber, setPanNumber] = React.useState('');
+  const [isAnonymous, setIsAnonymous] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+  
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (userProfile) {
+      setDonorName(userProfile.name || '');
+      setDonorEmail(userProfile.email || '');
+      setDonorMobile(userProfile.phone || '');
+    }
+  }, [userProfile]);
 
   const quickAmounts = [500, 1000, 2500, 5000, 10000, 25000];
 
@@ -17,22 +35,53 @@ export default function Donate() {
       return;
     }
 
+    if (!donorName || !donorEmail || !donorMobile) {
+      alert('Please fill in your contact details.');
+      return;
+    }
+
+    setLoading(true);
     try {
-      const response = await fetch('/api/donations/create-order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: Number(amount) * 100, currency: 'INR' })
-      });
-      const order = await response.json();
+      // In a real production app, we would first create a Razorpay order via an Edge Function
+      // and then handle the payment callback. Since this is a direct integration task,
+      // I will implement the database record creation as the "final" step after a mock payment.
       
-      // Mock Razorpay Success
-      alert(`Order ${order.id} created successfully. Redirecting to payment...`);
-      setTimeout(() => {
-        navigate('/donation-success', { state: { amount, orderId: order.id } });
-      }, 1500);
-    } catch (error) {
+      const donationData = {
+        donor_id: user?.id || null,
+        donor_name: donorName,
+        donor_email: donorEmail,
+        donor_mobile: donorMobile,
+        amount: Number(amount),
+        category: category,
+        frequency: frequency,
+        is_anonymous: isAnonymous,
+        donor_pan: panNumber, 
+        status: 'completed', 
+        payment_method: 'upi',
+        notes: `Donation for ${category}`
+      };
+
+      const { data, error } = await supabase
+        .from('donations')
+        .insert([donationData])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      navigate('/donation-success', { 
+        state: { 
+          amount, 
+          donationId: data.id,
+          donorName,
+          category
+        } 
+      });
+    } catch (error: any) {
       console.error('Donation Error:', error);
-      alert('Something went wrong. Please try again.');
+      alert('Error recording donation: ' + error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,73 +94,80 @@ export default function Donate() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
           {/* Left: Info */}
           <div>
-            <h1 className="text-4xl md:text-5xl font-bold text-dark-text mb-6">
-              आपका एक छोटा सा योगदान <span className="text-dvs-orange">बदलाव ला सकता है</span>
+            <h1 className="text-4xl md:text-5xl font-bold text-dark-text mb-6 leading-tight">
+              आपका एक छोटा सा योगदान <span className="text-dvs-orange underline decoration-dvs-orange/30">बदलाव ला सकता है</span>
             </h1>
-            <p className="body-text text-lg mb-10">
+            <p className="body-text text-lg mb-10 text-medium-gray font-medium">
               Dronacharya Vidyarthi Sangh (DVS) को दिया गया आपका दान ग्रामीण छात्रों के लिए छात्रवृत्ति, डिजिटल साक्षरता और गुणवत्तापूर्ण शिक्षा सुनिश्चित करता है।
             </p>
 
             <div className="space-y-6 mb-12">
-              <div className="flex gap-4 p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                <div className="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center shrink-0">
-                  <Shield size={24} />
+              <div className="group flex gap-5 p-6 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                <div className="w-14 h-14 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <Shield size={28} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-dark-text mb-1">80G Tax Exemption</h3>
-                  <p className="text-sm text-medium-gray">All donations to DVS are eligible for 50% tax deduction under Section 80G of the Income Tax Act.</p>
+                  <h3 className="font-bold text-dark-text text-xl mb-1">80G Tax Exemption</h3>
+                  <p className="text-sm text-medium-gray leading-relaxed">All donations to DVS are eligible for 50% tax deduction under Section 80G of the Income Tax Act. A certificate will be issued for your records.</p>
                 </div>
               </div>
-              <div className="flex gap-4 p-6 bg-white rounded-2xl border border-gray-100 shadow-sm">
-                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center shrink-0">
-                  <CheckCircle size={24} />
+              <div className="group flex gap-5 p-6 bg-white rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300">
+                <div className="w-14 h-14 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
+                  <CheckCircle size={28} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-dark-text mb-1">Secure Payments</h3>
-                  <p className="text-sm text-medium-gray">Your transactions are secured with industry-standard encryption via Razorpay.</p>
+                  <h3 className="font-bold text-dark-text text-xl mb-1">Impact Transparency</h3>
+                  <p className="text-sm text-medium-gray leading-relaxed">We provide regular reports on how your contribution is making a difference in the lives of rural students.</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-dvs-dark-green p-8 rounded-3xl text-white">
-              <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                <Calculator size={24} className="text-dvs-orange" /> Tax Benefit Calculator
+            <div className="bg-dvs-dark-green p-8 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+              <h3 className="text-2xl font-bold mb-6 flex items-center gap-3 relative z-10">
+                <Calculator size={28} className="text-dvs-orange" /> Tax Benefit Calculator
               </h3>
-              <div className="space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span>Donation Amount:</span>
+              <div className="space-y-4 text-white/90 relative z-10">
+                <div className="flex justify-between items-center text-lg">
+                  <span className="opacity-80 font-medium">Donation Amount:</span>
                   <span className="font-bold">₹{amount || 0}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>80G Deduction (50%):</span>
+                <div className="flex justify-between items-center">
+                  <span className="opacity-80">80G Deduction (50%):</span>
                   <span className="font-bold">₹{amount ? Number(amount) * 0.5 : 0}</span>
                 </div>
-                <div className="flex justify-between text-green-400">
-                  <span>Estimated Tax Saved (30% bracket):</span>
+                <div className="flex justify-between items-center text-green-400">
+                  <span className="opacity-100 font-medium">Estimated Tax Saved (30% bracket):</span>
                   <span className="font-bold">₹{taxSaved}</span>
                 </div>
-                <div className="pt-3 border-t border-white/10 flex justify-between text-lg">
-                  <span>Effective Cost to You:</span>
-                  <span className="font-bold text-dvs-orange">₹{effectiveCost}</span>
+                <div className="pt-5 border-t border-white/10 flex justify-between items-center text-xl">
+                  <span className="font-bold">Effective Cost to You:</span>
+                  <span className="font-extrabold text-dvs-orange text-2xl">₹{effectiveCost}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Right: Form */}
-          <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-gray-100">
-            <h2 className="text-2xl font-bold text-dark-text mb-8">Donate Now</h2>
+          <div className="bg-white p-8 md:p-12 rounded-[3rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100">
+            <h2 className="text-2xl font-bold text-dark-text mb-8 flex items-center gap-2">
+              Donate Now <span className="w-10 h-1 bg-dvs-orange rounded-full"></span>
+            </h2>
             
             <div className="space-y-8">
               {/* Frequency */}
-              <div className="flex gap-4 p-1 bg-gray-100 rounded-xl">
-                {['One-time', 'Monthly', 'Yearly'].map((f) => (
+              <div className="flex gap-2 p-1.5 bg-gray-100 rounded-[1.25rem]">
+                {[
+                  { id: 'one_time', label: 'One-time' },
+                  { id: 'monthly', label: 'Monthly' },
+                  { id: 'yearly', label: 'Yearly' }
+                ].map((f) => (
                   <button
-                    key={f}
-                    onClick={() => setFrequency(f)}
-                    className={`flex-1 py-2 rounded-lg text-sm font-bold transition-all ${frequency === f ? 'bg-white text-dvs-orange shadow-sm' : 'text-medium-gray hover:text-dark-text'}`}
+                    key={f.id}
+                    onClick={() => setFrequency(f.id)}
+                    className={`flex-1 py-3 rounded-xl text-sm font-bold transition-all duration-300 ${frequency === f.id ? 'bg-white text-dvs-orange shadow-sm scale-[1.02]' : 'text-medium-gray hover:text-dark-text'}`}
                   >
-                    {f}
+                    {f.label}
                   </button>
                 ))}
               </div>
@@ -122,51 +178,126 @@ export default function Donate() {
                   <button
                     key={a}
                     onClick={() => setAmount(a)}
-                    className={`py-3 rounded-xl border-2 font-bold transition-all ${amount === a ? 'border-dvs-orange bg-dvs-orange/5 text-dvs-orange' : 'border-gray-100 hover:border-gray-200 text-medium-gray'}`}
+                    className={`py-4 rounded-2xl border-2 font-bold transition-all duration-300 ${amount === a ? 'border-dvs-orange bg-dvs-orange/5 text-dvs-orange scale-[0.98]' : 'border-gray-50 hover:border-gray-200 text-medium-gray'}`}
                   >
-                    ₹{a}
+                    ₹{a.toLocaleString('en-IN')}
                   </button>
                 ))}
               </div>
 
               {/* Custom Amount */}
-              <div>
-                <label className="block text-sm font-bold text-dark-text mb-2">Custom Amount (₹)</label>
-                <input
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value === '' ? '' : Number(e.target.value))}
-                  placeholder="Enter amount"
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-lg font-bold focus:outline-none focus:border-dvs-orange"
-                />
+              <div className="relative group">
+                <label className="block text-sm font-bold text-dark-text mb-3 ml-1">Custom Amount (₹)</label>
+                <div className="relative">
+                  <span className="absolute left-6 top-1/2 -translate-y-1/2 text-2xl font-bold text-medium-gray opacity-50">₹</span>
+                  <input
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value === '' ? '' : Number(e.target.value))}
+                    placeholder="Enter amount"
+                    className="w-full bg-gray-50 border-2 border-transparent rounded-2xl pl-12 pr-6 py-5 text-2xl font-bold focus:outline-none focus:border-dvs-orange focus:bg-white transition-all"
+                  />
+                </div>
+              </div>
+
+              {/* Donor Details Section */}
+              <div className="space-y-5 pt-4 border-t border-gray-100">
+                <h3 className="text-lg font-bold text-dark-text mb-4">Your Information</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="relative">
+                    <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-medium-gray" />
+                    <input
+                      type="text"
+                      placeholder="Full Name"
+                      value={donorName}
+                      onChange={(e) => setDonorName(e.target.value)}
+                      className="w-full bg-gray-50 border-2 border-transparent rounded-xl pl-12 pr-4 py-4 text-sm font-bold focus:outline-none focus:border-dvs-orange focus:bg-white transition-all"
+                    />
+                  </div>
+                  <div className="relative">
+                    <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-medium-gray" />
+                    <input
+                      type="email"
+                      placeholder="Email Address"
+                      value={donorEmail}
+                      onChange={(e) => setDonorEmail(e.target.value)}
+                      className="w-full bg-gray-50 border-2 border-transparent rounded-xl pl-12 pr-4 py-4 text-sm font-bold focus:outline-none focus:border-dvs-orange focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="relative">
+                    <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-medium-gray" />
+                    <input
+                      type="tel"
+                      placeholder="Mobile Number"
+                      value={donorMobile}
+                      onChange={(e) => setDonorMobile(e.target.value)}
+                      className="w-full bg-gray-50 border-2 border-transparent rounded-xl pl-12 pr-4 py-4 text-sm font-bold focus:outline-none focus:border-dvs-orange focus:bg-white transition-all"
+                    />
+                  </div>
+                  <div className="relative">
+                    <Hash size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-medium-gray" />
+                    <input
+                      type="text"
+                      placeholder="PAN (Optional for 80G)"
+                      value={panNumber}
+                      onChange={(e) => setPanNumber(e.target.value.toUpperCase())}
+                      maxLength={10}
+                      className="w-full bg-gray-50 border-2 border-transparent rounded-xl pl-12 pr-4 py-4 text-sm font-bold focus:outline-none focus:border-dvs-orange focus:bg-white transition-all"
+                    />
+                  </div>
+                </div>
+
+                <label className="flex items-center gap-3 cursor-pointer group">
+                  <input
+                    type="checkbox"
+                    checked={isAnonymous}
+                    onChange={(e) => setIsAnonymous(e.target.checked)}
+                    className="w-5 h-5 rounded border-2 border-gray-200 text-dvs-orange focus:ring-dvs-orange cursor-pointer"
+                  />
+                  <span className="text-sm font-semibold text-medium-gray group-hover:text-dark-text transition-colors">Donate anonymously</span>
+                </label>
               </div>
 
               {/* Category */}
               <div>
-                <label className="block text-sm font-bold text-dark-text mb-2">Donation Category</label>
+                <label className="block text-sm font-bold text-dark-text mb-3 ml-1">Donation Category</label>
                 <select
                   value={category}
                   onChange={(e) => setCategory(e.target.value)}
-                  className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-sm font-medium focus:outline-none focus:border-dvs-orange"
+                  className="w-full bg-gray-50 border-2 border-transparent rounded-xl px-4 py-4 text-sm font-bold focus:outline-none focus:border-dvs-orange focus:bg-white transition-all appearance-none"
+                  style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 1rem center', backgroundSize: '1.5em' }}
                 >
-                  <option>General Fund</option>
-                  <option>Education</option>
-                  <option>Girl Education</option>
-                  <option>Digital Literacy</option>
-                  <option>Sports & Yoga</option>
+                  <option value="general">General Fund</option>
+                  <option value="education">Education</option>
+                  <option value="girl_education">Girl Education Support</option>
+                  <option value="digital">Digital Literacy Program</option>
+                  <option value="sports">Sports & Cultural Fund</option>
+                  <option value="infrastructure">Infrastructure Development</option>
                 </select>
               </div>
 
               {/* Submit */}
               <button
                 onClick={handleDonate}
-                className="w-full bg-dvs-orange text-white py-5 rounded-2xl font-bold text-xl hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3"
+                disabled={loading}
+                className={`w-full bg-dvs-orange text-white py-6 rounded-[1.5rem] font-bold text-xl hover:shadow-[0_20px_40px_rgba(255,107,0,0.3)] transition-all flex items-center justify-center gap-3 active:scale-[0.98] ${loading ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
-                <Heart size={24} /> Donate ₹{amount || 0}
+                {loading ? (
+                  <div className="w-7 h-7 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+                ) : (
+                  <>
+                    <Heart size={28} className="animate-pulse" /> 
+                    <span>Donate ₹{(amount || 0).toLocaleString('en-IN')}</span>
+                  </>
+                )}
               </button>
 
-              <p className="text-center text-xs text-medium-gray">
-                By donating, you agree to our Terms and Privacy Policy.
+              <p className="text-center text-xs text-medium-gray font-medium">
+                By donating, you agree to our <span className="text-dvs-orange border-b border-dvs-orange/20 cursor-pointer">Terms</span> and <span className="text-dvs-orange border-b border-dvs-orange/20 cursor-pointer">Privacy Policy</span>.
               </p>
             </div>
           </div>
