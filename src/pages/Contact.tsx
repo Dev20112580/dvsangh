@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { Mail, Phone, MapPin, Send, MessageSquare, CheckCircle2 } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 import { supabase } from '../supabase';
 
@@ -14,6 +15,7 @@ enum OperationType {
 }
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [formData, setFormData] = React.useState({
     name: '',
     email: '',
@@ -54,9 +56,9 @@ export default function Contact() {
     <div className="pt-32 pb-24">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold text-dark-text mb-6">Contact Us</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-dark-text mb-6">{t('Contact Us', 'संपर्क करें')}</h1>
           <p className="body-text text-lg">
-            Have questions? We're here to help. Reach out to us and we'll get back to you as soon as possible.
+            {t("Have questions? We're here to help. Reach out to us and we'll get back to you as soon as possible.", "क्या आपके कुछ सवाल हैं? हम यहाँ मदद के लिए हैं। हमसे संपर्क करें और हम जल्द से जल्द आपसे संपर्क करेंगे।")}
           </p>
         </div>
       </section>
@@ -71,8 +73,8 @@ export default function Contact() {
                   <MapPin size={28} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-dark-text mb-2">Our Office</h3>
-                  <p className="body-text">Jairuwa Khilkanali, Masalia, Dumka, Jharkhand — 814166</p>
+                  <h3 className="text-xl font-bold text-dark-text mb-2">{t('Our Office', 'हमारा कार्यालय')}</h3>
+                  <p className="body-text">{t('Jairuwa Khilkanali, Masalia, Dumka, Jharkhand — 814166', 'जैरुआ खिलकनाली, मसलिया, दुमका, झारखंड — 814166')}</p>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -80,9 +82,9 @@ export default function Contact() {
                   <Phone size={28} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-dark-text mb-2">Phone</h3>
+                  <h3 className="text-xl font-bold text-dark-text mb-2">{t('Phone', 'फ़ोन')}</h3>
                   <p className="body-text">+91 9241859951</p>
-                  <p className="text-sm text-medium-gray">Available: Mon-Sat, 9 AM - 6 PM</p>
+                  <p className="text-sm text-medium-gray">{t('Available: Mon-Sat, 9 AM - 6 PM', 'उपलब्ध: सोमवार-शनिवार, सुबह 9 बजे - शाम 6 बजे')}</p>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -90,9 +92,9 @@ export default function Contact() {
                   <Mail size={28} />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-dark-text mb-2">Email</h3>
+                  <h3 className="text-xl font-bold text-dark-text mb-2">{t('Email', 'ईमेल')}</h3>
                   <p className="body-text">dvs.ngo.official@gmail.com</p>
-                  <p className="text-sm text-medium-gray">We reply within 24 hours</p>
+                  <p className="text-sm text-medium-gray">{t('We reply within 24 hours', 'हम 24 घंटों के भीतर जवाब देते हैं')}</p>
                 </div>
               </div>
               <div className="flex gap-6">
@@ -107,7 +109,7 @@ export default function Contact() {
                     rel="noopener noreferrer"
                     className="text-dvs-orange font-bold hover:underline"
                   >
-                    Chat with us on WhatsApp
+                    {t('Chat with us on WhatsApp', 'हमारे साथ व्हाट्सएप पर चैट करें')}
                   </a>
                 </div>
               </div>
@@ -133,24 +135,24 @@ export default function Contact() {
                 <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle2 size={40} />
                 </div>
-                <h2 className="text-2xl font-bold text-dark-text mb-4">Message Sent!</h2>
+                <h2 className="text-2xl font-bold text-dark-text mb-4">{t('Message Sent!', 'संदेश भेज दिया गया!')}</h2>
                 <p className="body-text mb-8">
-                  Thank you for reaching out. We have received your message and will get back to you as soon as possible.
+                  {t('Thank you for reaching out. We have received your message and will get back to you as soon as possible.', 'हमसे संपर्क करने के लिए धन्यवाद। हमें आपका संदेश मिल गया है और हम जल्द से जल्द आपसे संपर्क करेंगे।')}
                 </p>
                 <button
                   onClick={() => setIsSubmitted(false)}
                   className="bg-dvs-orange text-white px-8 py-3 rounded-xl font-bold hover:bg-opacity-90 transition-all"
                 >
-                  Send Another Message
+                  {t('Send Another Message', 'एक और संदेश भेजें')}
                 </button>
               </motion.div>
             ) : (
               <>
-                <h2 className="text-2xl font-bold text-dark-text mb-8">Send us a Message</h2>
+                <h2 className="text-2xl font-bold text-dark-text mb-8">{t('Send us a Message', 'हमें एक संदेश भेजें')}</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-bold text-dark-text mb-2">Full Name</label>
+                  <label className="block text-sm font-bold text-dark-text mb-2">{t('Full Name', 'पूरा नाम')}</label>
                   <input
                     type="text"
                     required
@@ -160,7 +162,7 @@ export default function Contact() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-bold text-dark-text mb-2">Email Address</label>
+                  <label className="block text-sm font-bold text-dark-text mb-2">{t('Email Address', 'ईमेल पता')}</label>
                   <input
                     type="email"
                     required
@@ -171,7 +173,7 @@ export default function Contact() {
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-bold text-dark-text mb-2">Subject</label>
+                <label className="block text-sm font-bold text-dark-text mb-2">{t('Subject', 'विषय')}</label>
                 <input
                   type="text"
                   required
@@ -181,7 +183,7 @@ export default function Contact() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-bold text-dark-text mb-2">Message</label>
+                <label className="block text-sm font-bold text-dark-text mb-2">{t('Message', 'संदेश')}</label>
                 <textarea
                   required
                   rows={5}
@@ -192,9 +194,10 @@ export default function Contact() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3"
+                disabled={isSubmitting}
+                className="w-full bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3 disabled:opacity-50"
               >
-                <Send size={20} /> Send Message
+                {isSubmitting ? t('Sending...', 'भेजा जा रहा है...') : <><Send size={20} /> {t('Send Message', 'संदेश भेजें')}</>}
               </button>
             </form>
           </>

@@ -4,12 +4,13 @@ import { Menu, X, Bell, User, LogOut, LayoutDashboard } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useSupabase } from '../SupabaseContext';
 import { supabase } from '../supabase';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Navbar() {
   const { user, userProfile } = useSupabase();
+  const { language, toggleLanguage, t } = useLanguage();
   const [isOpen, setIsOpen] = React.useState(false);
   const [isScrolled, setIsScrolled] = React.useState(false);
-  const [lang, setLang] = React.useState<'HI' | 'EN'>('HI');
 
   const handleLogout = async () => {
     try {
@@ -28,16 +29,16 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Programs', path: '/programs' },
-    { name: 'Gyan (ज्ञान)', path: '/gyan' },
-    { name: 'Jobs', path: '/jobs' },
-    { name: 'Scholarship', path: '/scholarship' },
-    { name: 'Gallery', path: '/gallery' },
-    { name: 'News', path: '/news' },
-    { name: 'Donate', path: '/donate' },
-    { name: 'Contact', path: '/contact' },
+    { name: t('Home', 'होम'), path: '/' },
+    { name: t('About', 'हमारे बारे में'), path: '/about' },
+    { name: t('Programs', 'कार्यक्रम'), path: '/programs' },
+    { name: t('Gyan', 'ज्ञान संगम'), path: '/gyan' },
+    { name: t('Jobs', 'नौकरी'), path: '/jobs' },
+    { name: t('Scholarship', 'छात्रवृत्ति'), path: '/scholarship' },
+    { name: t('Gallery', 'गैलरी'), path: '/gallery' },
+    { name: t('News', 'समाचार'), path: '/news' },
+    { name: t('Donate', 'दान करें'), path: '/donate' },
+    { name: t('Contact', 'संपर्क'), path: '/contact' },
   ];
 
   return (
@@ -64,10 +65,10 @@ export default function Navbar() {
               </Link>
             ))}
             <button
-              onClick={() => setLang(lang === 'HI' ? 'EN' : 'HI')}
+              onClick={toggleLanguage}
               className={`text-xs font-bold px-3 py-1 rounded-full border transition-all ${isScrolled ? 'border-dark-text text-dark-text hover:bg-dark-text hover:text-white' : 'border-white text-white hover:bg-white hover:text-dark-text'}`}
             >
-              {lang === 'HI' ? 'English' : 'हिंदी'}
+              {language === 'HI' ? 'English' : 'हिंदी'}
             </button>
             {user ? (
               <div className="flex items-center gap-4">
@@ -152,6 +153,14 @@ export default function Navbar() {
                     Join Us
                   </Link>
                 )}
+                <div className="pt-4 border-t border-gray-50 flex justify-center">
+                  <button
+                    onClick={toggleLanguage}
+                    className="flex items-center gap-2 px-6 py-2 rounded-full border border-dark-text text-dark-text font-bold text-sm"
+                  >
+                    {language === 'HI' ? 'Switch to English' : 'हिंदी में बदलें'}
+                  </button>
+                </div>
               </div>
             </div>
           </motion.div>

@@ -8,8 +8,10 @@ import { ArrowRight, BookOpen, Users, Heart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { NEWS_ITEMS } from '../constants';
 import { supabase } from '../supabase';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Home() {
+  const { t } = useLanguage();
   const [news, setNews] = useState<any[]>(NEWS_ITEMS.slice(0, 3));
 
   useEffect(() => {
@@ -51,11 +53,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-end mb-12">
             <div>
-              <h2 className="section-heading mb-4">ताज़ा समाचार एवं ब्लॉग</h2>
-              <p className="body-text">DVS की नवीनतम गतिविधियों और समाचारों से अपडेट रहें।</p>
+              <h2 className="section-heading mb-4">{t('Latest News & Blog', 'ताज़ा समाचार एवं ब्लॉग')}</h2>
+              <p className="body-text">{t('Stay updated with DVS activities.', 'DVS की नवीनतम गतिविधियों और समाचारों से अपडेट रहें।')}</p>
             </div>
             <Link to="/news" className="hidden md:flex items-center gap-2 text-dvs-orange font-bold hover:gap-3 transition-all">
-              View All News <ArrowRight size={20} />
+              {t('View All News', 'सभी समाचार देखें')} <ArrowRight size={20} />
             </Link>
           </div>
 
@@ -88,7 +90,7 @@ export default function Home() {
                     {item.excerpt}
                   </p>
                   <Link to={`/news/${item.id}`} className="text-dvs-orange font-bold text-sm flex items-center gap-2">
-                    Read More <ArrowRight size={16} />
+                    {t('Read More', 'और पढ़ें')} <ArrowRight size={16} />
                   </Link>
                 </div>
               </motion.div>
@@ -110,22 +112,22 @@ export default function Home() {
               viewport={{ once: true }}
               className="relative z-10"
             >
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">शिक्षा ही सबसे बड़ा अधिकार है</h2>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">{t('Education is the Greatest Right', 'शिक्षा ही सबसे बड़ा अधिकार है')}</h2>
               <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
-                आपका एक छोटा सा योगदान किसी ग्रामीण छात्र का भविष्य बदल सकता है। आज ही DVS परिवार का हिस्सा बनें।
+                {t('Your small contribution can change a life. Join DVS today.', 'आपका एक छोटा सा योगदान किसी ग्रामीण छात्र का भविष्य बदल सकता है। आज ही DVS परिवार का हिस्सा बनें।')}
               </p>
               <div className="flex flex-wrap justify-center gap-6">
                 <Link
                   to="/donate"
                   className="bg-white text-dvs-orange px-10 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all flex items-center gap-2"
                 >
-                  <Heart size={20} /> अभी दान करें
+                  <Heart size={20} /> {t('Donate Now', 'अभी दान करें')}
                 </Link>
                 <Link
                   to="/auth"
                   className="bg-dvs-dark-green text-white px-10 py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all flex items-center gap-2"
                 >
-                  <Users size={20} /> स्वयंसेवक बनें
+                  <Users size={20} /> {t('Become a Volunteer', 'स्वयंसेवक बनें')}
                 </Link>
               </div>
             </motion.div>

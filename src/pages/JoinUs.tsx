@@ -2,32 +2,31 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { User, Users, Heart, ArrowRight } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function JoinUs() {
+  const { t } = useLanguage();
   const roles = [
     {
       id: 'student',
-      title: 'Join as a Student',
-      hindi: 'छात्र के रूप में जुड़ें',
-      description: 'Access free study resources, apply for scholarships, and join our coaching programs.',
+      title: t('Join as a Student', 'छात्र के रूप में जुड़ें'),
+      description: t('Access free study resources, apply for scholarships, and join our coaching programs.', 'मुफ्त अध्ययन संसाधन प्राप्त करें, छात्रवृत्ति के लिए आवेदन करें और हमारे कोचिंग कार्यक्रमों में शामिल हों।'),
       icon: User,
       color: 'blue',
       image: '/assets/hero_achievement.png'
     },
     {
       id: 'volunteer',
-      title: 'Become a Volunteer',
-      hindi: 'स्वयंसेवक बनें',
-      description: 'Help us in our mission to empower rural students. Teach, mentor, or organize events.',
+      title: t('Become a Volunteer', 'स्वयंसेवक बनें'),
+      description: t('Help us in our mission to empower rural students. Teach, mentor, or organize events.', 'ग्रामीण छात्रों को सशक्त बनाने के हमारे मिशन में हमारी मदद करें। पढ़ाएं, मार्गदर्शन करें या कार्यक्रम आयोजित करें।'),
       icon: Users,
       color: 'orange',
       image: '/assets/join_volunteer.png'
     },
     {
       id: 'donor',
-      title: 'Be a Donor',
-      hindi: 'दानदाता बनें',
-      description: 'Support our cause financially and help us reach more students across Jharkhand.',
+      title: t('Be a Donor', 'दानदाता बनें'),
+      description: t('Support our cause financially and help us reach more students across Jharkhand.', 'वित्तीय रूप से हमारे उद्देश्य का समर्थन करें और झारखंड के अधिक छात्रों तक पहुँचने में हमारी मदद करें।'),
       icon: Heart,
       color: 'green',
       image: '/assets/join_donor.png'
@@ -53,7 +52,7 @@ export default function JoinUs() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-dark-text mb-6"
           >
-            Join the <span className="text-dvs-orange">DVS Family</span>
+            {t('Join the', 'जुड़ें')} <span className="text-dvs-orange">{t('DVS Family', 'DVS परिवार से')}</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -61,7 +60,7 @@ export default function JoinUs() {
             transition={{ delay: 0.1 }}
             className="body-text text-lg"
           >
-            Whether you are here to learn, to serve, or to support, Dronacharya Vidyarthi Sangh welcomes you. Choose how you'd like to be a part of our mission.
+            {t("Whether you are here to learn, to serve, or to support, Dronacharya Vidyarthi Sangh welcomes you. Choose how you'd like to be a part of our mission.", "चाहे आप सीखने के लिए हों, सेवा करने के लिए हों, या समर्थन करने के लिए हों, द्रोणाचार्य विद्यार्थी संघ आपका स्वागत करता है। चुनें कि आप हमारे मिशन का हिस्सा कैसे बनना चाहेंगे।")}
           </motion.p>
         </div>
 
@@ -90,15 +89,12 @@ export default function JoinUs() {
                 <h3 className="text-2xl font-bold text-dark-text mb-2 group-hover:text-dvs-orange transition-colors">
                   {role.title}
                 </h3>
-                <p className="text-sm font-bold text-medium-gray mb-4">
-                  {role.hindi}
-                </p>
                 <p className="body-text text-sm mb-8 leading-relaxed">
                   {role.description}
                 </p>
                 
                 <div className="mt-auto flex items-center text-sm font-bold text-dark-text group-hover:text-dvs-orange transition-colors">
-                  Get Started <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+                  {t('Get Started', 'शुरू करें')} <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
             </motion.div>
@@ -112,9 +108,9 @@ export default function JoinUs() {
           className="mt-20 text-center"
         >
           <p className="text-medium-gray text-sm">
-            Already have an account?{' '}
-            <Link to="/auth" className="text-dvs-orange font-bold hover:underline">
-              Log in here <ArrowRight size={14} className="inline" />
+            {t('Already have an account?', 'क्या आपके पास पहले से एक खाता है?')}
+            <Link to="/auth" className="text-dvs-orange font-bold hover:underline ml-2">
+              {t('Log in here', 'यहाँ लॉग इन करें')} <ArrowRight size={14} className="inline ml-1" />
             </Link>
           </p>
         </motion.div>

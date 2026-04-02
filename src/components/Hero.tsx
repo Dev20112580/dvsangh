@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const images = [
   "/assets/hero_classroom.png",
@@ -10,6 +11,7 @@ const images = [
 ];
 
 export default function Hero() {
+  const { t } = useLanguage();
   const [currentImage, setCurrentImage] = React.useState(0);
 
   React.useEffect(() => {
@@ -49,23 +51,23 @@ export default function Hero() {
           className="max-w-2xl"
         >
           <h1 className="hero-heading mb-6">
-            ग्रामीण भारत में शिक्षा की ज्योति
+            {t('Lighting the Lamp of Education in Rural India', 'ग्रामीण भारत में शिक्षा की ज्योति')}
           </h1>
           <p className="text-white/90 text-xl mb-10 font-dm">
-            हर बच्चे को गुणवत्तापूर्ण शिक्षा का अधिकार है। DVS के साथ जुड़ें और बदलाव का हिस्सा बनें।
+            {t('Every child deserves quality education. Join DVS and be part of the change.', 'हर बच्चे को गुणवत्तापूर्ण शिक्षा का अधिकार है। DVS के साथ जुड़ें और बदलाव का हिस्सा बनें।')}
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
               to="/scholarship"
               className="bg-dvs-orange text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all flex items-center gap-2"
             >
-              छात्रवृत्ति आवेदन <ArrowRight size={20} />
+              {t('Apply for Scholarship', 'छात्रवृत्ति आवेदन')} <ArrowRight size={20} />
             </Link>
             <Link
               to="/donate"
               className="bg-white text-dark-text px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-all"
             >
-              अभी दान करें
+              {t('Donate Now', 'अभी दान करें')}
             </Link>
           </div>
         </motion.div>

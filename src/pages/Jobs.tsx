@@ -3,8 +3,10 @@ import { motion } from 'motion/react';
 import { Briefcase, Building2, MapPin, Search, ArrowRight, DollarSign, Loader2, Calendar } from 'lucide-react';
 import { supabase } from '../supabase';
 import { formatDistanceToNow } from 'date-fns';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Jobs() {
+  const { t } = useLanguage();
   const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -52,7 +54,7 @@ export default function Jobs() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-dark-text mb-6"
           >
-            DVS <span className="text-dvs-dark-green">Job Board</span>
+            DVS <span className="text-dvs-dark-green">{t('Job Board', 'जॉब बोर्ड')}</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -60,7 +62,7 @@ export default function Jobs() {
             transition={{ delay: 0.1 }}
             className="body-text text-lg"
           >
-            Connecting local talent with local opportunities. Find teaching, technical, and administrative roles across Jharkhand.
+            {t('Connecting local talent with local opportunities. Find teaching, technical, and administrative roles across Jharkhand.', 'स्थानीय प्रतिभाओं को स्थानीय अवसरों से जोड़ना। झारखंड में शिक्षण, तकनीकी और प्रशासनिक भूमिकाएँ खोजें।')}
           </motion.p>
         </div>
 
@@ -70,7 +72,7 @@ export default function Jobs() {
             <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-medium-gray" size={20} />
             <input 
               type="text" 
-              placeholder="Job title or keywords..." 
+              placeholder={t('Job title or keywords...', 'नौकरी का शीर्षक या कीवर्ड...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-14 pr-4 py-5 rounded-2xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-dvs-dark-green/10 transition-all font-medium"
@@ -81,14 +83,14 @@ export default function Jobs() {
             <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 text-medium-gray" size={20} />
             <input 
               type="text" 
-              placeholder="All Locations..." 
+              placeholder={t('All Locations...', 'सभी स्थान...')}
               value={locationQuery}
               onChange={(e) => setLocationQuery(e.target.value)}
               className="w-full pl-14 pr-4 py-5 rounded-2xl bg-gray-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-dvs-dark-green/10 transition-all font-medium"
             />
           </div>
           <button className="bg-dvs-dark-green text-white px-10 py-5 rounded-2xl font-black uppercase tracking-widest hover:bg-opacity-90 hover:shadow-lg hover:shadow-dvs-dark-green/20 transition-all active:scale-[0.98]">
-            Search
+            {t('Search', 'खोजें')}
           </button>
         </div>
 
@@ -96,22 +98,22 @@ export default function Jobs() {
         <div className="max-w-4xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-2xl font-bold text-dark-text">
-              Latest Openings <span className="text-medium-gray font-medium text-lg ml-2">({jobs.length})</span>
+              {t('Latest Openings', 'नवीनतम नियुक्तियां')} <span className="text-medium-gray font-medium text-lg ml-2">({jobs.length})</span>
             </h2>
           </div>
 
           {loading ? (
             <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[3rem] border border-gray-100 shadow-sm">
               <Loader2 size={48} className="text-dvs-dark-green animate-spin mb-4" />
-              <p className="text-medium-gray font-bold">Finding matching opportunities...</p>
+              <p className="text-medium-gray font-bold">{t('Finding matching opportunities...', 'मैचिंग अवसर खोज रहे हैं...')}</p>
             </div>
           ) : jobs.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-[3rem] border border-gray-100 shadow-sm px-6">
               <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                 <Briefcase size={40} className="text-gray-200" />
               </div>
-              <h3 className="text-xl font-bold text-dark-text mb-2">No jobs found</h3>
-              <p className="text-medium-gray max-w-sm mx-auto font-medium">We couldn't find any jobs matching your criteria. Try expanding your search area.</p>
+              <h3 className="text-xl font-bold text-dark-text mb-2">{t('No jobs found', 'कोई नौकरी नहीं मिली')}</h3>
+              <p className="text-medium-gray max-w-sm mx-auto font-medium">{t("We couldn't find any jobs matching your criteria. Try expanding your search area.", "हमें आपके मानदंडों से मेल खाने वाली कोई भी नौकरी नहीं मिली। अपने खोज क्षेत्र का विस्तार करने का प्रयास करें।")}</p>
             </div>
           ) : (
             <div className="space-y-6">
@@ -136,13 +138,13 @@ export default function Jobs() {
                           job.type === 'Internship' ? 'bg-purple-50 text-purple-600' :
                           'bg-green-50 text-green-600'
                         }`}>
-                          {job.type}
+                          {t(job.type, job.type === 'Full-time' ? 'पूर्णकालिक' : (job.type === 'Part-time' ? 'अंशकालिक' : (job.type === 'Internship' ? 'इंटर्नशिप' : 'फ्रीलांस')))}
                         </span>
                       </div>
                       <div className="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-medium-gray font-bold opacity-80">
                         <span className="flex items-center gap-2 text-dark-text"><Briefcase size={16} className="text-dvs-orange" /> {job.company}</span>
                         <span className="flex items-center gap-2"><MapPin size={16} className="text-dvs-orange" /> {job.location}</span>
-                        <span className="flex items-center gap-2"><DollarSign size={16} className="text-dvs-orange" /> {job.salary || 'Competitive'}</span>
+                        <span className="flex items-center gap-2"><DollarSign size={16} className="text-dvs-orange" /> {job.salary || t('Competitive', 'प्रतिस्पर्धी')}</span>
                       </div>
                     </div>
                   </div>
@@ -152,7 +154,7 @@ export default function Jobs() {
                       {formatDistanceToNow(new Date(job.posted_at), { addSuffix: true })}
                     </div>
                     <button className="bg-dvs-orange text-white px-8 py-3.5 rounded-2xl text-sm font-black uppercase tracking-widest hover:bg-opacity-90 hover:shadow-lg hover:shadow-dvs-orange/20 transition-all flex items-center gap-3 active:scale-[0.95]">
-                      Apply <ArrowRight size={16} />
+                      {t('Apply', 'आवेदन करें')} <ArrowRight size={16} />
                     </button>
                   </div>
                 </motion.div>

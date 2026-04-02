@@ -4,6 +4,7 @@ export const FOCUS_AREAS = [
     title: 'गुणवत्तापूर्ण शिक्षा',
     enTitle: 'Quality Education',
     description: 'Free coaching, e-learning, libraries, study materials',
+    hiDescription: 'मुफ्त कोचिंग, ई-लर्निंग, पुस्तकालय, अध्ययन सामग्री',
     icon: 'BookOpen',
     image: '/assets/hero_classroom.png'
   },
@@ -12,6 +13,7 @@ export const FOCUS_AREAS = [
     title: 'बालिका शिक्षा',
     enTitle: 'Girls Education',
     description: 'Special scholarships, safety workshops, family counseling',
+    hiDescription: 'विशेष छात्रवृत्ति, सुरक्षा कार्यशालाएं, पारिवारिक परामर्श',
     icon: 'GraduationCap',
     image: '/assets/program_girls.png'
   },
@@ -20,6 +22,7 @@ export const FOCUS_AREAS = [
     title: 'प्रतियोगी परीक्षा',
     enTitle: 'Competitive Exams',
     description: 'UPSC, JPSC, Railway, Bank, SSC — free online+offline',
+    hiDescription: 'UPSC, JPSC, रेलवे, बैंक, SSC - मुफ्त ऑनलाइन और ऑफलाइन',
     icon: 'Trophy',
     image: '/assets/program_exams.png'
   },
@@ -28,6 +31,7 @@ export const FOCUS_AREAS = [
     title: 'खेल-कूद एवं योग',
     enTitle: 'Sports & Yoga',
     description: 'Equipment, tournaments, yoga camps, health programs',
+    hiDescription: 'उपकरण, टूर्नामेंट, योग शिविर, स्वास्थ्य कार्यक्रम',
     icon: 'Activity',
     image: '/assets/hero_community.png' // Fallback for now
   },
@@ -36,6 +40,7 @@ export const FOCUS_AREAS = [
     title: 'डिजिटल साक्षरता',
     enTitle: 'Digital Literacy',
     description: 'Computer training, internet safety, digital payments',
+    hiDescription: 'कंप्यूटर प्रशिक्षण, इंटरनेट सुरक्षा, डिजिटल भुगतान',
     icon: 'Cpu',
     image: '/assets/program_digital.png'
   },
@@ -44,6 +49,7 @@ export const FOCUS_AREAS = [
     title: 'पुस्तकालय सेवाएँ',
     enTitle: 'Library Services',
     description: 'Physical + mobile libraries, e-book access',
+    hiDescription: 'भौतिक और मोबाइल पुस्तकालय, ई-बुक एक्सेस',
     icon: 'Library',
     image: '/assets/program_scholarship.png' // Fallback for now
   }

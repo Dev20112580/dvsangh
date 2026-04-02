@@ -3,10 +3,12 @@ import { motion } from 'motion/react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSupabase } from '../SupabaseContext';
 import { supabase } from '../supabase';
+import { useLanguage } from '../context/LanguageContext';
 
 import { GraduationCap, CheckCircle2, FileText, Send, AlertCircle } from 'lucide-react';
 
 export default function Scholarship() {
+  const { t } = useLanguage();
   const { user, isAuthReady } = useSupabase();
   const [step, setStep] = React.useState(1);
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -72,9 +74,9 @@ export default function Scholarship() {
     <div className="pt-32 pb-24">
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-24">
         <div className="text-center max-w-3xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-bold text-dark-text mb-6">DVS Scholarship Program</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-dark-text mb-6">{t('DVS Scholarship Program', 'DVS छात्रवृत्ति कार्यक्रम')}</h1>
           <p className="body-text text-lg">
-            Empowering rural students through financial assistance and educational support.
+            {t('Empowering rural students through financial assistance and educational support.', 'वित्तीय सहायता और शैक्षिक सहायता के माध्यम से ग्रामीण छात्रों को सशक्त बनाना।')}
           </p>
         </div>
       </section>
@@ -85,15 +87,15 @@ export default function Scholarship() {
           <div className="lg:col-span-1 space-y-8">
             <div className="bg-white p-8 rounded-3xl border border-gray-100 shadow-sm">
               <h3 className="text-xl font-bold text-dark-text mb-6 flex items-center gap-3">
-                <CheckCircle2 className="text-dvs-orange" /> Eligibility Criteria
+                <CheckCircle2 className="text-dvs-orange" /> {t('Eligibility Criteria', 'पात्रता मापदंड')}
               </h3>
               <ul className="space-y-4">
                 {[
-                  'Resident of rural Jharkhand',
-                  'Studying in Class 8th to 12th',
-                  'Minimum 60% marks in last exam',
-                  'Annual family income < ₹1.5 Lakh',
-                  'Active participation in DVS programs'
+                  t('Resident of rural Jharkhand', 'ग्रामीण झारखंड का निवासी'),
+                  t('Studying in Class 8th to 12th', 'कक्षा 8वीं से 12वीं में अध्ययनरत'),
+                  t('Minimum 60% marks in last exam', 'पिछली परीक्षा में न्यूनतम 60% अंक'),
+                  t('Annual family income < ₹1.5 Lakh', 'वार्षिक पारिवारिक आय < ₹1.5 लाख'),
+                  t('Active participation in DVS programs', 'DVS कार्यक्रमों में सक्रिय भागीदारी')
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-sm body-text">
                     <div className="w-1.5 h-1.5 rounded-full bg-dvs-orange mt-1.5 shrink-0" />
@@ -105,14 +107,14 @@ export default function Scholarship() {
 
             <div className="bg-dvs-orange/5 p-8 rounded-3xl border border-dvs-orange/10">
               <h3 className="text-xl font-bold text-dark-text mb-6 flex items-center gap-3">
-                <AlertCircle className="text-dvs-orange" /> Required Documents
+                <AlertCircle className="text-dvs-orange" /> {t('Required Documents', 'आवश्यक दस्तावेज')}
               </h3>
               <ul className="space-y-4 text-sm body-text">
-                <li>• Last year's Marksheet</li>
-                <li>• Income Certificate</li>
-                <li>• Residential Certificate</li>
-                <li>• Aadhar Card</li>
-                <li>• Passport size Photo</li>
+                <li>• {t("Last year's Marksheet", "पिछले वर्ष की मार्कशीट")}</li>
+                <li>• {t("Income Certificate", "आय प्रमाण पत्र")}</li>
+                <li>• {t("Residential Certificate", "आवासीय प्रमाण पत्र")}</li>
+                <li>• {t("Aadhar Card", "आधार कार्ड")}</li>
+                <li>• {t("Passport size Photo", "पासपोर्ट साइज फोटो")}</li>
               </ul>
             </div>
           </div>
@@ -121,7 +123,7 @@ export default function Scholarship() {
           <div className="lg:col-span-2">
             <div className="bg-white p-8 md:p-12 rounded-[2.5rem] shadow-xl border border-gray-100">
               <div className="flex items-center justify-between mb-12">
-                <h2 className="text-2xl font-bold text-dark-text">Scholarship Application</h2>
+                <h2 className="text-2xl font-bold text-dark-text">{t('Scholarship Application', 'छात्रवृत्ति आवेदन')}</h2>
                 <div className="flex gap-2">
                   {[1, 2, 3].map((s) => (
                     <div 
@@ -137,7 +139,7 @@ export default function Scholarship() {
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-bold text-dark-text mb-2">Full Name</label>
+                        <label className="block text-sm font-bold text-dark-text mb-2">{t('Full Name', 'पूरा नाम')}</label>
                         <input
                           type="text"
                           required
@@ -147,7 +149,7 @@ export default function Scholarship() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-dark-text mb-2">Email Address</label>
+                        <label className="block text-sm font-bold text-dark-text mb-2">{t('Email Address', 'ईमेल पता')}</label>
                         <input
                           type="email"
                           required
@@ -159,7 +161,7 @@ export default function Scholarship() {
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-bold text-dark-text mb-2">Phone Number</label>
+                        <label className="block text-sm font-bold text-dark-text mb-2">{t('Phone Number', 'फ़ोन नंबर')}</label>
                         <input
                           type="tel"
                           required
@@ -169,7 +171,7 @@ export default function Scholarship() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-dark-text mb-2">School/College Name</label>
+                        <label className="block text-sm font-bold text-dark-text mb-2">{t('School/College Name', 'स्कूल/कॉलेज का नाम')}</label>
                         <input
                           type="text"
                           required
@@ -184,7 +186,7 @@ export default function Scholarship() {
                       onClick={nextStep}
                       className="w-full bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20"
                     >
-                      Next Step
+                      {t('Next Step', 'अगला कदम')}
                     </button>
                   </motion.div>
                 )}
@@ -193,7 +195,7 @@ export default function Scholarship() {
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-bold text-dark-text mb-2">Current Class/Course</label>
+                        <label className="block text-sm font-bold text-dark-text mb-2">{t('Current Class/Course', 'वर्तमान कक्षा/पाठ्यक्रम')}</label>
                         <input
                           type="text"
                           required
@@ -203,7 +205,7 @@ export default function Scholarship() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-dark-text mb-2">Marks in Last Exam (%)</label>
+                        <label className="block text-sm font-bold text-dark-text mb-2">{t('Marks in Last Exam (%)', 'पिछली परीक्षा में अंक (%)')}</label>
                         <input
                           type="number"
                           required
@@ -214,7 +216,7 @@ export default function Scholarship() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-bold text-dark-text mb-2">Annual Family Income (₹)</label>
+                      <label className="block text-sm font-bold text-dark-text mb-2">{t('Annual Family Income (₹)', 'वार्षिक पारिवारिक आय (₹)')}</label>
                       <input
                         type="number"
                         required
@@ -236,7 +238,7 @@ export default function Scholarship() {
                         onClick={nextStep}
                         className="flex-[2] bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20"
                       >
-                        Next Step
+                        {t('Next Step', 'अगला कदम')}
                       </button>
                     </div>
                   </motion.div>
@@ -245,14 +247,14 @@ export default function Scholarship() {
                 {step === 3 && (
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
                     <div>
-                      <label className="block text-sm font-bold text-dark-text mb-2">Why do you need this scholarship?</label>
+                      <label className="block text-sm font-bold text-dark-text mb-2">{t('Why do you need this scholarship?', 'आपको इस छात्रवृत्ति की आवश्यकता क्यों है?')}</label>
                       <textarea
                         required
                         rows={6}
                         value={formData.reason}
                         onChange={(e) => setFormData({ ...formData, reason: e.target.value })}
                         className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-4 text-sm focus:outline-none focus:border-dvs-orange resize-none"
-                        placeholder="Tell us about your goals and financial situation..."
+                        placeholder={t('Tell us about your goals and financial situation...', 'हमें अपने लक्ष्यों और वित्तीय स्थिति के बारे में बताएं...')}
                       />
                     </div>
                     <div className="flex gap-4">
@@ -268,7 +270,7 @@ export default function Scholarship() {
                         type="submit"
                         className="flex-[2] bg-dvs-orange text-white py-4 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg shadow-dvs-orange/20 flex items-center justify-center gap-3 disabled:opacity-50"
                       >
-                        {isSubmitting ? 'Submitting...' : <><Send size={20} /> Submit Application</>}
+                        {isSubmitting ? t('Submitting...', 'जमा किया जा रहा है...') : <><Send size={20} /> {t('Submit Application', 'आवेदन जमा करें')}</>}
                       </button>
                     </div>
                   </motion.div>
@@ -278,7 +280,7 @@ export default function Scholarship() {
                     <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
                       <CheckCircle2 size={40} />
                     </div>
-                    <h2 className="text-2xl font-bold text-dark-text mb-4">Application Submitted!</h2>
+                    <h2 className="text-2xl font-bold text-dark-text mb-4">{t('Application Submitted!', 'आवेदन जमा हो गया!')}</h2>
                     <p className="body-text mb-8">
                       Your scholarship application has been received successfully. Your Application ID is <span className="font-bold text-dvs-orange">{applicationId.split('-')[0]}</span>. Please keep this for future reference.
                     </p>

@@ -32,10 +32,12 @@ import Jobs from './pages/Jobs';
 import ProtectedRoute from './components/ProtectedRoute';
 
 import { SupabaseProvider } from './SupabaseContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 export default function App() {
   return (
-    <SupabaseProvider>
+    <LanguageProvider>
+      <SupabaseProvider>
       <Router>
         <ScrollToTop />
         <div className="flex flex-col min-h-screen">
@@ -76,5 +78,6 @@ export default function App() {
         </div>
       </Router>
     </SupabaseProvider>
+  </LanguageProvider>
   );
 }

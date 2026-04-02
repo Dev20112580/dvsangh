@@ -3,8 +3,10 @@ import { motion } from 'motion/react';
 import { BookOpen, Video, FileText, Search, PlayCircle, Loader2, Download } from 'lucide-react';
 import { supabase } from '../supabase';
 import { formatDistanceToNow } from 'date-fns';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Gyan() {
+  const { t } = useLanguage();
   const categories = ['All', 'UPSC', 'JPSC', 'Banking', 'Digital Literacy', 'Skill Dev'];
   const [activeCategory, setActiveCategory] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,7 +62,7 @@ export default function Gyan() {
             animate={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-5xl font-bold text-dark-text mb-6"
           >
-            DVS <span className="text-dvs-orange">ज्ञान संगम</span>
+            DVS <span className="text-dvs-orange">{t('ज्ञान संगम', 'ज्ञान संगम')}</span>
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -68,7 +70,7 @@ export default function Gyan() {
             transition={{ delay: 0.1 }}
             className="body-text text-lg"
           >
-            A free digital library and knowledge base for students of Jharkhand. Access premium lectures, study notes, and career guidance.
+            {t('A free digital library and knowledge base for students of Jharkhand. Access premium lectures, study notes, and career guidance.', 'झारखंड के छात्रों के लिए एक मुफ्त डिजिटल पुस्तकालय और ज्ञान का आधार। प्रीमियम व्याख्यान, अध्ययन नोट्स और करियर मार्गदर्शन तक पहुंचें।')}
           </motion.p>
         </div>
 
@@ -77,7 +79,7 @@ export default function Gyan() {
           <div className="relative max-w-2xl mx-auto mb-8">
             <input 
               type="text" 
-              placeholder="Search lectures, notes, or topics..." 
+              placeholder={t('Search lectures, notes, or topics...', 'व्याख्यान, नोट्स या विषय खोजें...')}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full bg-white border-2 border-gray-100 rounded-full py-4 pl-14 pr-6 text-lg focus:outline-none focus:border-dvs-orange shadow-sm"
@@ -96,7 +98,7 @@ export default function Gyan() {
                   : 'bg-white text-medium-gray border border-gray-100 hover:border-gray-200 hover:bg-gray-50'
                 }`}
               >
-                {cat}
+                {t(cat, cat === 'All' ? 'सभी' : cat)}
               </button>
             ))}
           </div>
@@ -106,13 +108,13 @@ export default function Gyan() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[2rem] border border-gray-100 shadow-sm">
             <Loader2 size={48} className="text-dvs-orange animate-spin mb-4" />
-            <p className="text-medium-gray font-bold">Loading educational resources...</p>
+            <p className="text-medium-gray font-bold">{t('Loading educational resources...', 'शैक्षिक संसाधन लोड हो रहे हैं...')}</p>
           </div>
         ) : resources.length === 0 ? (
           <div className="text-center py-20 bg-white rounded-[2rem] border border-gray-100 shadow-sm">
             <BookOpen size={64} className="mx-auto text-gray-200 mb-4" />
-            <h3 className="text-xl font-bold text-dark-text mb-2">No resources found</h3>
-            <p className="text-medium-gray">Try adjusting your search or category filter.</p>
+            <h3 className="text-xl font-bold text-dark-text mb-2">{t('No resources found', 'कोई संसाधन नहीं मिला')}</h3>
+            <p className="text-medium-gray">{t('Try adjusting your search or category filter.', 'अपनी खोज या श्रेणी फ़िल्टर को समायोजित करने का प्रयास करें।')}</p>
           </div>
         ) : (
           /* Resources Grid */
@@ -138,11 +140,11 @@ export default function Gyan() {
                   </div>
                   <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-dark-text flex items-center gap-1 shadow-sm">
                     {getResourceTypeIcon(item.file_type)}
-                    <span className="capitalize">{item.file_type || 'Document'}</span>
+                    <span className="capitalize">{t(item.file_type || 'Document', item.file_type === 'Video' ? 'वीडियो' : (item.file_type === 'PDF' ? 'पीडीएफ' : 'दस्तावेज़'))}</span>
                   </div>
                   {item.is_free && (
                     <div className="absolute top-4 right-4 bg-green-500 text-white px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm">
-                      Free
+                      {t('Free', 'मुफ्त')}
                     </div>
                   )}
                 </div>
@@ -155,7 +157,7 @@ export default function Gyan() {
                   </h3>
                   <div className="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between text-xs text-medium-gray font-bold">
                     <div className="flex items-center gap-4">
-                      <span>{item.download_count?.toLocaleString() || 0} {item.file_type?.toLowerCase().includes('video') ? 'views' : 'downloads'}</span>
+                      <span>{item.download_count?.toLocaleString() || 0} {item.file_type?.toLowerCase().includes('video') ? t('views', 'व्यूज') : t('downloads', 'डाउनलोड')}</span>
                       <span>{formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}</span>
                     </div>
                     <a 
